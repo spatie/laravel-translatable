@@ -3,7 +3,12 @@
     "description": "A trait to make an Eloquent model hold translations",
     "keywords": [
         "spatie",
-        "laravel-translatable"
+        "laravel-translatable",
+        "translate",
+        "eloquent",
+        "model",
+        "i8n",
+        "multilingual"
     ],
     "homepage": "https://github.com/spatie/laravel-translatable",
     "license": "MIT",
@@ -24,7 +29,8 @@
         "php" : "^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.*"
+        "phpunit/phpunit": "5.*",
+        "orchestra/testbench": "^3.2"
     },
     "autoload": {
         "psr-4": {
