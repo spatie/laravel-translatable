@@ -38,7 +38,7 @@ composer require spatie/laravel-translatable
 
 ### Preparing your model
 
-Here's an example of a fully prepared model
+Here's an example of a fully prepared model:
 
 ``` php
 use Illuminate\Database\Eloquent\Model;
@@ -59,22 +59,90 @@ class NewsItem extends Model implements Translatable
     }
 }
 ```
-Let's go over the required steps one by one.
+Let's go over the required steps one by one:
 
-First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
-
-Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
-
-Next you need to make sure you cast all translatable fieldnames to an array by adding them to the `casts` property.
- 
- Finally you should make sure that all translatable fieldnames are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
+- First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
+-Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
+- Next you need to make sure you cast all translatable fieldnames to an array by adding them to the `casts` property.
+- Finally you should make sure that all translatable fieldnames are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
 
 ### Available methods
 
-#### Getting
+#### Getting a translation
 
-#### Setting
+The easiest way to get a translation for the current locale is to just get the property for the translated field.
+For example (given that `name` is a translated field:
 
+```php
+$newsItem->name;
+```
+
+You can also use this method:
+
+```php
+public function getTranslation(string $fieldName, string $locale, string $default = '') : string
+```
+
+If there is no translation set the value of `default` will be returned. 
+
+This function has an alias named `translate`.
+
+#### Setting a translation
+
+``` php
+public function setTranslation(string $fieldName, string $locale, string $value)
+```
+
+#### Forgetting a translation
+
+``` php
+public function forgetTranslation(string $fieldName, string $locale)
+```
+
+#### Getting all translations in one go
+
+``` php
+public function getTranslations(string $fieldName) : array
+```
+
+#### Setting translations in one go
+
+``` php
+public function setTranslations(string $fieldName, array $translations)
+```
+
+Here's an example:
+
+``` php
+$translations = [
+   'en' => 'Name in English',
+   'nl' => 'Naam in het Nederlands'
+];
+
+$newsItem->setTranslations('name', $translations);
+```
+
+#### Getting all translated locales
+``` php
+public function getTranslatedLocales(string $fieldName) : array
+```
+
+### Events
+
+#### TranslationHasBeenSet
+after calling `setTranslation`, but before save, per locale, blabla, ...
+
+### Creating models
+
+You can immediately set translations when creating a model. Here's an example:
+```php
+NewsItem::create([
+   'name' => [
+      'en' => 'Name in English'
+      'nl' => 'Naam in het Nederlands'
+   ],
+]);
+```
 
 ## Changelog
 

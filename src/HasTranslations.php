@@ -32,11 +32,6 @@ trait HasTranslations
         return $translations[$locale] ?? $default;
     }
 
-    public function getTranslatedLocales(string $fieldName) : array
-    {
-        return array_keys($this->getTranslations($fieldName));
-    }
-
     public function setTranslation(string $fieldName, string $locale, string $value)
     {
         $this->guardAgainstUntranslatableFieldName($fieldName);
@@ -50,12 +45,12 @@ trait HasTranslations
         return $this;
     }
 
-    public function setTranslations(string $fieldName, array $values)
+    public function setTranslations(string $fieldName, array $translations)
     {
         $this->guardAgainstUntranslatableFieldName($fieldName);
 
-        foreach ($values as $locale => $value) {
-            $this->setTranslation($fieldName, $locale, $value);
+        foreach ($translations as $locale => $translation) {
+            $this->setTranslation($fieldName, $locale, $translation);
         }
 
         return $this;
@@ -70,6 +65,11 @@ trait HasTranslations
         $this->setAttribute($fieldName, $translations);
 
         return $this;
+    }
+
+    public function getTranslatedLocales(string $fieldName) : array
+    {
+        return array_keys($this->getTranslations($fieldName));
     }
 
     public function getTranslations(string $fieldName) : array
