@@ -27,11 +27,23 @@ trait HasTranslations
 
     public function getTranslation(string $fieldName, string $locale, string $default = '') : string
     {
+        $translations = $this->getTranslations($fieldName);
+
+        return $translations[$locale] ?? $default;
+    }
+
+    public function getTranslations(string $fieldName) : array
+    {
         $this->guardAgainstUntranslatableFieldName($fieldName);
 
-        $translationArray = json_decode($this->getAttributes()[$fieldName], true);
+        $translations = json_decode($this->getAttributes()[$fieldName], true);
 
-        return $translationArray[$locale] ?? $default;
+        return $translations;
+    }
+
+    public function getTranslatedLocales(string $fieldName) : array
+    {
+        return array_keys($this->getTranslations($fieldName));
     }
 
     public function setTranslation(string $fieldName, string $locale, string $value)
