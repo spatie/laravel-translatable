@@ -11,7 +11,7 @@ trait HasTranslations
      *
      * @return mixed
      */
-    public function getAttribute(string $fieldName)
+    public function getAttributeValue(string $fieldName)
     {
         if (!$this->isTranslatableField($fieldName)) {
             return parent::getAttribute($fieldName);
