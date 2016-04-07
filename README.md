@@ -71,7 +71,7 @@ Let's go over the required steps one by one:
 #### Getting a translation
 
 The easiest way to get a translation for the current locale is to just get the property for the translated field.
-For example (given that `name` is a translated field:
+For example (given that `name` is a translated field):
 
 ```php
 $newsItem->name;
