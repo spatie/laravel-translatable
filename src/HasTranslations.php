@@ -32,15 +32,6 @@ trait HasTranslations
         return $translations[$locale] ?? $default;
     }
 
-    public function getTranslations(string $fieldName) : array
-    {
-        $this->guardAgainstUntranslatableFieldName($fieldName);
-
-        $translations = json_decode($this->getAttributes()[$fieldName], true);
-
-        return $translations;
-    }
-
     public function getTranslatedLocales(string $fieldName) : array
     {
         return array_keys($this->getTranslations($fieldName));
@@ -50,11 +41,11 @@ trait HasTranslations
     {
         $this->guardAgainstUntranslatableFieldName($fieldName);
 
-        $currentValue = json_decode($this->getAttributes()[$fieldName] ?? '{}', true);
+        $translations = $this->getTranslations($fieldName);
 
-        $currentValue[$locale] = $value;
+        $translations[$locale] = $value;
 
-        $this->setAttribute($fieldName, $currentValue);
+        $this->setAttribute($fieldName, $translations);
 
         return $this;
     }
@@ -66,6 +57,28 @@ trait HasTranslations
         foreach ($values as $locale => $value) {
             $this->setTranslation($fieldName, $locale, $value);
         }
+
+        return $this;
+    }
+
+    public function forgetTranslation(string $fieldName, string $locale)
+    {
+        $translations = $this->getTranslations($fieldName);
+
+        unset($translations[$locale]);
+
+        $this->setAttribute($fieldName, $translations);
+
+        return $this;
+    }
+
+    public function getTranslations(string $fieldName) : array
+    {
+        $this->guardAgainstUntranslatableFieldName($fieldName);
+
+        $translations = json_decode($this->getAttributes()[$fieldName] ?? '{}', true);
+
+        return $translations;
     }
 
     protected function isTranslatableField(string $fieldName) : bool
