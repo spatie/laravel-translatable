@@ -1,18 +1,23 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/laravel-translatable",
+    "description": "A trait to make an Eloquent model hold translations",
     "keywords": [
         "spatie",
-        ":package_name"
+        "laravel-translatable"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/laravel-translatable",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": ":Freek Van der Herten",
+            "email": "freek@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
+        },
+        {
+            "name": "Mohamed Said",
+            "email": "theMohamedSaid@gmail.com",
+            "role": "Author of package this one is based upon"
         }
     ],
     "require": {
