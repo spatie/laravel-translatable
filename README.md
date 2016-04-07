@@ -1,4 +1,4 @@
-# Very short description of the package
+# A trait to make Eloquent models translatable
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -7,9 +7,24 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-translatable.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-translatable)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is not extra table needed to hold the them.
 
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+Once the trait is installed on the model you can do these things:
+
+```php
+$newsItem = new NewsItem; // This is an Eloquent model
+$newsItem
+   ->setTranslation('name', 'en', 'Name in English');
+   ->setTranslation('name', 'nl', 'Naam in het Nederlands')
+   ->save();
+   
+$newsItem->name // Returns 'Name in English' given that the current app locale is 'en';
+$newsItem->getTranslation('name', 'nl') // returns 'Naam in het Nederlands';
+
+app()->setLocale('nl');
+
+$newsItem->name // Returns 'Naam in het Nederlands';
+```
 
 ## Installation
 
@@ -21,10 +36,45 @@ composer require spatie/laravel-translatable
 
 ## Usage
 
+### Preparing your model
+
+Here's an example of a fully prepared model
+
 ``` php
-$skeleton = new Spatie\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+use Spatie\Translatable\Translatable;
+
+class NewsItem extends Model implements Translatable
+{
+    use HasTranslations;
+
+    protected $casts = [
+        'name' => 'array',
+    ];
+
+    public function getTranslatableFields() : array
+    {
+        return ['name'];
+    }
+}
 ```
+Let's go over the required steps one by one.
+
+First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
+
+Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
+
+Next you need to make sure you cast all translatable fieldnames to an array by adding them to the `casts` property.
+ 
+ Finally you should make sure that all translatable fieldnames are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
+
+### Available methods
+
+#### Getting
+
+#### Setting
+
 
 ## Changelog
 
@@ -47,8 +97,9 @@ If you discover any security related issues, please email freek@spatie.be instea
 ## Credits
 
 - [Freek Van der Herten](https://github.com/freekmurze)
-- [Mohamed Said](https://github.com/themsaid) created the package this one is based upon
 - [All Contributors](../../contributors)
+
+We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid).
 
 ## About Spatie
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
