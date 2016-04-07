@@ -7,7 +7,7 @@ use Spatie\Translatable\Translatable;
 
 class Untranslatable extends Exception
 {
-    public static function fieldIsNotTranslatable(string $fieldName, Translatable $model) : static
+    public static function fieldIsNotTranslatable(string $fieldName, Translatable $model)
     {
         $translatableFieldNames = implode(',', $model->getTranslatableFields());
 

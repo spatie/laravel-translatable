@@ -21,6 +21,7 @@ abstract class TestCase extends Orchestra
     protected function getEnvironmentSetUp($app)
     {
         $this->initializeDirectory($this->getTempDirectory());
+        file_put_contents($this->getTempDirectory().'/.gitignore', '*'.PHP_EOL.'!.gitignore');
 
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [

@@ -2,6 +2,8 @@
 
 namespace Spatie\Translatable\Test;
 
+use Spatie\Translatable\Exceptions\Untranslatable;
+
 class TranslatableTest extends TestCase
 {
     /** @test */
@@ -51,5 +53,28 @@ class TranslatableTest extends TestCase
         $model->save();
 
         $this->assertSame('', $model->getTranslation('name', 'de'));
+    }
+
+    /** @test */
+    public function it_will_return_a_default_locale_when_a_translation_is_not_set()
+    {
+        $model = new TestModel();
+
+        $model->setTranslation('name', 'en', 'testValue_en');
+        $model->save();
+
+        $this->assertSame('testValue_en', $model->getTranslation('name', 'en', 'default'));
+        $this->assertSame('default', $model->getTranslation('name', 'de', 'default'));
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_trying_to_translate_an_untranslatable_field()
+    {
+        $model = new TestModel();
+
+        $this->expectException(Untranslatable::class);
+
+        $model->setTranslation('untranslated', 'en', 'value');
+
     }
 }
