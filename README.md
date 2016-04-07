@@ -46,7 +46,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
-- [:Freek Van der Herten](https://github.com/freekmurze)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [Mohamed Said](https://github.com/themsaid) created the package this one is based upon
 - [All Contributors](../../contributors)
 

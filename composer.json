@@ -9,7 +9,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": ":Freek Van der Herten",
+            "name": "Freek Van der Herten",
             "email": "freek@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
@@ -24,16 +24,16 @@
         "php" : "^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "5.*"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\Translatable\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Spatie\\Translatable\\Test\\": "tests"
         }
     },
     "scripts": {
