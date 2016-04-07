@@ -18,12 +18,12 @@ $newsItem
    ->setTranslation('name', 'nl', 'Naam in het Nederlands')
    ->save();
    
-$newsItem->name // Returns 'Name in English' given that the current app locale is 'en';
-$newsItem->getTranslation('name', 'nl') // returns 'Naam in het Nederlands';
+$newsItem->name; // Returns 'Name in English' given that the current app locale is 'en'
+$newsItem->getTranslation('name', 'nl'); // returns 'Naam in het Nederlands'
 
 app()->setLocale('nl');
 
-$newsItem->name // Returns 'Naam in het Nederlands';
+$newsItem->name; // Returns 'Naam in het Nederlands'
 ```
 
 ## Installation
