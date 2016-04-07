@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test;
+namespace Spatie\Translatable\Test;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -10,9 +10,12 @@ class TestModel extends Model implements Translatable
 {
     use HasTranslations;
 
-    protected $table = 'test_models';
     protected $guarded = [];
     public $timestamps = false;
+
+    protected $casts = [
+        'name' => 'array',
+    ];
 
     public function getTranslatableFields() : array
     {

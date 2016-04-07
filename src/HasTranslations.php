@@ -11,10 +11,10 @@ trait HasTranslations
      *
      * @return mixed
      */
-    public function getAttributeValue(string $fieldName)
+    public function getAttributeValue($fieldName)
     {
         if (!$this->isTranslatableField($fieldName)) {
-            return parent::getAttribute($fieldName);
+            return parent::getAttributeValue($fieldName);
         }
 
         return $this->getTranslation($fieldName, app()->getLocale());
@@ -29,14 +29,20 @@ trait HasTranslations
     {
         $this->guardAgainstUntranslatableFieldName($fieldName);
 
-        return $this->$fieldName[$locale] ?? $default;
+        $translationArray = json_decode($this->getAttributes()[$fieldName], true);
+
+        return $translationArray[$locale] ?? $default;
     }
 
     public function setTranslation(string $fieldName, string $locale, string $value)
     {
         $this->guardAgainstUntranslatableFieldName($fieldName);
 
-        $this->$fieldName[$locale] = $value;
+        $currentValue = json_decode($this->getAttributes()[$fieldName] ?? '{}', true);
+
+        $currentValue[$locale] = $value;
+
+        $this->setAttribute($fieldName, $currentValue);
 
         return $this;
     }

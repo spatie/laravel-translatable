@@ -3,7 +3,6 @@
 namespace Spatie\Translatable\Test;
 
 use File;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -40,14 +39,8 @@ abstract class TestCase extends Orchestra
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->text('name')->nullable();
         });
-
-        TestModel::create(['name' => 'test']);
-
-        //include_once '__DIR__'.'/../resources/migrations/create_media_table.php.stub';
-
-        //(new \CreateMediaTable())->up();
     }
 
     protected function initializeDirectory($directory)
