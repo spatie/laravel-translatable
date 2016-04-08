@@ -195,6 +195,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 ## Credits
 
 - [Freek Van der Herten](https://github.com/freekmurze)
+- [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
 We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid). Parts of the readme of [his multiligual package](https://github.com/themsaid/laravel-multilingual) were used in this readme.

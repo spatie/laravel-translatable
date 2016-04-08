@@ -20,6 +20,12 @@
             "role": "Developer"
         },
         {
+            "name": "Sebastian De Deyne",
+            "email": "sebastian@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Human scrutinizer"
+        },
+        {
             "name": "Mohamed Said",
             "email": "theMohamedSaid@gmail.com",
             "role": "Original idea"
