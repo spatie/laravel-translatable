@@ -34,7 +34,7 @@ trait HasTranslations
 
     public function getTranslations(string $attributeName) : array
     {
-        $this->guardAgainstUntranslatableFieldName($attributeName);
+        $this->guardAgainstUntranslatableAttribute($attributeName);
 
         $translations = json_decode($this->getAttributes()[$attributeName] ?? '{}', true);
 
@@ -43,7 +43,7 @@ trait HasTranslations
 
     public function setTranslation(string $attributeName, string $locale, string $value)
     {
-        $this->guardAgainstUntranslatableFieldName($attributeName);
+        $this->guardAgainstUntranslatableAttribute($attributeName);
 
         $translations = $this->getTranslations($attributeName);
 
@@ -56,7 +56,7 @@ trait HasTranslations
 
     public function setTranslations(string $attributeName, array $translations)
     {
-        $this->guardAgainstUntranslatableFieldName($attributeName);
+        $this->guardAgainstUntranslatableAttribute($attributeName);
 
         foreach ($translations as $locale => $translation) {
             $this->setTranslation($attributeName, $locale, $translation);
@@ -86,7 +86,7 @@ trait HasTranslations
         return in_array($attributeName, $this->getTranslatableAttributes());
     }
 
-    protected function guardAgainstUntranslatableFieldName(string $attributeName)
+    protected function guardAgainstUntranslatableAttribute(string $attributeName)
     {
         if (!$this->isTranslatableAttribute($attributeName)) {
             throw Untranslatable::attributeIsNotTranslatable($attributeName, $this);
