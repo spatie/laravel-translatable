@@ -172,7 +172,7 @@ In laravel 5.2.23 and above you can use the fluent syntax:
 
 ```php
 NewsItem::where('name->en', 'Name in English')->get;
-
+```
 
 ## Changelog
 
