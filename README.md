@@ -144,6 +144,21 @@ NewsItem::create([
 ]);
 ```
 
+### Querying translatable attributes
+
+If you're using MySQL 5.7 or above, it's recommended that you use the json data type for housing translations in the db.
+This will allow you to query these columns like this:
+
+```php
+NewsItem::whereRaw('name->"$.en" = \'Name in English\'')->get;
+```
+
+In laravel 5.2.23 and above you can use the fluent syntax:
+
+```php
+NewsItem::where('name->en', 'Name in English')->get;
+
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
@@ -167,7 +182,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 - [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
-We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid).
+We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid). Parts of the readme of [his multiligual package](https://github.com/themsaid/laravel-multilingual) were used in this readme.
 
 ## About Spatie
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
