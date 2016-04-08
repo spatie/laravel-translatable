@@ -29,7 +29,7 @@ class TranslatableTest extends TestCase
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
-           'name' => ['en' => 'testValue_en'],
+            'name' => ['en' => 'testValue_en'],
         ]);
 
         $this->assertSame('testValue_en', $model->name);
@@ -128,7 +128,7 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_is_compatible_with_accessors_that_have_the_same_name_as_a_translatable_attribute()
+    public function it_is_compatible_with_accessors_on_non_translatable_attributes()
     {
         $testModel = new class extends TestModel
  {

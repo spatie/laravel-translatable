@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable;
 
+use Spatie\Translatable\Events\TranslationHasBeenSet;
 use Spatie\Translatable\Exceptions\Untranslatable;
 
 trait HasTranslations
@@ -47,9 +48,13 @@ trait HasTranslations
 
         $translations = $this->getTranslations($attributeName);
 
+        $oldValue = $translations[$locale] ?? '';
+
         $translations[$locale] = $value;
 
         $this->setAttribute($attributeName, $translations);
+
+        event(new TranslationHasBeenSet($this, $attributeName, $locale, $oldValue, $value));
 
         return $this;
     }

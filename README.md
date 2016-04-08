@@ -130,7 +130,22 @@ public function getTranslatedLocales(string $attributeName) : array
 ### Events
 
 #### TranslationHasBeenSet
-after calling `setTranslation`, but before save, per locale, blabla, ...
+Right after calling `setTranslation` the `Spatie\Translatable\Events\TranslationHasBeenSet`-event will be fired.
+
+It has these properties:
+```php
+/** @var \Spatie\Translatable\Translatable */
+public $model;
+
+/** @var string  */
+public $attributeName;
+
+/** @var string  */
+public $locale;
+
+public $oldValue;
+public $newValue;
+```
 
 ### Creating models
 
