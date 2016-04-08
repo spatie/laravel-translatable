@@ -126,4 +126,16 @@ class TranslatableTest extends TestCase
 
         $this->testModel->setTranslation('untranslated', 'en', 'value');
     }
+
+    /** @test */
+    public function it_is_compatible_with_accessors_that_have_the_same_name_as_a_translatable_field()
+    {
+        $testModel = new class extends TestModel {
+            public function getNameAttribute() : string {
+                return 'accessorName';
+            }
+        };
+
+        $this->assertEquals((new $testModel)->name, 'accessorName');
+    }
 }
