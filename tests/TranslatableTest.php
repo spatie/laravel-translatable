@@ -131,11 +131,11 @@ class TranslatableTest extends TestCase
     public function it_is_compatible_with_accessors_that_have_the_same_name_as_a_translatable_field()
     {
         $testModel = new class extends TestModel {
-            public function getNameAttribute() : string {
+            public function getOtherFieldAttribute() : string {
                 return 'accessorName';
             }
         };
 
-        $this->assertEquals((new $testModel)->name, 'accessorName');
+        $this->assertEquals((new $testModel)->otherField, 'accessorName');
     }
 }
