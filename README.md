@@ -63,15 +63,15 @@ Let's go over the required steps one by one:
 
 - First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
 -Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
-- Next you need to make sure you cast all translatable fieldnames to an array by adding them to the `casts` property.
-- Finally you should make sure that all translatable fieldnames are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
+- Next you need to make sure you cast all translatable attributes to an array by adding them to the `casts` property.
+- Finally you should make sure that all translatable attributes are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
 
 ### Available methods
 
 #### Getting a translation
 
-The easiest way to get a translation for the current locale is to just get the property for the translated field.
-For example (given that `name` is a translated field):
+The easiest way to get a translation for the current locale is to just get the property for the translated attribute.
+For example (given that `name` is a translatable attribute):
 
 ```php
 $newsItem->name;
@@ -80,7 +80,7 @@ $newsItem->name;
 You can also use this method:
 
 ```php
-public function getTranslation(string $fieldName, string $locale, string $default = '') : string
+public function getTranslation(string $attributeName, string $locale, string $default = '') : string
 ```
 
 If there is no translation set the value of `default` will be returned. 
@@ -90,25 +90,25 @@ This function has an alias named `translate`.
 #### Setting a translation
 
 ``` php
-public function setTranslation(string $fieldName, string $locale, string $value)
+public function setTranslation(string $attributeName, string $locale, string $value)
 ```
 
 #### Forgetting a translation
 
 ``` php
-public function forgetTranslation(string $fieldName, string $locale)
+public function forgetTranslation(string $attributeName, string $locale)
 ```
 
 #### Getting all translations in one go
 
 ``` php
-public function getTranslations(string $fieldName) : array
+public function getTranslations(string $attributeName) : array
 ```
 
 #### Setting translations in one go
 
 ``` php
-public function setTranslations(string $fieldName, array $translations)
+public function setTranslations(string $attributeName, array $translations)
 ```
 
 Here's an example:
@@ -124,7 +124,7 @@ $newsItem->setTranslations('name', $translations);
 
 #### Getting all translated locales
 ``` php
-public function getTranslatedLocales(string $fieldName) : array
+public function getTranslatedLocales(string $attributeName) : array
 ```
 
 ### Events

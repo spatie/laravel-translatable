@@ -17,7 +17,7 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_can_save_a_translated_field()
+    public function it_can_save_a_translated_attribute()
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
@@ -120,7 +120,7 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_trying_to_translate_an_untranslatable_field()
+    public function it_will_throw_an_exception_when_trying_to_translate_an_untranslatable_attribute()
     {
         $this->expectException(Untranslatable::class);
 
@@ -128,14 +128,16 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_is_compatible_with_accessors_that_have_the_same_name_as_a_translatable_field()
+    public function it_is_compatible_with_accessors_that_have_the_same_name_as_a_translatable_attribute()
     {
-        $testModel = new class extends TestModel {
-            public function getOtherFieldAttribute() : string {
-                return 'accessorName';
-            }
-        };
+        $testModel = new class extends TestModel
+ {
+     public function getOtherFieldAttribute() : string
+     {
+         return 'accessorName';
+     }
+ };
 
-        $this->assertEquals((new $testModel)->otherField, 'accessorName');
+        $this->assertEquals((new $testModel())->otherField, 'accessorName');
     }
 }

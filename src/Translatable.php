@@ -4,5 +4,5 @@ namespace Spatie\Translatable;
 
 interface Translatable
 {
-    public function getTranslatableFields() : array;
+    public function getTranslatableAttributes() : array;
 }

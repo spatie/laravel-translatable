@@ -7,89 +7,89 @@ use Spatie\Translatable\Exceptions\Untranslatable;
 trait HasTranslations
 {
     /**
-     * @param string $fieldName
+     * @param string $attributeName
      *
      * @return mixed
      */
-    public function getAttributeValue($fieldName)
+    public function getAttributeValue($attributeName)
     {
-        if (!$this->isTranslatableField($fieldName)) {
-            return parent::getAttributeValue($fieldName);
+        if (!$this->isTranslatableAttribute($attributeName)) {
+            return parent::getAttributeValue($attributeName);
         }
 
-        return $this->getTranslation($fieldName, app()->getLocale());
+        return $this->getTranslation($attributeName, config('app.locale'));
     }
 
-    public function translate(string $fieldName, string $locale = '', string $default = '') : string
+    public function translate(string $attributeName, string $locale = '', string $default = '') : string
     {
-        return $this->getTranslation($fieldName, $locale, $default);
+        return $this->getTranslation($attributeName, $locale, $default);
     }
 
-    public function getTranslation(string $fieldName, string $locale, string $default = '') : string
+    public function getTranslation(string $attributeName, string $locale, string $default = '') : string
     {
-        $translations = $this->getTranslations($fieldName);
+        $translations = $this->getTranslations($attributeName);
 
         return $translations[$locale] ?? $default;
     }
 
-    public function getTranslations(string $fieldName) : array
+    public function getTranslations(string $attributeName) : array
     {
-        $this->guardAgainstUntranslatableFieldName($fieldName);
+        $this->guardAgainstUntranslatableFieldName($attributeName);
 
-        $translations = json_decode($this->getAttributes()[$fieldName] ?? '{}', true);
+        $translations = json_decode($this->getAttributes()[$attributeName] ?? '{}', true);
 
         return $translations;
     }
 
-    public function setTranslation(string $fieldName, string $locale, string $value)
+    public function setTranslation(string $attributeName, string $locale, string $value)
     {
-        $this->guardAgainstUntranslatableFieldName($fieldName);
+        $this->guardAgainstUntranslatableFieldName($attributeName);
 
-        $translations = $this->getTranslations($fieldName);
+        $translations = $this->getTranslations($attributeName);
 
         $translations[$locale] = $value;
 
-        $this->setAttribute($fieldName, $translations);
+        $this->setAttribute($attributeName, $translations);
 
         return $this;
     }
 
-    public function setTranslations(string $fieldName, array $translations)
+    public function setTranslations(string $attributeName, array $translations)
     {
-        $this->guardAgainstUntranslatableFieldName($fieldName);
+        $this->guardAgainstUntranslatableFieldName($attributeName);
 
         foreach ($translations as $locale => $translation) {
-            $this->setTranslation($fieldName, $locale, $translation);
+            $this->setTranslation($attributeName, $locale, $translation);
         }
 
         return $this;
     }
 
-    public function forgetTranslation(string $fieldName, string $locale)
+    public function forgetTranslation(string $attributeName, string $locale)
     {
-        $translations = $this->getTranslations($fieldName);
+        $translations = $this->getTranslations($attributeName);
 
         unset($translations[$locale]);
 
-        $this->setAttribute($fieldName, $translations);
+        $this->setAttribute($attributeName, $translations);
 
         return $this;
     }
 
-    public function getTranslatedLocales(string $fieldName) : array
+    public function getTranslatedLocales(string $attributeName) : array
     {
-        return array_keys($this->getTranslations($fieldName));
+        return array_keys($this->getTranslations($attributeName));
     }
 
-    protected function isTranslatableField(string $fieldName) : bool
+    protected function isTranslatableAttribute(string $attributeName) : bool
     {
-        return in_array($fieldName, $this->getTranslatableFields());
+        return in_array($attributeName, $this->getTranslatableAttributes());
     }
 
-    protected function guardAgainstUntranslatableFieldName(string $fieldName)
+    protected function guardAgainstUntranslatableFieldName(string $attributeName)
     {
-        if (!$this->isTranslatableField($fieldName)) {
-            throw Untranslatable::fieldIsNotTranslatable($fieldName, $this);
+        if (!$this->isTranslatableAttribute($attributeName)) {
+            throw Untranslatable::attributeIsNotTranslatable($attributeName, $this);
         }
     }
 }

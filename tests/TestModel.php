@@ -17,7 +17,7 @@ class TestModel extends Model implements Translatable
         'name' => 'array',
     ];
 
-    public function getTranslatableFields() : array
+    public function getTranslatableAttributes() : array
     {
         return ['name'];
     }
