@@ -68,16 +68,6 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_will_return_a_default_locale_when_a_translation_is_not_set()
-    {
-        $this->testModel->setTranslation('name', 'en', 'testValue_en');
-        $this->testModel->save();
-
-        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'en', 'default'));
-        $this->assertSame('default', $this->testModel->getTranslation('name', 'de', 'default'));
-    }
-
-    /** @test */
     public function it_can_get_all_translations_in_one_go()
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -131,12 +121,12 @@ class TranslatableTest extends TestCase
     public function it_is_compatible_with_accessors_on_non_translatable_attributes()
     {
         $testModel = new class extends TestModel
- {
-     public function getOtherFieldAttribute() : string
-     {
-         return 'accessorName';
-     }
- };
+         {
+             public function getOtherFieldAttribute() : string
+             {
+                 return 'accessorName';
+             }
+         };
 
         $this->assertEquals((new $testModel())->otherField, 'accessorName');
     }
