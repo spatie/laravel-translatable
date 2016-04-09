@@ -13,8 +13,6 @@ class CastTest extends TestCase
 
         $this->testModel = new class extends TestModel
         {
-            protected $table = 'test_models';
-
             /** @var string */
             protected $cast;
 

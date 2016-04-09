@@ -17,7 +17,7 @@ class TranslatableAttributeCollection extends Collection
         return $translatableFieldCollection;
     }
 
-    public function find(string $attributeName)
+    protected function find(string $attributeName)
     {
         foreach ($this->items as $translatableAttribute) {
             if ($translatableAttribute->name == $attributeName) {

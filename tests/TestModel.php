@@ -10,6 +10,8 @@ class TestModel extends Model implements Translatable
 {
     use HasTranslations;
 
+    protected $table = 'test_models';
+
     protected $guarded = [];
     public $timestamps = false;
 

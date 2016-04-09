@@ -63,7 +63,7 @@ trait HasTranslations
 
         $translations = $this->getTranslations($attributeName);
 
-        $oldValue = $translations[$locale] ?? '';
+        $oldValue = $translations[$locale] ?? $this->castTranslation('', $attributeName);
 
         $translations[$locale] = $value;
 
