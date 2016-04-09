@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable\Test;
 
+use Spatie\Translatable\Exceptions\InvalidCast;
 use Spatie\Translatable\TranslatableAttribute;
 
 class TranslatableAttributeTest extends TestCase
@@ -28,5 +29,13 @@ class TranslatableAttributeTest extends TestCase
             ['name', 'float', 'name', 'float'],
             ['name', 'array', 'name', 'array'],
         ];
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_using_an_invalid_cast()
+    {
+        $this->expectException(InvalidCast::class);
+
+        new TranslatableAttribute('name', 'unknown cast');
     }
 }

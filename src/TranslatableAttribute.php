@@ -2,6 +2,8 @@
 
 namespace Spatie\Translatable;
 
+use Spatie\Translatable\Exceptions\InvalidCast;
+
 class TranslatableAttribute
 {
     public $name;
@@ -9,14 +11,31 @@ class TranslatableAttribute
 
     public function __construct($key, $value)
     {
-        if (is_string($key)) {
-            $this->name = $key;
-            $this->cast = $value;
+        $this->name = $this->determineName($key, $value);
+        $this->cast = $this->determineCast($key, $value);
+    }
 
-            return;
+    protected function determineName($key, $value) : string
+    {
+        return is_string($key) ? $key : $value;
+    }
+
+    protected function determineCast($key, $value) : string
+    {
+        $cast = is_string($key) ? $value : 'string';
+
+        $availableCasts = [
+            'string',
+            'bool',
+            'integer',
+            'float',
+            'array',
+        ];
+
+        if (!in_array($cast, $availableCasts)) {
+            throw InvalidCast::make($cast, $availableCasts);
         }
 
-        $this->name = $value;
-        $this->cast = 'string';
+        return $cast;
     }
 }

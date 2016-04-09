@@ -2,7 +2,7 @@
 
 namespace Spatie\Translatable\Test;
 
-use Spatie\Translatable\Exceptions\Untranslatable;
+use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 class TranslatableTest extends TestCase
 {
@@ -112,7 +112,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_trying_to_translate_an_untranslatable_attribute()
     {
-        $this->expectException(Untranslatable::class);
+        $this->expectException(AttributeIsNotTranslatable::class);
 
         $this->testModel->setTranslation('untranslated', 'en', 'value');
     }

@@ -3,7 +3,7 @@
 namespace Spatie\Translatable;
 
 use Spatie\Translatable\Events\TranslationHasBeenSet;
-use Spatie\Translatable\Exceptions\Untranslatable;
+use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
@@ -132,7 +132,7 @@ trait HasTranslations
     protected function guardAgainstUntranslatableAttribute(string $attributeName)
     {
         if (!$this->isTranslatableAttribute($attributeName)) {
-            throw Untranslatable::attributeIsNotTranslatable($attributeName, $this);
+            throw AttributeIsNotTranslatable::make($attributeName, $this);
         }
     }
 }

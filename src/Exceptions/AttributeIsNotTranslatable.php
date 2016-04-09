@@ -5,9 +5,9 @@ namespace Spatie\Translatable\Exceptions;
 use Exception;
 use Spatie\Translatable\Translatable;
 
-class Untranslatable extends Exception
+class AttributeIsNotTranslatable extends Exception
 {
-    public static function attributeIsNotTranslatable(string $fieldName, Translatable $model)
+    public static function make(string $fieldName, Translatable $model)
     {
         $translatableFieldNames = implode(', ', $model->getTranslatableAttributes());
 
