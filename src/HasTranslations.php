@@ -111,15 +111,15 @@ trait HasTranslations
         $cast = TranslatableAttributeCollection::createForModel($this)->getCast($attributeName);
 
         if ($cast === 'bool') {
-            return boolval($translation);
+            return (bool) $translation;
         }
 
         if ($cast === 'integer') {
-            return intval($translation);
+            return (int) $translation;
         }
 
         if ($cast === 'float') {
-            return floatval($translation);
+            return (float) $translation;
         }
 
         if ($cast === 'array') {
