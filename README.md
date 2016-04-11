@@ -47,7 +47,6 @@ Here's an example of a prepared model:
 ``` php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-use Spatie\Translatable\Translatable;
 
 class NewsItem extends Model
 {
