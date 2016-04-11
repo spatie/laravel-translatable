@@ -54,9 +54,8 @@ class NewsItem extends Model
 ```
 Let's go over the required steps one by one:
 
-- First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
-- Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
-- Nest you should create a public property `$translatableAttributes` which holds on array with all the names of attributes you wish to make translatable.
+- First you need to add the `Spatie\Translatable\HasTranslations`-trait.
+- Next you should create a public property `$translatableAttributes` which holds on array with all the names of attributes you wish to make translatable.
 - Finally you should make sure that all translatable attributes are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
 
 ### Available methods
@@ -127,7 +126,7 @@ Right after calling `setTranslation` the `Spatie\Translatable\Events\Translation
 
 It has these properties:
 ```php
-/** @var \Spatie\Translatable\Translatable */
+/** @var \Illuminate\Database\Eloquent\Model */
 public $model;
 
 /** @var string  */
