@@ -34,11 +34,15 @@ You can install the package via composer:
 composer require spatie/laravel-translatable
 ```
 
-## Usage
+## Making a model translatable
 
-### Preparing your model
+Let's go over the required steps to make a model translatable:
 
-Here's an example of a fully prepared model:
+- First you need to add the `Spatie\Translatable\HasTranslations`-trait.
+- Next you should create a public property `$translatableAttributes` which holds on array with all the names of attributes you wish to make translatable.
+- Finally you should make sure that all translatable attributes are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
+
+Here's an example of a prepared model:
 
 ``` php
 use Illuminate\Database\Eloquent\Model;
