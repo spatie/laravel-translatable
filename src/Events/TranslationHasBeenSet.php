@@ -2,7 +2,7 @@
 
 namespace Spatie\Translatable\Events;
 
-use Spatie\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
 
 class TranslationHasBeenSet
 {
@@ -18,7 +18,7 @@ class TranslationHasBeenSet
     public $oldValue;
     public $newValue;
 
-    public function __construct(Translatable $model, string $key, string $locale, $oldValue, $newValue)
+    public function __construct(Model $model, string $key, string $locale, $oldValue, $newValue)
     {
         $this->model = $model;
 

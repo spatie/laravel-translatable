@@ -3,11 +3,11 @@
 namespace Spatie\Translatable\Exceptions;
 
 use Exception;
-use Spatie\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
 
 class AttributeIsNotTranslatable extends Exception
 {
-    public static function make(string $key, Translatable $model)
+    public static function make(string $key, Model $model)
     {
         $translatableAttributes = implode(', ', $model->getTranslatableAttributes());
 

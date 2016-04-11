@@ -45,20 +45,18 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Spatie\Translatable\Translatable;
 
-class NewsItem extends Model implements Translatable
+class NewsItem extends Model
 {
     use HasTranslations;
-
-    public function getTranslatableFields() : array
-    {
-        return ['name'];
-    }
+    
+    public $translatableAttributes = ['name'];
 }
 ```
 Let's go over the required steps one by one:
 
 - First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
 - Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
+- Nest you should create a public property `$translatableAttributes` which holds on array with all the names of attributes you wish to make translatable.
 - Finally you should make sure that all translatable attributes are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
 
 ### Available methods

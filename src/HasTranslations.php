@@ -90,7 +90,7 @@ trait HasTranslations
 
     /**
      * @param string $key
-     * @param array $translations
+     * @param array  $translations
      * 
      * @return $this
      */
@@ -137,6 +137,13 @@ trait HasTranslations
         if (!$this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
+    }
+
+    public function getTranslatableAttributes() : array
+    {
+        return is_array($this->translatableAttributes)
+            ? $this->translatableAttributes
+            : [];
     }
 
     public function getCasts() : array
