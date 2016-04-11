@@ -49,10 +49,6 @@ class NewsItem extends Model implements Translatable
 {
     use HasTranslations;
 
-    protected $casts = [
-        'name' => 'array',
-    ];
-
     public function getTranslatableFields() : array
     {
         return ['name'];
@@ -62,8 +58,7 @@ class NewsItem extends Model implements Translatable
 Let's go over the required steps one by one:
 
 - First you should let the model implement the `Spatie\Translatable\Translatable` interface. It requires you to add the `getTranslatableFields`-method. It should return an array with names of columns that should be translatable.
--Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
-- Next you need to make sure you cast all translatable attributes to an array by adding them to the `casts` property.
+- Secondly you need to add the `Spatie\Translatable\HasTranslations`-trait.
 - Finally you should make sure that all translatable attributes are set to the `text`-datatype in you database. If your database supports `json`-columns, use that.
 
 ### Available methods
