@@ -141,8 +141,8 @@ trait HasTranslations
 
     public function getTranslatableAttributes() : array
     {
-        return is_array($this->translatableAttributes)
-            ? $this->translatableAttributes
+        return is_array($this->translatable)
+            ? $this->translatable
             : [];
     }
 
