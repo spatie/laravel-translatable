@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable;
 
+use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
@@ -35,26 +36,27 @@ trait HasTranslations
     /***
      * @param string $attributeName
      * @param string $locale
+     *
      * @return mixed
      */
     public function getTranslation(string $attributeName, string $locale)
     {
         $translations = $this->getTranslations($attributeName);
 
-        return $translations[$locale] ?? $this->castTranslation('', $attributeName);
+        $translation = $translations[$locale] ?? '';
+
+        if ($this->hasGetMutator($attributeName)) {
+            return $this->mutateAttribute($attributeName, $translation);
+        }
+
+        return $translation;
     }
 
-    public function getTranslations(string $attributeName) : array
+    public function getTranslations($attributeName) : array
     {
         $this->guardAgainstUntranslatableAttribute($attributeName);
 
-        $translations = json_decode($this->getAttributes()[$attributeName] ?? '{}', true);
-
-        $castTranslations = array_map(function ($translation) use ($attributeName) {
-            return $this->castTranslation($translation, $attributeName);
-        }, $translations);
-
-        return $castTranslations;
+        return json_decode($this->getAttributes()[$attributeName] ?? '{}', true);
     }
 
     public function setTranslation(string $attributeName, string $locale, $value)
@@ -63,11 +65,16 @@ trait HasTranslations
 
         $translations = $this->getTranslations($attributeName);
 
-        $oldValue = $translations[$locale] ?? $this->castTranslation('', $attributeName);
+        $oldValue = $translations[$locale] ?? '';
+
+        if ($this->hasSetMutator($attributeName)) {
+            $method = 'set' . Str::studly($attributeName) . 'Attribute';
+            $value = $this->{$method}($value);
+        }
 
         $translations[$locale] = $value;
 
-        $this->setAttribute($attributeName, $translations);
+        $this->attributes[$attributeName] = $this->asJson($translations);
 
         event(new TranslationHasBeenSet($this, $attributeName, $locale, $oldValue, $value));
 
@@ -103,30 +110,7 @@ trait HasTranslations
 
     protected function isTranslatableAttribute(string $attributeName) : bool
     {
-        return TranslatableAttributeCollection::createForModel($this)->isTranslatable($attributeName);
-    }
-
-    protected function castTranslation($translation, $attributeName)
-    {
-        $cast = TranslatableAttributeCollection::createForModel($this)->getCast($attributeName);
-
-        if ($cast === 'bool') {
-            return (bool) $translation;
-        }
-
-        if ($cast === 'integer') {
-            return (int) $translation;
-        }
-
-        if ($cast === 'float') {
-            return (float) $translation;
-        }
-
-        if ($cast === 'array') {
-            return (array) $translation;
-        }
-
-        return $translation;
+        return in_array($attributeName, $this->getTranslatableAttributes());
     }
 
     protected function guardAgainstUntranslatableAttribute(string $attributeName)
@@ -134,5 +118,13 @@ trait HasTranslations
         if (!$this->isTranslatableAttribute($attributeName)) {
             throw AttributeIsNotTranslatable::make($attributeName, $this);
         }
+    }
+
+    public function getCasts()
+    {
+        return array_merge(
+            parent::getCasts(),
+            array_fill_keys($this->getTranslatableAttributes(), 'array')
+        );
     }
 }

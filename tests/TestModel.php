@@ -15,10 +15,6 @@ class TestModel extends Model implements Translatable
     protected $guarded = [];
     public $timestamps = false;
 
-    protected $casts = [
-        'name' => 'array',
-    ];
-
     public function getTranslatableAttributes() : array
     {
         return ['name'];

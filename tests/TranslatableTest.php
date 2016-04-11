@@ -25,7 +25,6 @@ class TranslatableTest extends TestCase
         $this->assertSame('testValue_en', $this->testModel->name);
     }
 
-    /** @test */
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
@@ -129,5 +128,37 @@ class TranslatableTest extends TestCase
          };
 
         $this->assertEquals((new $testModel())->otherField, 'accessorName');
+    }
+
+    /** @test */
+    public function it_can_use_accessors_on_translated_attributes()
+    {
+        $testModel = new class extends TestModel
+        {
+            public function getNameAttribute($value) : string
+            {
+                return "I just accessed {$value}";
+            }
+        };
+
+        $testModel->setTranslation('name', 'en', 'testValue_en');
+
+        $this->assertEquals($testModel->name, 'I just accessed testValue_en');
+    }
+
+    /** @test */
+    public function it_can_use_mutators_on_translated_attributes()
+    {
+        $testModel = new class extends TestModel
+        {
+            public function setNameAttribute($value) : string
+            {
+                return "I just mutated {$value}";
+            }
+        };
+
+        $testModel->setTranslation('name', 'en', 'testValue_en');
+
+        $this->assertEquals($testModel->name, 'I just mutated testValue_en');
     }
 }
