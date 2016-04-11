@@ -7,10 +7,10 @@ use Spatie\Translatable\Translatable;
 
 class AttributeIsNotTranslatable extends Exception
 {
-    public static function make(string $fieldName, Translatable $model)
+    public static function make(string $key, Translatable $model)
     {
-        $translatableFieldNames = implode(', ', $model->getTranslatableAttributes());
+        $translatableAttributes = implode(', ', $model->getTranslatableAttributes());
 
-        return new static("Cannot translated field `{$fieldName}` as it does not one of the translatable fieldnames: `$translatableFieldNames`");
+        return new static("Cannot translated attribute `{$key}` as it does not one of the translatable attributes: `$translatableAttributes`");
     }
 }

@@ -10,7 +10,7 @@ class TranslationHasBeenSet
     public $model;
 
     /** @var string  */
-    public $attributeName;
+    public $key;
 
     /** @var string  */
     public $locale;
@@ -18,11 +18,11 @@ class TranslationHasBeenSet
     public $oldValue;
     public $newValue;
 
-    public function __construct(Translatable $model, string $attributeName, string $locale, $oldValue, $newValue)
+    public function __construct(Translatable $model, string $key, string $locale, $oldValue, $newValue)
     {
         $this->model = $model;
 
-        $this->attributeName = $attributeName;
+        $this->attributeName = $key;
 
         $this->locale = $locale;
 
