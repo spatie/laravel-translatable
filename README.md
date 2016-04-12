@@ -117,11 +117,6 @@ $translations = [
 $newsItem->setTranslations('name', $translations);
 ```
 
-#### Getting all translated locales
-``` php
-public function getTranslatedLocales(string $attributeName) : array
-```
-
 ### Events
 
 #### TranslationHasBeenSet
