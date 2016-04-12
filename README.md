@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-translatable.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-translatable)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
 
-This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is not extra table needed to hold them.
+This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
 
 Once the trait is installed on the model you can do these things:
 
