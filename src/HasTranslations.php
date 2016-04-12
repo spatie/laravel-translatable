@@ -56,7 +56,7 @@ trait HasTranslations
     {
         $this->guardAgainstUntranslatableAttribute($key);
 
-        return json_decode($this->getAttributes()[$key] ?? '{}', true);
+        return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true);
     }
 
     /**
