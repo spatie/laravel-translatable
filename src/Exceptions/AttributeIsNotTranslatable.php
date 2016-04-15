@@ -11,6 +11,6 @@ class AttributeIsNotTranslatable extends Exception
     {
         $translatable = implode(', ', $model->getTranslatableAttributes());
 
-        return new static("Cannot translated attribute `{$key}` as it does not one of the translatable attributes: `$translatable`");
+        return new static("Cannot translate attribute `{$key}` as it does not one of the translatable attributes: `$translatable`");
     }
 }
