@@ -94,10 +94,8 @@ $newsItem->name;
 You can also use this method:
 
 ```php
-public function getTranslation(string $attributeName, string $locale, string $default = '') : string
+public function getTranslation(string $attributeName, string $locale) : string
 ```
-
-If there is no translation set the value of `default` will be returned. 
 
 This function has an alias named `translate`.
 

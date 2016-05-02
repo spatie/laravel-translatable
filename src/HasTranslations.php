@@ -41,15 +41,11 @@ trait HasTranslations
      */
     public function getTranslation(string $key, string $locale)
     {
+        $locale = $this->normalizeLocale($key, $locale);
+
         $translations = $this->getTranslations($key);
 
-        $fallback = config('laravel-translatable.fallback_locale');
-
         $translation = $translations[$locale] ?? '';
-
-        if (empty($translation) && !empty($fallback)) {
-            $translation = $translations[$fallback];
-        }
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
@@ -69,7 +65,7 @@ trait HasTranslations
      * @param string $key
      * @param string $locale
      * @param $value
-     * 
+     *
      * @return $this
      */
     public function setTranslation(string $key, string $locale, $value)
@@ -97,7 +93,7 @@ trait HasTranslations
     /**
      * @param string $key
      * @param array  $translations
-     * 
+     *
      * @return $this
      */
     public function setTranslations(string $key, array $translations)
@@ -114,7 +110,7 @@ trait HasTranslations
     /**
      * @param string $key
      * @param string $locale
-     * 
+     *
      * @return $this
      */
     public function forgetTranslation(string $key, string $locale)
@@ -143,6 +139,19 @@ trait HasTranslations
         if (!$this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
+    }
+
+    protected function normalizeLocale(string $key, string $locale) : string
+    {
+        if (in_array($locale, $this->getTranslatedLocales($key))) {
+            return $locale;
+        }
+
+        if (!is_null($fallbackLocale = config('laravel-translatable.fallback_locale'))) {
+            return $fallbackLocale;
+        }
+
+        return $locale;
     }
 
     public function getTranslatableAttributes() : array
