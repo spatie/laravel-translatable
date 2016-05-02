@@ -36,8 +36,8 @@ composer require spatie/laravel-translatable
 
 Next up, the service provider must be registered:
 
-// config/app.php
 ```php
+// config/app.php
 'providers' => [
     ...
     Spatie\Translatable\TranslatableServiceProvider::class,
