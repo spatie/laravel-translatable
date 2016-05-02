@@ -2,19 +2,8 @@
 
 All Notable changes to `laravel-translatable` will be documented in this file
 
-## NEXT - YYYY-MM-DD
+## 1.1.0 - 2016-05-02
+- added support for a fallback locale
 
-### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+## 1.0.0 - 2016-04-10
+- initial release
