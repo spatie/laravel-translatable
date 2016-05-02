@@ -5,6 +5,7 @@ namespace Spatie\Translatable\Test;
 use File;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Translatable\TranslatableServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -15,6 +16,10 @@ abstract class TestCase extends Orchestra
         $this->setUpDatabase($this->app);
     }
 
+    protected function getPackageProviders($app)
+    {
+        return [TranslatableServiceProvider::class];
+    }
     /**
      * @param \Illuminate\Foundation\Application $app
      */
