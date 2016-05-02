@@ -45,7 +45,7 @@ Next up, the service provider must be registered:
 ];
 ```
 
-If you want to change a fallback_locale_, you must publish the config file:
+If you want to change add fallback_locale, you must publish the config file:
 ```
 php artisan vendor:publish --provider="Spatie\Translatable\TranslatableServiceProvider"
 ```

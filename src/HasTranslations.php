@@ -47,7 +47,7 @@ trait HasTranslations
 
         $translation = $translations[$locale] ?? '';
 
-        if (empty($translation)) {
+        if (empty($translation) && !empty($fallback)) {
             $translation = $translations[$fallback];
         }
 
