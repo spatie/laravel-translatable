@@ -43,7 +43,13 @@ trait HasTranslations
     {
         $translations = $this->getTranslations($key);
 
+        $fallback = config('laravel-translatable.fallback_locale');
+
         $translation = $translations[$locale] ?? '';
+
+        if(empty($translation)) {
+            $translation = $translations[$fallback];
+        }
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);

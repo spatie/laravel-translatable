@@ -17,6 +17,15 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_will_return_fallback_locale_translation_when_getting_an_unknown_locale()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'fr'));
+    }
+
+    /** @test */
     public function it_can_save_a_translated_attribute()
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -25,6 +34,7 @@ class TranslatableTest extends TestCase
         $this->assertSame('testValue_en', $this->testModel->name);
     }
 
+    /** @test */
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
@@ -57,14 +67,6 @@ class TranslatableTest extends TestCase
         $this->assertSame('testValue_fr', $this->testModel->name);
     }
 
-    /** @test */
-    public function it_will_return_an_empty_string_when_getting_an_unknown_locale()
-    {
-        $this->testModel->setTranslation('name', 'en', 'testValue_en');
-        $this->testModel->save();
-
-        $this->assertSame('', $this->testModel->getTranslation('name', 'de'));
-    }
 
     /** @test */
     public function it_can_get_all_translations_in_one_go()
