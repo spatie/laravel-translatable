@@ -173,4 +173,16 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($testModel->name, 'I just mutated testValue_en');
     }
+
+    /** @test */
+    public function it_can_query_eloquent_with_or_without_specified_locale()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        app()->setLocale('fr');
+        $this->assertSame('testValue', TestModel::where('name->en', 'testValue')->first()->name);
+        $this->assertSame('testValue_fr', TestModel::where('name', 'testValue_fr')->first()->name);
+    }
 }

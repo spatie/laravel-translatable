@@ -17,7 +17,7 @@ $newsItem
    ->setTranslation('name', 'en', 'Name in English');
    ->setTranslation('name', 'nl', 'Naam in het Nederlands');
    ->save();
-   
+
 $newsItem->name; // Returns 'Name in English' given that the current app locale is 'en'
 $newsItem->getTranslation('name', 'nl'); // returns 'Naam in het Nederlands'
 
@@ -75,7 +75,7 @@ use Spatie\Translatable\HasTranslations;
 class NewsItem extends Model
 {
     use HasTranslations;
-    
+
     public $translatable = ['name'];
 }
 ```
@@ -179,6 +179,16 @@ In laravel 5.2.23 and above you can use the fluent syntax:
 
 ```php
 NewsItem::where('name->en', 'Name in English')->get();
+```
+
+If you don't specify any locale, the current app's locale will be used:
+
+```php
+app()->setLocale('en');
+NewsItem::where('name', 'Name in English')->get();
+
+app()->setLocale('nl');
+NewsItem::whereName('Naam in het Nederlands')->firstOrFail();
 ```
 
 ## Changelog

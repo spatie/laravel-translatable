@@ -168,4 +168,42 @@ trait HasTranslations
             array_fill_keys($this->getTranslatableAttributes(), 'array')
         );
     }
+
+    /**
+     * Handle dynamic method calls into the model (hook for builder only).
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if (in_array($method, ['where', 'orWhere'])) {
+            if (in_array($parameters[0], $this->translatable)) {
+                $parameters[0] = sprintf('%s->%s', $parameters[0], config('app.locale'));
+            }
+        } elseif (\Illuminate\Support\Str::startsWith($method, 'where')) {
+            $finder = substr($method, 5);
+            $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+            $connector = 'And';
+            $query = $this->newQuery();
+            foreach ($segments as $segment) {
+                if ($segment != 'And' && $segment != 'Or') {
+                    $method = ($connector == 'And') ? 'where' : 'orWhere';
+                    $column = snake_case($segment);
+                    if (in_array($column, $this->translatable)) {
+                        $column = sprintf('%s->%s', $column, \App::getLocale());
+                    }
+                    $value = array_shift($parameters);
+                    $query->$method($column, $value);
+                } else {
+                    $connector = $segment;
+                }
+            }
+            return $query;
+        }
+
+        return parent::__call($method, $parameters);
+    }
 }
