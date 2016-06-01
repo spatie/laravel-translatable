@@ -23,6 +23,28 @@ trait HasTranslations
     }
 
     /**
+     * @param $key
+     * @param $value
+     * @return HasTranslations|void
+     */
+    public function setAttribute($key, $value)
+    {
+        if (!$this->isTranslatableAttribute($key, $value)) {
+            return parent::setAttribute($key, $value);
+        }
+
+        if (!$value) {
+            return;
+        }
+        
+        if(!json_decode($value)) {
+           return $this->setTranslation($key, config('app.locale'), $value);
+        }
+        
+        return $this->setTranslations($key, json_decode($value, true));
+    }
+
+    /**
      * @param string $key
      * @param string $locale
      *
