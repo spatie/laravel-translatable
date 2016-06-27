@@ -34,7 +34,6 @@ trait HasTranslations
         }
 
         if (is_string($value)) {
-            var_export(['is_string', $value]);
             return $this->setTranslation($key, config('app.locale'), $value);
         }
 
