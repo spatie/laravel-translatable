@@ -131,13 +131,12 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_is_compatible_with_accessors_on_non_translatable_attributes()
     {
-        $testModel = new class extends TestModel
- {
-     public function getOtherFieldAttribute() : string
-     {
-         return 'accessorName';
-     }
- };
+        $testModel = new class() extends TestModel {
+            public function getOtherFieldAttribute() : string
+            {
+                return 'accessorName';
+            }
+        };
 
         $this->assertEquals((new $testModel())->otherField, 'accessorName');
     }
@@ -145,13 +144,12 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_use_accessors_on_translated_attributes()
     {
-        $testModel = new class extends TestModel
- {
-     public function getNameAttribute($value) : string
-     {
-         return "I just accessed {$value}";
-     }
- };
+        $testModel = new class() extends TestModel {
+            public function getNameAttribute($value) : string
+            {
+                return "I just accessed {$value}";
+            }
+        };
 
         $testModel->setTranslation('name', 'en', 'testValue_en');
 
@@ -161,13 +159,12 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_use_mutators_on_translated_attributes()
     {
-        $testModel = new class extends TestModel
- {
-     public function setNameAttribute($value) : string
-     {
-         return "I just mutated {$value}";
-     }
- };
+        $testModel = new class() extends TestModel {
+            public function setNameAttribute($value) : string
+            {
+                return "I just mutated {$value}";
+            }
+        };
 
         $testModel->setTranslation('name', 'en', 'testValue_en');
 

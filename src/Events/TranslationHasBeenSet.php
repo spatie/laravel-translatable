@@ -9,10 +9,10 @@ class TranslationHasBeenSet
     /** @var \Spatie\Translatable\Translatable */
     public $model;
 
-    /** @var string  */
+    /** @var string */
     public $key;
 
-    /** @var string  */
+    /** @var string */
     public $locale;
 
     public $oldValue;

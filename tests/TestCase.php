@@ -20,6 +20,7 @@ abstract class TestCase extends Orchestra
     {
         return [TranslatableServiceProvider::class];
     }
+
     /**
      * @param \Illuminate\Foundation\Application $app
      */
@@ -30,9 +31,9 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => "{$this->getTempDirectory()}/database.sqlite",
-            'prefix' => '',
+            'prefix'   => '',
         ]);
     }
 
