@@ -176,7 +176,7 @@ class TranslatableTest extends TestCase
     {
         $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
 
-        $this->testModel->setTranslasetTranslationstions('name', $translations);
+        $this->testModel->setTranslations('name', $translations);
         $this->testModel->save();
 
         $this->assertEquals($translations, $this->testModel->getTranslations('name'));
