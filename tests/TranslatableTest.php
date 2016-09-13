@@ -6,7 +6,7 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 class TranslatableTest extends TestCase
 {
-    /** @var TestModel */
+    /** @var \Spatie\Translatable\Test\TestModel */
     protected $testModel;
 
     public function setUp()
@@ -169,5 +169,16 @@ class TranslatableTest extends TestCase
         $testModel->setTranslation('name', 'en', 'testValue_en');
 
         $this->assertEquals($testModel->name, 'I just mutated testValue_en');
+    }
+
+    /** @test */
+    public function it_can_set_multiple_translations_at_once()
+    {
+        $translations =  ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
+
+        $this->testModel->setTranslasetTranslationstions('name', $translations);
+        $this->testModel->save();
+
+        $this->assertEquals($translations, $this->testModel->getTranslations('name'));
     }
 }
