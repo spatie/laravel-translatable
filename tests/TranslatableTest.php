@@ -174,7 +174,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_set_multiple_translations_at_once()
     {
-        $translations =  ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
+        $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
 
         $this->testModel->setTranslasetTranslationstions('name', $translations);
         $this->testModel->save();
