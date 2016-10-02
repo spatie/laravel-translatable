@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-translatable` will be documented in this file
 
+## 1.1.2 - 2016-10-02
+- made `isTranslatableAttribute` public
+
 ## 1.1.1 - 2016-08-24
 - add L5.3 compatibility
 
