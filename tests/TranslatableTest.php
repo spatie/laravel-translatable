@@ -181,4 +181,12 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($translations, $this->testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_can_check_if_an_attribute_is_translatable()
+    {
+        $this->assertTrue($this->testModel->isTranslatableAttribute('name'));
+
+        $this->assertFalse($this->testModel->isTranslatableAttribute('other'));
+    }
 }
