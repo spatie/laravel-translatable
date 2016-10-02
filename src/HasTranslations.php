@@ -129,7 +129,7 @@ trait HasTranslations
         return array_keys($this->getTranslations($key));
     }
 
-    protected function isTranslatableAttribute(string $key) : bool
+    public function isTranslatableAttribute(string $key) : bool
     {
         return in_array($key, $this->getTranslatableAttributes());
     }
