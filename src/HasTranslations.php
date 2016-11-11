@@ -23,6 +23,23 @@ trait HasTranslations
     }
 
     /**
+     * Assume default locale for translatable attributes.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function __set($key, $value)
+    {
+        if (!$this->isTranslatableAttribute($key)) {
+            return $this->setAttribute($key, $value);
+        }
+
+        return $this->setTranslation($key, config('app.locale'), $value);
+    }
+
+    /**
      * @param string $key
      * @param string $locale
      *
