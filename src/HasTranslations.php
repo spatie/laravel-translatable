@@ -8,6 +8,8 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
+    public $locale = false;
+    
     /**
      * @param string $key
      *
@@ -143,6 +145,11 @@ trait HasTranslations
 
     protected function normalizeLocale(string $key, string $locale) : string
     {
+        // if a locale has been set on the model, use that
+        if ($this->locale) {
+            return $this->locale;
+        }
+        
         if (in_array($locale, $this->getTranslatedLocales($key))) {
             return $locale;
         }
@@ -152,6 +159,17 @@ trait HasTranslations
         }
 
         return $locale;
+    }
+    
+    /**
+     * Set the locale property. Used in normalizeLocale() to force the translation
+     * to a different language that the one set in app()->getLocale();
+     *
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     public function getTranslatableAttributes() : array
