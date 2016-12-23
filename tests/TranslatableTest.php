@@ -77,6 +77,19 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_fr', $this->testModel->name);
     }
+    
+    /** @test */
+    public function it_will_return_the_value_with_the_forced_locale_when_using_the_locale_property()
+    {
+        app()->setLocale('en');
+        $this->testModel->setTranslation('name', 'en', 'testValue');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+        
+        $this->testModel->setLocale('fr');
+        
+        $this->assertSame('testValue_fr', $this->testModel->name);
+    }
 
     /** @test */
     public function it_can_get_all_translations_in_one_go()
