@@ -147,7 +147,7 @@ trait HasTranslations
     {
         // if a locale has been set on the model, use that
         if ($this->locale) {
-            return $this->locale;
+            $locale = $this->locale;
         }
         
         if (in_array($locale, $this->getTranslatedLocales($key))) {
