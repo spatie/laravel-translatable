@@ -54,6 +54,13 @@ trait HasTranslations
         return $translation;
     }
 
+    /**
+     * Get all available translations for an attribute key.
+     * 
+     * @param $key
+     * 
+     * @return array
+     */
     public function getTranslations($key) : array
     {
         $this->guardAgainstUntranslatableAttribute($key);
