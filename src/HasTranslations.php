@@ -9,6 +9,8 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 trait HasTranslations
 {
     /**
+     * Get translation value of an attribute.
+     * 
      * @param string $key
      *
      * @return mixed
@@ -23,6 +25,8 @@ trait HasTranslations
     }
 
     /**
+     * Get translation value of an attribute.
+     *
      * @param string $key
      * @param string $locale
      *
@@ -34,6 +38,8 @@ trait HasTranslations
     }
 
     /***
+     * Get translation value of an attribute.
+     *
      * @param string $key
      * @param string $locale
      *
@@ -56,9 +62,8 @@ trait HasTranslations
 
     /**
      * Get all available translations for an attribute key.
-     * 
+     *
      * @param $key
-     * 
      * @return array
      */
     public function getTranslations($key) : array
@@ -69,6 +74,8 @@ trait HasTranslations
     }
 
     /**
+     * Set one translation value for an attribute.
+     *
      * @param string $key
      * @param string $locale
      * @param $value
@@ -98,6 +105,8 @@ trait HasTranslations
     }
 
     /**
+     * Set group of translation values for an attribute.
+     * 
      * @param string $key
      * @param array  $translations
      *
@@ -115,6 +124,8 @@ trait HasTranslations
     }
 
     /**
+     * Remove a translation value of an attribute.
+     * 
      * @param string $key
      * @param string $locale
      *
@@ -131,11 +142,24 @@ trait HasTranslations
         return $this;
     }
 
+    /**
+     * Get available translation locales for an attribute.
+     * 
+     * @param string $key
+     * 
+     * @return array
+     */
     public function getTranslatedLocales(string $key) : array
     {
         return array_keys($this->getTranslations($key));
     }
 
+    /**
+     * Check if this key is one of translatable attributes of this entity.
+     *
+     * @param string $key
+     * @return bool
+     */
     public function isTranslatableAttribute(string $key) : bool
     {
         return in_array($key, $this->getTranslatableAttributes());
@@ -161,6 +185,11 @@ trait HasTranslations
         return $locale;
     }
 
+    /**
+     * Get list of available translatable attributes.
+     * 
+     * @return array
+     */
     public function getTranslatableAttributes() : array
     {
         return is_array($this->translatable)
