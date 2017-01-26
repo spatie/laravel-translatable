@@ -157,7 +157,7 @@ trait HasTranslations
             return $locale;
         }
 
-        if(!$withFallBack)
+        if (!$withFallBack)
         {
             return $locale;
         }
