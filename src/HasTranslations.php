@@ -8,7 +8,7 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
-    /**
+    /**meta0102
      * @param string $key
      *
      * @return mixed
