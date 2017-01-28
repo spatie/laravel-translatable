@@ -36,12 +36,13 @@ trait HasTranslations
     /***
      * @param string $key
      * @param string $locale
+     * @param bool $useFallbackLocale
      *
      * @return mixed
      */
-    public function getTranslation(string $key, string $locale, bool $withFallback = true)
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
     {
-        $locale = $this->normalizeLocale($key, $locale, $withFallback);
+        $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
         $translations = $this->getTranslations($key);
 
@@ -151,13 +152,13 @@ trait HasTranslations
         }
     }
 
-    protected function normalizeLocale(string $key, string $locale, bool $withFallBack) : string
+    protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale) : string
     {
         if (in_array($locale, $this->getTranslatedLocales($key))) {
             return $locale;
         }
 
-        if (!$withFallBack) {
+        if (!$useFallbackLocale) {
             return $locale;
         }
 
