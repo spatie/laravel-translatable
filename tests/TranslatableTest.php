@@ -25,6 +25,24 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'fr'));
     }
+    
+    /** @test */
+    public function it_will_return_fallback_locale_translation_when_getting_an_unknown_locale_and_fallback_is_true()
+    {
+        $this->app['config']->set('laravel-translatable.fallback_locale', 'en');
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+    }
+	
+		 /** @test */
+    public function it_will_return_an_empty_string_when_getting_an_unknown_locale_and_fallback_is_false()
+    {
+        $this->app['config']->set('laravel-translatable.fallback_locale', '');
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+        $this->assertSame('', $this->testModel->getTranslationWithoutFallback('name', 'fr'));
+    }
 
     /** @test */
     public function it_will_return_an_empty_string_when_getting_an_unknown_locale_and_fallback_is_empty()
