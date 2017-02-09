@@ -114,6 +114,12 @@ This function has an alias named `translate`.
 public function setTranslation(string $attributeName, string $locale, string $value)
 ```
 
+Here's an example:
+``` php
+$newsItem->setTranslation('name', 'en', 'Updated name in English');
+$newsItem->save();
+```
+
 #### Forgetting a translation
 
 ``` php
