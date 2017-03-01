@@ -84,7 +84,7 @@ class TranslatableTest extends TestCase
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
-            'name' => ['en' => 'testValue_en'],
+            'name' => 'testValue_en',
         ]);
 
         $this->assertSame('testValue_en', $model->name);
