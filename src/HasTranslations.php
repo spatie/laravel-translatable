@@ -34,14 +34,12 @@ trait HasTranslations
             return parent::setAttribute($key, $value);
         }
 
-        if (is_string($value) && !json_decode($value))
-        {
-             return $this->setTranslation($key, config('app.locale'), $value);
+        if (is_string($value) && !json_decode($value)) {
+            return $this->setTranslation($key, config('app.locale'), $value);
         }
        
-        if(is_string($value) && json_decode($value)) 
-        {
-             return $this->setTranslations($key, json_decode($value, true));
+        if (is_string($value) && json_decode($value)) {
+            return $this->setTranslations($key, json_decode($value, true));
         }
 
         return $value;
