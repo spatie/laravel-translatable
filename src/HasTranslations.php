@@ -37,7 +37,7 @@ trait HasTranslations
         if (is_string($value) && !json_decode($value)) {
             return $this->setTranslation($key, config('app.locale'), $value);
         }
-       
+
         if (is_string($value) && json_decode($value)) {
             return $this->setTranslations($key, json_decode($value, true));
         }
