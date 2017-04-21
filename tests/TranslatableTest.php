@@ -207,6 +207,28 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_be_set_with_magic_setter_method()
+    {
+        $model = TestModel::create([
+            'name' => [
+                'en' => 'testValue_en',
+                'fr' => 'testValue_fr',
+            ],
+        ]);
+
+        app()->setLocale('en');
+
+        $model->name = 'updated_en';
+        $this->assertEquals('updated_en', $model->name);
+        $this->assertEquals('testValue_fr', $model->getTranslation('name', 'fr'));
+
+        app()->setLocale('fr');
+        $model->name = 'updated_fr';
+        $this->assertEquals('updated_fr', $model->name);
+        $this->assertEquals('updated_en', $model->getTranslation('name', 'en'));
+    }
+
+    /** @test */
     public function it_can_set_multiple_translations_at_once()
     {
         $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
