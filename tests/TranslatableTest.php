@@ -84,7 +84,7 @@ class TranslatableTest extends TestCase
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
-            'name' => ['en' => 'testValue_en'],
+            'name' => 'testValue_en',
         ]);
 
         $this->assertSame('testValue_en', $model->name);
@@ -139,16 +139,20 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_forget_a_translation()
     {
+        var_dump( $this->testModel->getTranslations('name'));
+        
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
         $this->testModel->save();
-
+var_dump( $this->testModel->getTranslations('name')
         $this->assertSame([
             'en' => 'testValue_en',
             'fr' => 'testValue_fr',
         ], $this->testModel->getTranslations('name'));
 
+         var_dump( $this->testModel->getTranslations('name'));
         $this->testModel->forgetTranslation('name', 'en');
+         var_dump( $this->testModel->getTranslations('name'));
 
         $this->assertSame([
             'fr' => 'testValue_fr',
