@@ -24,6 +24,29 @@ trait HasTranslations
 
     /**
      * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function setAttribute($key, $value)
+    {
+        if (!$this->isTranslatableAttribute($key)) {
+            return parent::setAttribute($key, $value);
+        }
+
+        if (is_string($value) && !json_decode($value)) {
+            return $this->setTranslation($key, config('app.locale'), $value);
+        }
+
+        if (is_string($value) && json_decode($value)) {
+            return $this->setTranslations($key, json_decode($value, true));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $key
      * @param string $locale
      *
      * @return mixed
@@ -130,7 +153,7 @@ trait HasTranslations
 
         unset($translations[$locale]);
 
-        $this->setAttribute($key, $translations);
+        $this->attributes[$key] = $this->asJson($translations);
 
         return $this;
     }
