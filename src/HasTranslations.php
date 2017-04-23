@@ -8,6 +8,29 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
+    protected $modelLocale = null;
+
+    /**
+     * @param string $locale
+     *
+     * @return $this
+     */
+    public function setModelLocale(string $locale = '')
+    {
+        $this->modelLocale = $locale;
+        return $this;
+    }
+
+    /**
+     *
+     * @return $this
+     */
+    public function forgetModelLocale()
+    {
+        $this->modelLocale = null;
+        return $this;
+    }
+
     /**
      * @param string $key
      *
@@ -19,7 +42,7 @@ trait HasTranslations
             return parent::getAttributeValue($key);
         }
 
-        return $this->getTranslation($key, config('app.locale'));
+        return $this->getTranslation($key, is_null($this->modelLocale) ? config('app.locale') : $this->modelLocale);
     }
 
     /**
