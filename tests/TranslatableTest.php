@@ -224,4 +224,13 @@ class TranslatableTest extends TestCase
 
         $this->assertFalse($this->testModel->isTranslatableAttribute('other'));
     }
+
+    /** @test */
+    public function it_can_set_translatable_attribute_as_string_for_defaul_locale()
+    {
+        $def_local_name = 'Default Name';
+        $this->testModel->name = $def_local_name;
+
+        $this->assertEquals($def_local_name, $this->testModel->getTranslation('name', app()->getLocale()));
+    }
 }
