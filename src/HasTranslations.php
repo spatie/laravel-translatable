@@ -24,6 +24,21 @@ trait HasTranslations
 
     /**
      * @param string $key
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        if ($this->isTranslatableAttribute($key) && !is_array($value)) {
+            return $this->setTranslation($key, app()->getLocale(), $value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    /**
+     * @param string $key
      * @param string $locale
      *
      * @return mixed
