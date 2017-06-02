@@ -224,4 +224,17 @@ class TranslatableTest extends TestCase
 
         $this->assertFalse($this->testModel->isTranslatableAttribute('other'));
     }
+
+    /** @test */
+    public function it_can_return_translated_attributes_as_array()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        app()->setLocale('fr');
+
+        $attributes = $this->testModel->toArray();
+        $this->assertSame('testValue_fr', $attributes['name']);
+    }
 }
