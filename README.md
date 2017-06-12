@@ -123,14 +123,20 @@ $newsItem->save();
 
 #### Forgetting a translation
 
+You can forget a translation for a specific field:
 ``` php
 public function forgetTranslation(string $attributeName, string $locale)
+```
+
+You can forget all translations for a specific locale:
+``` php
+public function forgetAllTranslations(string $locale)
 ```
 
 #### Getting all translations in one go
 
 ``` php
-public function getTranslations(string $attributeName) : array
+public function getTranslations(string $attributeName): array
 ```
 
 #### Setting translations in one go

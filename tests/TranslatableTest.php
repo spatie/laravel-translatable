@@ -156,6 +156,37 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_forget_all_translations()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('other_field', 'en', 'testValue_en');
+        $this->testModel->setTranslation('other_field', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'en' => 'testValue_en',
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('name'));
+
+        $this->assertSame([
+            'en' => 'testValue_en',
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('other_field'));
+
+        $this->testModel->forgetAllTranslations('en');
+
+        $this->assertSame([
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('name'));
+
+        $this->assertSame([
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('other_field'));
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_trying_to_translate_an_untranslatable_attribute()
     {
         $this->expectException(AttributeIsNotTranslatable::class);

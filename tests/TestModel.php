@@ -14,5 +14,5 @@ class TestModel extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public $translatable = ['name'];
+    public $translatable = ['name', 'other_field'];
 }

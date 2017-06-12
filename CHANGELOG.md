@@ -1,6 +1,10 @@
 # Changelog
 
-All Notable changes to `laravel-translatable` will be documented in this file
+All notable changes to `laravel-translatable` will be documented in this file
+
+## 1.3.0 - 2017-06-12
+
+- add `forgetAllTranslations`
 
 ## 1.2.2 - 2016-01-27
 - improve support for fallback locale
