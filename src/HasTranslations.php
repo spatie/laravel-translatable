@@ -137,7 +137,7 @@ trait HasTranslations
 
     public function forgetAllTranslations(string $locale)
     {
-        collect($this->getTranslatableAttributes())->each(function(string $attribute) use ($locale) {
+        collect($this->getTranslatableAttributes())->each(function (string $attribute) use ($locale) {
             $this->forgetTranslation($attribute, $locale);
         });
     }
