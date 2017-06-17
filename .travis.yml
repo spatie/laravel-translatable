@@ -3,6 +3,11 @@ language: php
 php:
   - 7.0
   - 7.1
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
 
 env:
   matrix:
@@ -14,7 +19,7 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi

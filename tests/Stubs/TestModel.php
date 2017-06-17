@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Translatable\Test;
+namespace Spatie\Translatable\Test\Stubs;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
