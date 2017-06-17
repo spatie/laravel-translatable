@@ -3,10 +3,11 @@
 namespace Spatie\Translatable\Test;
 
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
+use Spatie\Translatable\Test\Stubs\TestModel;
 
 class TranslatableTest extends TestCase
 {
-    /** @var \Spatie\Translatable\Test\TestModel */
+    /** @var \Spatie\Translatable\Test\Stubs\TestModel */
     protected $testModel;
 
     public function setUp()

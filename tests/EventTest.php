@@ -3,6 +3,7 @@
 namespace Spatie\Translatable\Test;
 
 use Spatie\Translatable\Events\TranslationHasBeenSet;
+use Spatie\Translatable\Test\Stubs\TestModel;
 
 class EventTest extends TestCase
 {
