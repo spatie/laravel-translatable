@@ -49,7 +49,6 @@ class MySQLWhereTest extends MySQLTestCase
         $this->testModel::truncate();
 
         for ($i = 0; $i < $noOfRecords; $i++) {
-
             (new $this->testModel())->setTranslation('name', 'en', "en_testValue_{$i}")
                 ->setTranslation('name', 'fr', 'fr_testValue_{$i}')
                 ->save();
