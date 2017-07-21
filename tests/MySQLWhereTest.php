@@ -20,7 +20,7 @@ class MySQLWhereTest extends MySQLTestCase
         $this->clearAndcreateFakeRecords(3);
 
         $this->assertSame([
-            'en_testValue_0'
+            'en_testValue_0',
         ], $this->testModel->where('name->en', 'en_testValue_0')->pluck('name')->toArray());
     }
 
@@ -31,16 +31,17 @@ class MySQLWhereTest extends MySQLTestCase
 
         $this->assertSame([
             'en_testValue_0',
-            'en_testValue_1'
+            'en_testValue_1',
         ], $this->testModel->whereIn('name->en', [
                 'en_testValue_0',
-                'en_testValue_1'
+                'en_testValue_1',
             ])->pluck('name')->toArray()
         );
     }
 
     /**
-     * Clear old records and create new records for testing
+     * Clear old records and create new records for testing.
+     *
      * @param int $noOfRecords
      */
     protected function clearAndcreateFakeRecords($noOfRecords)
@@ -49,7 +50,7 @@ class MySQLWhereTest extends MySQLTestCase
 
         for ($i = 0; $i < $noOfRecords; $i++) {
 
-            (new $this->testModel)->setTranslation('name', 'en', "en_testValue_{$i}")
+            (new $this->testModel())->setTranslation('name', 'en', "en_testValue_{$i}")
                 ->setTranslation('name', 'fr', 'fr_testValue_{$i}')
                 ->save();
         }

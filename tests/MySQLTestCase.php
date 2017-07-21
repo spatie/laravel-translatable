@@ -16,9 +16,10 @@ abstract class MySQLTestCase extends Orchestra
     }
 
     /**
-     * Get Package Service Provider
+     * Get Package Service Provider.
      *
      * @param \Illuminate\Foundation\Application $app
+     *
      * @return array
      */
     protected function getPackageProviders($app)
@@ -27,7 +28,7 @@ abstract class MySQLTestCase extends Orchestra
     }
 
     /**
-     * Setup MySQL Environment. Need to setup environment variable in phpunit
+     * Setup MySQL Environment. Need to setup environment variable in phpunit.
      *
      * @param \Illuminate\Foundation\Application $app
      */
@@ -35,18 +36,18 @@ abstract class MySQLTestCase extends Orchestra
     {
         $app['config']->set('database.default', 'mysql');
         $app['config']->set('database.connections.mysql', [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
+            'driver'      => 'mysql',
+            'host'        => env('DB_HOST', '127.0.0.1'),
+            'port'        => env('DB_PORT', '3306'),
+            'database'    => env('DB_DATABASE'),
+            'username'    => env('DB_USERNAME'),
+            'password'    => env('DB_PASSWORD'),
             'unix_socket' => env('DB_SOCKET'),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null
+            'charset'     => 'utf8mb4',
+            'collation'   => 'utf8mb4_unicode_ci',
+            'prefix'      => '',
+            'strict'      => true,
+            'engine'      => null,
         ]);
     }
 
@@ -59,7 +60,7 @@ abstract class MySQLTestCase extends Orchestra
     {
         $schemaBuilder = $app['db']->connection()->getSchemaBuilder();
 
-        if ( ! $schemaBuilder->hasTable('test_models')) {
+        if (!$schemaBuilder->hasTable('test_models')) {
             $schemaBuilder->create('test_models', function (Blueprint $table) {
                 $table->increments('id');
                 $table->json('name')->nullable();
