@@ -169,7 +169,7 @@ trait HasTranslations
             return $locale;
         }
 
-        if (!is_null($fallbackLocale = config('laravel-translatable.fallback_locale'))) {
+        if (!is_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 

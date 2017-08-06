@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 2.0.0 - 2017-XX-XX
+
+- added support for Laravel 5.5, dropped support for all older versions
+- rename config file from `laravel-translatable` to `translatable`
+
 ## 1.3.0 - 2017-06-12
 
 - add `forgetAllTranslations`
