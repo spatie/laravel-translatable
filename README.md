@@ -194,7 +194,7 @@ If you're using MySQL 5.7 or above, it's recommended that you use the json data 
 This will allow you to query these columns like this:
 
 ```php
-NewsItem::whereRaw('name->"$.en" = \'Name in English\'')->get();
+NewsItem::whereRaw('name->".$en" = \'Name in English\'')->get();
 ```
 
 In laravel 5.2.23 and above you can use the fluent syntax:
