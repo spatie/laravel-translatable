@@ -19,7 +19,7 @@ trait HasTranslations
             return parent::getAttributeValue($key);
         }
 
-        return $this->getTranslation($key, config('app.locale'));
+        return $this->getTranslation($key, config('app.locale')) ?: array_first($this->getTranslations($key));
     }
 
     /**
