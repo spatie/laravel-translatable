@@ -210,7 +210,7 @@ The easiest way to add translations to json reponse is to override the `toArray`
 Here's a quick example:
 
 ``` php
-// in you model
+// in your model
 
     /**
      * Convert the model instance to an array.
