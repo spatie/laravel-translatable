@@ -42,16 +42,7 @@ You can install the package via composer:
 composer require spatie/laravel-translatable
 ```
 
-Next up, the service provider must be registered:
-
-```php
-// config/app.php
-'providers' => [
-    ...
-    Spatie\Translatable\TranslatableServiceProvider::class,
-
-];
-```
+The package will automatically register itself.
 
 If you want to change add fallback_locale, you must publish the config file:
 ```
