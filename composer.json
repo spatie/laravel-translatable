@@ -33,12 +33,12 @@
     ],
     "require": {
         "php" : "^7.0",
-        "illuminate/database": "5.5.x-dev",
-        "illuminate/support": "5.5.x-dev"
+        "illuminate/database": "~5.5.0",
+        "illuminate/support": "~5.5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.2",
-        "orchestra/testbench": "3.5.x-dev",
+        "phpunit/phpunit": "^6.3",
+        "orchestra/testbench": "~3.5.0",
         "mockery/mockery": "^0.9.4"
     },
     "autoload": {
@@ -63,7 +63,5 @@
                 "Spatie\\Translatable\\TranslatableServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
