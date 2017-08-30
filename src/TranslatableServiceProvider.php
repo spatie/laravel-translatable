@@ -10,12 +10,12 @@ class TranslatableServiceProvider extends ServiceProvider
     {
         // Publish a config file
         $this->publishes([
-            __DIR__.'/../config/laravel-translatable.php' => config_path('laravel-translatable.php'),
+            __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
         ], 'config');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-translatable.php', 'laravel-translatable');
+        $this->mergeConfigFrom(__DIR__.'/../config/translatable.php', 'translatable');
     }
 }

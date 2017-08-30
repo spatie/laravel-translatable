@@ -42,6 +42,7 @@ trait HasTranslations
      */
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
     {
+
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
         $translations = $this->getTranslations($key);
@@ -169,7 +170,7 @@ trait HasTranslations
             return $locale;
         }
 
-        if (!is_null($fallbackLocale = config('laravel-translatable.fallback_locale'))) {
+        if (!is_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 

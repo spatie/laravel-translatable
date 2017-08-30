@@ -63,7 +63,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_will_return_an_empty_string_when_getting_an_unknown_locale_and_fallback_is_empty()
     {
-        $this->app['config']->set('laravel-translatable.fallback_locale', '');
+        $this->app['config']->set('translatable.fallback_locale', '');
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
