@@ -99,6 +99,14 @@ public function getTranslation(string $attributeName, string $locale) : string
 This function has an alias named `translate`.
 
 #### Setting a translation
+The easiest way to set a translation for the current locale is to just set the property for a translatable attribute.
+For example (given that `name` is a translatable attribute):
+
+```php
+$newsItem->name = 'New translation';
+```
+
+To set a translation for a specific locale you can use this method:
 
 ``` php
 public function setTranslation(string $attributeName, string $locale, string $value)
