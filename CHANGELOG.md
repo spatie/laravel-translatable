@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## [Unreleased]
+- added support for setting a translation directly through the property (e.g. `$item->name = 'New translation';`)
+
 ## 2.0.0 - 2017-08-30
 
 - added support for Laravel 5.5, dropped support for all older versions
