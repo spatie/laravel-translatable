@@ -23,6 +23,24 @@ trait HasTranslations
     }
 
     /**
+     * Set a given attribute on the model.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        // pass arrays and untranslateable attributes to the parent method
+        if (!$this->isTranslatableAttribute($key) or is_array($value)) {
+            return parent::setAttribute($key, $value);
+        }
+        // if the attribute is translateable and not already translated (=array),
+        // set a translation for the current app locale
+        return $this->setTranslation($key, config('app.locale'), $value);
+    }
+
+    /**
      * @param string $key
      * @param string $locale
      *
