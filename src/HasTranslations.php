@@ -33,7 +33,7 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         // pass arrays and untranslatable attributes to the parent method
-        if (!$this->isTranslatableAttribute($key) or is_array($value)) {
+        if (!$this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
         }
         // if the attribute is translatable and not already translated (=array),
