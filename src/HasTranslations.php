@@ -122,7 +122,7 @@ trait HasTranslations
 
     /**
      * Casts the passed value to json
-     * preserving the unicode chars
+     * preserving the unicode chars.
      *
      * @param array $value
      *
