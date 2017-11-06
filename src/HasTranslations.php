@@ -121,6 +121,19 @@ trait HasTranslations
     }
 
     /**
+     * Casts the passed value to json
+     * preserving the unicode chars
+     *
+     * @param array $value
+     *
+     * @return string
+     */
+    protected function asJson($value)
+    {
+        return json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * @param string $key
      * @param array  $translations
      *
