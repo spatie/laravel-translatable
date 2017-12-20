@@ -279,7 +279,7 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_correctly_set_a_field_when_a_mutator_is_defined()
+    public function it_can_correctly_set_a_field_when_a_mutator_is_defined()
     {
         $testModel = (new class() extends TestModel {
             public function setNameAttribute($value)
