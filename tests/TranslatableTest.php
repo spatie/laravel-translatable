@@ -303,11 +303,23 @@ class TranslatableTest extends TestCase
                 $this->attributes['name'] = "I just mutated {$value}";
             }
         });
-        $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
+
+        $translations = [
+            'nl' => 'hallo',
+            'en' => 'hello',
+            'kh' => 'សួរស្តី'
+        ];
+
         $testModel->setTranslations('name', $translations);
+
         $testModel->save();
 
-        $expected = ['nl' => 'I just mutated hallo', 'en' => 'I just mutated hello', 'kh' => 'I just mutated សួរស្តី'];
+        $expected = [
+            'nl' => 'I just mutated hallo',
+            'en' => 'I just mutated hello',
+            'kh' => 'I just mutated សួរស្តី'
+        ];
+
         $this->assertEquals($expected, $testModel->getTranslations('name'));
     }
 }
