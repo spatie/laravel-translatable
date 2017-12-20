@@ -22,7 +22,7 @@ class TranslationHasBeenSet
     {
         $this->model = $model;
 
-        $this->attributeName = $key;
+        $this->key = $key;
 
         $this->locale = $locale;
 
