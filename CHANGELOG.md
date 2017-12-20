@@ -2,8 +2,12 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 2.1.1 - 2017-12-20
+- fix event `key` attribute
+- fix support for mutators
+
 ## 2.1.0 - 2017-09-21
-- added support for setting a translation directly through the property 
+- added support for setting a translation directly through the property
 
 ## 2.0.0 - 2017-08-30
 - added support for Laravel 5.5, dropped support for all older versions
