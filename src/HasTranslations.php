@@ -108,7 +108,8 @@ trait HasTranslations
 
         if ($this->hasSetMutator($key)) {
             $method = 'set'.Str::studly($key).'Attribute';
-            $value = $this->{$method}($value);
+            $this->{$method}($value);
+            $value = $this->attributes[$key];
         }
 
         $translations[$locale] = $value;

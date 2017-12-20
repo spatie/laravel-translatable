@@ -226,9 +226,9 @@ class TranslatableTest extends TestCase
     public function it_can_use_mutators_on_translated_attributes()
     {
         $testModel = new class() extends TestModel {
-            public function setNameAttribute($value) : string
+            public function setNameAttribute($value)
             {
-                return "I just mutated {$value}";
+                $this->attributes['name'] = "I just mutated {$value}";
             }
         };
 
@@ -276,5 +276,38 @@ class TranslatableTest extends TestCase
         $this->assertTrue($this->testModel->isTranslatableAttribute('name'));
 
         $this->assertFalse($this->testModel->isTranslatableAttribute('other'));
+    }
+
+    /** @test */
+    public function it_correctly_set_a_field_when_a_mutator_is_defined()
+    {
+        $testModel = (new class() extends TestModel {
+            public function setNameAttribute($value)
+            {
+                $this->attributes['name'] = "I just mutated {$value}";
+            }
+        });
+
+        $testModel->name = 'hello';
+
+        $expected = ['en' => 'I just mutated hello'];
+        $this->assertEquals($expected, $testModel->getTranslations('name'));
+    }
+
+    /** @test */
+    public function it_can_set_multiple_translations_when_a_mutator_is_defined()
+    {
+        $testModel = (new class() extends TestModel {
+            public function setNameAttribute($value)
+            {
+                $this->attributes['name'] = "I just mutated {$value}";
+            }
+        });
+        $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
+        $testModel->setTranslations('name', $translations);
+        $testModel->save();
+
+        $expected = ['nl' => 'I just mutated hallo', 'en' => 'I just mutated hello', 'kh' => 'I just mutated សួរស្តី'];
+        $this->assertEquals($expected, $testModel->getTranslations('name'));
     }
 }
