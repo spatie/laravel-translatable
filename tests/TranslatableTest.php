@@ -340,14 +340,14 @@ class TranslatableTest extends TestCase
 
         $testModel->setTranslations('other_field', [
             'nl' => 'hallo',
-            'en' => 'hello',
+            'en' => 'hello'
         ]);
 
         $testModel->save();
 
         $expected = [
             'nl' => 'hallo wereld',
-            'en' => 'hello world',
+            'en' => 'hello world'
         ];
 
         $this->assertEquals($expected, $testModel->getTranslations('other_field'));
