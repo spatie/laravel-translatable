@@ -307,7 +307,7 @@ class TranslatableTest extends TestCase
         $translations = [
             'nl' => 'hallo',
             'en' => 'hello',
-            'kh' => 'សួរស្តី'
+            'kh' => 'សួរស្តី',
         ];
 
         $testModel->setTranslations('name', $translations);
@@ -317,7 +317,7 @@ class TranslatableTest extends TestCase
         $expected = [
             'nl' => 'I just mutated hallo',
             'en' => 'I just mutated hello',
-            'kh' => 'I just mutated សួរស្តី'
+            'kh' => 'I just mutated សួរស្តី',
         ];
 
         $this->assertEquals($expected, $testModel->getTranslations('name'));
@@ -335,19 +335,19 @@ class TranslatableTest extends TestCase
 
         $testModel->setTranslations('name', [
             'nl' => 'wereld',
-            'en' => 'world'
+            'en' => 'world',
         ]);
 
         $testModel->setTranslations('other_field', [
             'nl' => 'hallo',
-            'en' => 'hello'
+            'en' => 'hello',
         ]);
 
         $testModel->save();
 
         $expected = [
             'nl' => 'hallo wereld',
-            'en' => 'hello world'
+            'en' => 'hello world',
         ];
 
         $this->assertEquals($expected, $testModel->getTranslations('other_field'));
