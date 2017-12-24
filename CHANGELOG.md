@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 2.1.2 - 2017-12-24
+- fix for using translations within translations
+
 ## 2.1.1 - 2017-12-20
 - fix event `key` attribute
 - fix support for mutators
