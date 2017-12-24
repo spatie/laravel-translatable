@@ -322,4 +322,34 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($expected, $testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_can_translate_a_field_based_on_the_translations_of_another_one()
+    {
+        $testModel = (new class() extends TestModel {
+            public function setOtherFieldAttribute($value, $locale = 'en')
+            {
+                $this->attributes['other_field'] = $value.' '.$this->getTranslation('name', $locale);
+            }
+        });
+
+        $testModel->setTranslations('name', [
+            'nl' => 'wereld',
+            'en' => 'world'
+        ]);
+
+        $testModel->setTranslations('other_field', [
+            'nl' => 'hallo',
+            'en' => 'hello'
+        ]);
+
+        $testModel->save();
+
+        $expected = [
+            'nl' => 'hallo wereld',
+            'en' => 'hello world'
+        ];
+
+        $this->assertEquals($expected, $testModel->getTranslations('other_field'));
+    }
 }
