@@ -19,7 +19,7 @@ trait HasTranslations
             return parent::getAttributeValue($key);
         }
 
-        return $this->getTranslation($key, config('app.locale'));
+        return $this->getTranslation($key, $this->getLocale());
     }
 
     /**
@@ -38,7 +38,7 @@ trait HasTranslations
         }
         // if the attribute is translatable and not already translated (=array),
         // set a translation for the current app locale
-        return $this->setTranslation($key, config('app.locale'), $value);
+        return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
     /**
@@ -194,6 +194,11 @@ trait HasTranslations
         }
 
         return $locale;
+    }
+
+    protected function getLocale() : string
+    {
+        return config('app.locale');
     }
 
     public function getTranslatableAttributes() : array
