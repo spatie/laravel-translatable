@@ -2,8 +2,11 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
-## 2.1.3 - 2018-02-08
+## 2.1.4 - 2018-02-08
 - add support for L5.6
+
+## 2.1.3 - 2018-01-24
+- make locale handling more flexible
 
 ## 2.1.2 - 2017-12-24
 - fix for using translations within translations
