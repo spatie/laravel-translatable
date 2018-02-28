@@ -53,9 +53,9 @@ return [
 
 The required steps to make a model translatable are:
 
-- First you need to add the `Spatie\Translatable\HasTranslations`-trait.
-- Next you should create a public property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
-- Finally you should make sure that all translatable attributes are set to the `text`-datatype in your database. If your database supports `json`-columns, use that.
+- First, you need to add the `Spatie\Translatable\HasTranslations`-trait.
+- Next, you should create a public property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
+- Finally, you should make sure that all translatable attributes are set to the `text`-datatype in your database. If your database supports `json`-columns, use that.
 
 Here's an example of a prepared model:
 
@@ -251,7 +251,7 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 - [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
-We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid). Parts of the readme of [his multiligual package](https://github.com/themsaid/laravel-multilingual) were used in this readme.
+We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid). Parts of the readme of [his multilingual package](https://github.com/themsaid/laravel-multilingual) were used in this readme.
 
 ## Support us
 
