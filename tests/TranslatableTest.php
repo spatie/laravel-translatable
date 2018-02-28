@@ -352,4 +352,20 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($expected, $testModel->getTranslations('other_field'));
     }
+
+    /** @test */
+    public function it_handle_null_value_from_database()
+    {
+        $testModel = (new class() extends TestModel {
+            public function setAttributesExternally(array $attributes)
+            {
+                $this->attributes = $attributes;
+            }
+        });
+
+        $testModel->setAttributesExternally(['name' => json_encode(null), 'other_field' => null]);
+
+        $this->assertEquals('', $testModel->name);
+        $this->assertEquals('', $testModel->other_field);
+    }
 }
