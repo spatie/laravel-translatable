@@ -127,6 +127,28 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_all_translations_for_all_translatable_attributes_in_one_go()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('other_field', 'en', 'testValue_en');
+        $this->testModel->setTranslation('other_field', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'name' => [
+                'en' => 'testValue_en',
+                'fr' => 'testValue_fr',
+            ],
+            'other_field' => [
+                'en' => 'testValue_en',
+                'fr' => 'testValue_fr',
+            ]
+        ], $this->testModel->getAllTranslations());
+    }
+
+    /** @test */
     public function it_can_get_the_locales_which_have_a_translation()
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');

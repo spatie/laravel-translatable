@@ -91,6 +91,18 @@ trait HasTranslations
         return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [];
     }
 
+    public function getAllTranslations() : array
+    {
+        $translations = [];
+
+        foreach ($this->getTranslatableAttributes() as $attribute) {
+            $this->guardAgainstUntranslatableAttribute($attribute);
+            $translations[$attribute] = json_decode($this->getAttributes()[$attribute] ?? '' ?: '{}') ?: [];
+        }
+
+        return json_decode(json_encode($translations), true);
+    }
+
     /**
      * @param string $key
      * @param string $locale
