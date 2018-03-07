@@ -144,7 +144,7 @@ class TranslatableTest extends TestCase
             'other_field' => [
                 'en' => 'testValue_en',
                 'fr' => 'testValue_fr',
-            ]
+            ],
         ], $this->testModel->getAllTranslations());
     }
 
