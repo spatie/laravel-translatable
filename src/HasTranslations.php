@@ -87,14 +87,12 @@ trait HasTranslations
     public function getTranslations($key = null) : array
     {
         if ($key !== null) {
-
             $this->guardAgainstUntranslatableAttribute($key);
 
             return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [];
         }
 
         return array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
-
             $result[$item] = $this->getTranslations($item);
 
             return $result;
