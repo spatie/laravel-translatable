@@ -99,14 +99,7 @@ trait HasTranslations
         });
     }
 
-    /**
-     * @param string $key
-     * @param string $locale
-     * @param $value
-     *
-     * @return $this
-     */
-    public function setTranslation(string $key, string $locale, $value)
+    public function setTranslation(string $key, string $locale, $value): self
     {
         $this->guardAgainstUntranslatableAttribute($key);
 

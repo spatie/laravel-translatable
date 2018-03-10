@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 2.2.0 - 2018-03-09
+- made it possible to get all translations in one go
+
 ## 2.1.5 - 2018-02-28
 - better handling of `null` values
 

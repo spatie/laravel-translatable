@@ -92,10 +92,10 @@ This function has an alias named `translate`.
 
 #### Getting all translations
 
-The easiest way to get all translations for all translatable attributes at the same time is to just use the `getAllTranslations()` method:
+You can get all translations by calling `getAllTranslations()` without an argument:
 
 ```php
-$newsItem->getAllTranslations();
+$newsItem->getTranslations();
 ```
 
 #### Setting a translation
