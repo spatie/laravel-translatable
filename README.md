@@ -92,7 +92,7 @@ This function has an alias named `translate`.
 
 #### Getting all translations
 
-You can get all translations by calling `getAllTranslations()` without an argument:
+You can get all translations by calling `getTranslations()` without an argument:
 
 ```php
 $newsItem->getTranslations();
