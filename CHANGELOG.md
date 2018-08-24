@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 2.2.1 - 2018-08-24
+
+- add support for Laravel 5.7
+
 ## 2.2.0 - 2018-03-09
 - made it possible to get all translations in one go
 
