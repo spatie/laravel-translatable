@@ -219,7 +219,7 @@ Here's a quick example:
         $attributes = parent::toArray();
         
         foreach ($this->getTranslatableAttributes() as $name) {
-            if (isset($attributes[$name]) || array_key_exists($name, $attributes)) {
+            if (isset($attributes[$name])) {
                 $attributes[$name] = $this->getTranslation($name, app()->getLocale());
             }
         }
