@@ -209,6 +209,15 @@ trait HasTranslations
             : [];
     }
 
+    public function getTranslationsAttribute(): array
+    {
+        return collect($this->getTranslatableAttributes())
+            ->mapWithKeys(function (string $key) {
+                return [$key => $this->getTranslations($key)];
+            })
+            ->toArray();
+    }
+
     public function getCasts() : array
     {
         return array_merge(
