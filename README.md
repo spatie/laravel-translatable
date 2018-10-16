@@ -235,6 +235,12 @@ If you need a Laravel Nova Field for your translated models, a third party packa
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
+## Upgrading 
+
+### From v2 to v3
+
+In most cases you can upgrade without making any changes to your codebase at all. `v3` introduced a `translations` accessor on your models. If you already had one defined on your model, you'll need to rename it.
+
 ## Testing
 
 ```bash
