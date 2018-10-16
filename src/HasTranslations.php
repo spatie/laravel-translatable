@@ -10,7 +10,7 @@ trait HasTranslations
 {
     public function getAttributeValue($key)
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 
@@ -19,12 +19,13 @@ trait HasTranslations
 
     public function setAttribute($key, $value)
     {
-        // pass arrays and untranslatable attributes to the parent method
-        if (!$this->isTranslatableAttribute($key) || is_array($value)) {
+        // Pass arrays and untranslatable attributes to the parent method.
+        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
         }
-        // if the attribute is translatable and not already translated (=array),
-        // set a translation for the current app locale
+
+        // If the attribute is translatable and not already translated, set a
+        // translation for the current app locale.
         return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
@@ -61,7 +62,7 @@ trait HasTranslations
     public function getTranslations(string $key = null) : array
     {
         if ($key !== null) {
-            $this->guardAgainstUntranslatableAttribute($key);
+            $this->guardAgainstNonTranslatableAttribute($key);
 
             return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [];
         }
@@ -75,7 +76,7 @@ trait HasTranslations
 
     public function setTranslation(string $key, string $locale, $value): self
     {
-        $this->guardAgainstUntranslatableAttribute($key);
+        $this->guardAgainstNonTranslatableAttribute($key);
 
         $translations = $this->getTranslations($key);
 
@@ -83,7 +84,9 @@ trait HasTranslations
 
         if ($this->hasSetMutator($key)) {
             $method = 'set'.Str::studly($key).'Attribute';
+
             $this->{$method}($value, $locale);
+
             $value = $this->attributes[$key];
         }
 
@@ -98,7 +101,7 @@ trait HasTranslations
 
     public function setTranslations(string $key, array $translations): self
     {
-        $this->guardAgainstUntranslatableAttribute($key);
+        $this->guardAgainstNonTranslatableAttribute($key);
 
         foreach ($translations as $locale => $translation) {
             $this->setTranslation($key, $locale, $translation);
@@ -137,9 +140,9 @@ trait HasTranslations
         return in_array($key, $this->getTranslatableAttributes());
     }
 
-    protected function guardAgainstUntranslatableAttribute(string $key)
+    protected function guardAgainstNonTranslatableAttribute(string $key)
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
     }
@@ -150,11 +153,11 @@ trait HasTranslations
             return $locale;
         }
 
-        if (!$useFallbackLocale) {
+        if (! useFallbackLocale) {
             return $locale;
         }
 
-        if (!is_null($fallbackLocale = config('translatable.fallback_locale'))) {
+        if (! s_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
