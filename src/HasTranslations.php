@@ -209,7 +209,7 @@ trait HasTranslations
             : [];
     }
 
-    public function getTranslationsAttribute()
+    public function getTranslationsAttribute(): array
     {
         return collect($this->getTranslatableAttributes())
             ->mapWithKeys(function (string $key) {
