@@ -98,6 +98,12 @@ You can get all translations by calling `getTranslations()` without an argument:
 $newsItem->getTranslations();
 ```
 
+Or you can use the accessor
+
+```php
+$yourModel->translations
+```
+
 #### Setting a translation
 The easiest way to set a translation for the current locale is to just set the property for a translatable attribute.
 For example (given that `name` is a translatable attribute):
@@ -198,33 +204,6 @@ This will allow you to query these columns like this:
 
 ```php
 NewsItem::where('name->en', 'Name in English')->get();
-```
-
-### Using translations in json responses
-
-The easiest way to add translations to json reponse is to override the `toArray` method on your model.
-
-Here's a quick example:
-
-``` php
-// in your model
-
-    /**
-     * Convert the model instance to an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $attributes = parent::toArray();
-        
-        foreach ($this->getTranslatableAttributes() as $name) {
-            $attributes[$name] = $this->getTranslation($name, app()->getLocale());
-        }
-        
-        return $attributes;
-    }
-}
 ```
 
 ## Laravel Nova
