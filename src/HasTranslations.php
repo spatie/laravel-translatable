@@ -10,7 +10,7 @@ trait HasTranslations
 {
     public function getAttributeValue($key)
     {
-        if (! $this->isTranslatableAttribute($key)) {
+        if (!$this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 
@@ -20,7 +20,7 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
-        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
+        if (!$this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
         }
 
@@ -142,7 +142,7 @@ trait HasTranslations
 
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
-        if (! $this->isTranslatableAttribute($key)) {
+        if (!$this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
     }
@@ -153,11 +153,11 @@ trait HasTranslations
             return $locale;
         }
 
-        if (! useFallbackLocale) {
+        if (!useFallbackLocale) {
             return $locale;
         }
 
-        if (! s_null($fallbackLocale = config('translatable.fallback_locale'))) {
+        if (!s_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
