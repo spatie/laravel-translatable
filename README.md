@@ -244,7 +244,7 @@ In most cases you can upgrade without making any changes to your codebase at all
 ## Testing
 
 ```bash
-$ composer test
+composer test
 ```
 
 ## Contributing
