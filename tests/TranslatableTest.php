@@ -400,7 +400,7 @@ class TranslatableTest extends TestCase
         $this->testModel->save();
 
         $this->assertEquals([
-           'name' => ['nl' => 'hallo', 'en' => 'hello'],
+           'name'        => ['nl' => 'hallo', 'en' => 'hello'],
            'other_field' => [],
         ], $this->testModel->translations);
     }
