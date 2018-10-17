@@ -153,11 +153,11 @@ trait HasTranslations
             return $locale;
         }
 
-        if (! useFallbackLocale) {
+        if (! $useFallbackLocale) {
             return $locale;
         }
 
-        if (! s_null($fallbackLocale = config('translatable.fallback_locale'))) {
+        if (! is_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
