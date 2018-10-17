@@ -404,4 +404,16 @@ class TranslatableTest extends TestCase
            'other_field' => [],
         ], $this->testModel->translations);
     }
+
+    /** @test */
+    public function it_will_return_fallback_locale_translation_when_getting_an_empty_translation_from_the_locale()
+    {
+        $this->app['config']->set('laravel-translatable.fallback_locale', 'en');
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'nl', null);
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'nl'));
+    }
 }
