@@ -2,9 +2,8 @@
 
 namespace Spatie\Translatable\Test;
 
-use File;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Translatable\TranslatableServiceProvider;
 
