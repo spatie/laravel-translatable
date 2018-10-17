@@ -64,7 +64,7 @@ trait HasTranslations
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
 
-            return json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [];
+            return array_filter(json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: []);
         }
 
         return array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
