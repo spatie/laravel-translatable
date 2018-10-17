@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 3.0.1 - 2018-09-18
+
+- fix regarding empty locales
+
 ## 3.0.0 - 2018-09-16
 
 - added `translations` accessor
