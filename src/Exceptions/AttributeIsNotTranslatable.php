@@ -9,8 +9,8 @@ class AttributeIsNotTranslatable extends Exception
 {
     public static function make(string $key, Model $model)
     {
-        $translatable = implode(', ', $model->getTranslatableAttributes());
+        $translatableAttributes = implode(', ', $model->getTranslatableAttributes());
 
-        return new static("Cannot translate attribute `{$key}` as it's not one of the translatable attributes: `$translatable`");
+        return new static("Cannot translate attribute `{$key}` as it's not one of the translatable attributes: `$translatableAttributes`");
     }
 }

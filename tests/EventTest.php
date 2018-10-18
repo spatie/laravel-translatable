@@ -6,7 +6,7 @@ use Spatie\Translatable\Events\TranslationHasBeenSet;
 
 class EventTest extends TestCase
 {
-    /** @var \Spatie\Translatable\Test\TestModell */
+    /** @var \Spatie\Translatable\Test\TestModel */
     protected $testModel;
 
     public function setUp()

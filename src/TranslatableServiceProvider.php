@@ -8,7 +8,6 @@ class TranslatableServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // Publish a config file
         $this->publishes([
             __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
         ], 'config');
