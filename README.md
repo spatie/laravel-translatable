@@ -206,10 +206,6 @@ This will allow you to query these columns like this:
 NewsItem::where('name->en', 'Name in English')->get();
 ```
 
-## Laravel Nova
-
-If you need a Laravel Nova Field for your translated models, a third party package can be used: [mrmonat/nova-translatable](https://github.com/mrmonat/nova-translatable)
-
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
