@@ -313,7 +313,7 @@ class TranslatableTest extends TestCase
     {
         $translations = [
             'nl' => ['testValue_1_nl', 'testValue_2_nl'],
-            'en' => ['testValue_1_en', 'testValue_2_en']
+            'en' => ['testValue_1_en', 'testValue_2_en'],
         ];
 
         $this->testModel->setTranslations('array_field', $translations);
@@ -329,7 +329,7 @@ class TranslatableTest extends TestCase
         $this->testModel->save();
 
         $this->assertEquals([
-            $this->app->getLocale() => ['testValue_1', 'testValue_2']
+            $this->app->getLocale() => ['testValue_1', 'testValue_2'],
         ], $this->testModel->getTranslations('array_field'));
     }
 
