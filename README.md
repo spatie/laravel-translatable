@@ -165,6 +165,19 @@ $translations = [
 $newsItem->setTranslations('name', $translations);
 ```
 
+You can also set all translations in one go by setting the value of the respective propery to an array containing all translations.
+
+**Note: This does not work if the attribute has a cast to `array` declared. In that case, you will always set the translation for the current locale, when setting the property directly.**
+
+Example:
+
+``` php
+$newsItem->name = [
+   'en' => 'Name in English',
+   'nl' => 'Naam in het Nederlands'
+];
+```
+
 ### Events
 
 #### TranslationHasBeenSet
