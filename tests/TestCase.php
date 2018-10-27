@@ -27,6 +27,7 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->text('name')->nullable();
             $table->text('other_field')->nullable();
+            $table->text('array_field')->nullable();
         });
     }
 }

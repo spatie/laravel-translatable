@@ -81,6 +81,15 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_save_a_translated_attribute_that_is_cast_to_array()
+    {
+        $this->testModel->setTranslation('array_field', 'en', ['testValue_1_en', 'testValue_2_en']);
+        $this->testModel->save();
+
+        $this->assertSame(['testValue_1_en', 'testValue_2_en'], $this->testModel->array_field);
+    }
+
+    /** @test */
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
@@ -134,6 +143,9 @@ class TranslatableTest extends TestCase
 
         $this->testModel->setTranslation('other_field', 'en', 'testValue_en');
         $this->testModel->setTranslation('other_field', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('array_field', 'en', ['testValue_1_en', 'testValue_2_en']);
+        $this->testModel->setTranslation('array_field', 'fr', ['testValue_1_fr', 'testValue_2_fr']);
         $this->testModel->save();
 
         $this->assertSame([
@@ -144,6 +156,10 @@ class TranslatableTest extends TestCase
             'other_field' => [
                 'en' => 'testValue_en',
                 'fr' => 'testValue_fr',
+            ],
+            'array_field' => [
+                'en' => ['testValue_1_en', 'testValue_2_en'],
+                'fr' => ['testValue_1_fr', 'testValue_2_fr'],
             ],
         ], $this->testModel->getTranslations());
     }
@@ -293,6 +309,31 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_set_multiple_translations_at_once_on_an_attribute_with_array_cast()
+    {
+        $translations = [
+            'nl' => ['testValue_1_nl', 'testValue_2_nl'],
+            'en' => ['testValue_1_en', 'testValue_2_en']
+        ];
+
+        $this->testModel->setTranslations('array_field', $translations);
+        $this->testModel->save();
+
+        $this->assertEquals($translations, $this->testModel->getTranslations('array_field'));
+    }
+
+    /** @test */
+    public function it_can_not_set_multiple_translations_at_once_on_an_attribute_with_array_cast_when_directly_setting_the_property()
+    {
+        $this->testModel->array_field = ['testValue_1', 'testValue_2'];
+        $this->testModel->save();
+
+        $this->assertEquals([
+            $this->app->getLocale() => ['testValue_1', 'testValue_2']
+        ], $this->testModel->getTranslations('array_field'));
+    }
+
+    /** @test */
     public function it_can_check_if_an_attribute_is_translatable()
     {
         $this->assertTrue($this->testModel->isTranslatableAttribute('name'));
@@ -402,6 +443,7 @@ class TranslatableTest extends TestCase
         $this->assertEquals([
            'name' => ['nl' => 'hallo', 'en' => 'hello'],
            'other_field' => [],
+           'array_field' => [],
         ], $this->testModel->translations);
     }
 

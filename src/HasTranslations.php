@@ -20,7 +20,9 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
-        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
+        if (! $this->isTranslatableAttribute($key) ||
+            (is_array($value) && ! $this->shouldCastToArray($key))
+        ) {
             return parent::setAttribute($key, $value);
         }
 
@@ -29,12 +31,19 @@ trait HasTranslations
         return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
+    protected function shouldCastToArray(string $attribute): bool
+    {
+        $originalCasts = parent::getCasts($attribute);
+
+        return array_key_exists($attribute, $originalCasts) && $originalCasts[$attribute] === 'array';
+    }
+
     public function translate(string $key, string $locale = ''): string
     {
         return $this->getTranslation($key, $locale);
     }
 
-    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): string
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
     {
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 

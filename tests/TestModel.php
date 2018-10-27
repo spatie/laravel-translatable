@@ -12,7 +12,10 @@ class TestModel extends Model
     protected $table = 'test_models';
 
     protected $guarded = [];
+    protected $casts = [
+        'array_field' => 'array',
+    ];
     public $timestamps = false;
 
-    public $translatable = ['name', 'other_field'];
+    public $translatable = ['name', 'other_field', 'array_field'];
 }
