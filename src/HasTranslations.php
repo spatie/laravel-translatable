@@ -92,7 +92,10 @@ trait HasTranslations
 
         $translations[$locale] = $value;
 
-        $this->attributes[$key] = $this->asJson($translations);
+		if (config('translatable.unescaped_unicode'))
+			$this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_UNICODE);
+		else
+			$this->attributes[$key] = $this->asJson($translations);
 
         event(new TranslationHasBeenSet($this, $key, $locale, $oldValue, $value));
 

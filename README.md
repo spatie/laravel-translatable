@@ -45,6 +45,7 @@ This is the contents of the published file:
 ```php
 return [
   'fallback_locale' => 'en',
+  'unescaped_unicode' => false,
 ];
 ```
 
