@@ -34,7 +34,7 @@ trait HasTranslations
         return $this->getTranslation($key, $locale);
     }
 
-    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): string
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
     {
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
