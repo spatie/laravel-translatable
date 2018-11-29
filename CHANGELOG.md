@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 3.1.0 - 2018-11-29
+
+- allow `getTranslations` to return other things than strings
+
 ## 3.0.1 - 2018-09-18
 
 - fix regarding empty locales
