@@ -416,4 +416,37 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'nl'));
     }
+
+    /** @test */
+    public function it_will_return_correct_translation_value_if_value_is_set_to_zero()
+    {
+        $this->testModel->setTranslation('name', 'nl', '0');
+        $this->testModel->save();
+
+        $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
+    }
+
+    /** @test */
+    public function it_will_not_return_fallback_value_if_value_is_set_to_zero()
+    {
+        $this->app['config']->set('translatable.fallback_locale', 'en');
+
+        $this->testModel->setTranslation('name', 'en', '1');
+        $this->testModel->setTranslation('name', 'nl', '0');
+        $this->testModel->save();
+
+        $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
+    }
+
+    /** @test */
+    public function it_will_not_remove_zero_value_of_other_locale_in_database()
+    {
+        $this->app['config']->set('translatable.fallback_locale', 'en');
+
+        $this->testModel->setTranslation('name', 'nl', '0');
+        $this->testModel->setTranslation('name', 'en', '1');
+        $this->testModel->save();
+
+        $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
+    }
 }
