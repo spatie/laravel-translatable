@@ -159,7 +159,7 @@ trait HasTranslations
             return $locale;
         }
 
-        if (! is_null($fallbackLocale = config('translatable.fallback_locale'))) {
+        if (! is_null($fallbackLocale = config('app.fallback_locale'))) {
             return $fallbackLocale;
         }
 
