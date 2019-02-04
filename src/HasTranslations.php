@@ -142,6 +142,16 @@ trait HasTranslations
         return in_array($key, $this->getTranslatableAttributes());
     }
 
+    public function hasTranslation($key, $locale = null)
+    {
+        $locale = $locale ?: $this->getLocale();
+        if (isset($this->getTranslations($key)[$locale])) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
         if (! $this->isTranslatableAttribute($key)) {
