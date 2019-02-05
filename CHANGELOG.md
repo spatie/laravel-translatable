@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 3.1.2 - 2019-01-05
+
+- add `hasTranslation`
+
 ## 3.1.1 - 2018-12-18
 
 - allow 0 to be used as a translation value
