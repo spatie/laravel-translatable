@@ -301,6 +301,18 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_check_if_an_attribute_has_translation()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'nl', null);
+        $this->testModel->save();
+
+        $this->assertTrue($this->testModel->hasTranslation('name', 'en'));
+
+        $this->assertFalse($this->testModel->hasTranslation('name', 'pt'));
+    }
+
+    /** @test */
     public function it_can_correctly_set_a_field_when_a_mutator_is_defined()
     {
         $testModel = (new class() extends TestModel {
