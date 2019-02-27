@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.1.0 - 2019-02-27
+
+- drop support for Laravel 5.7 and below
+- drop support for PHP 7.1 and below
+
 ## 4.0.0 - 2019-02-27
 
 - `app.fallback_local` will now be used (see #148)
