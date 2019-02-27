@@ -9,7 +9,7 @@ class TranslatableTest extends TestCase
     /** @var \Spatie\Translatable\Test\TestModel */
     protected $testModel;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
