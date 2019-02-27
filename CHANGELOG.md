@@ -2,6 +2,8 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+
+
 ## 4.1.0 - 2019-02-27
 
 - drop support for Laravel 5.7 and below
