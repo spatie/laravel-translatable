@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 3.1.3 - 2019-02-27
+
+- add support for Laravel 5.8
+
 ## 3.1.2 - 2019-01-05
 
 - add `hasTranslation`
