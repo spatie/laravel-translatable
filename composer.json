@@ -59,7 +59,6 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Translatable\\TranslatableServiceProvider"
             ]
         }
     }
