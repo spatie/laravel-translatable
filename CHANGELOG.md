@@ -2,7 +2,9 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.1.1 - 2019-02-27
 
+- fix service provider error
 
 ## 4.1.0 - 2019-02-27
 
