@@ -176,7 +176,7 @@ You can immediately set translations when creating a model. Here's an example:
 ```php
 NewsItem::create([
    'name' => [
-      'en' => 'Name in English'
+      'en' => 'Name in English',
       'nl' => 'Naam in het Nederlands'
    ],
 ]);
