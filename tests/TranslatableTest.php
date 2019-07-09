@@ -461,4 +461,18 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
     }
+
+    /** @test */
+    public function it_will_store_unescaped_unicode_in_database()
+    {
+        $this->app['config']->set('app.fallback_locale', 'en');
+        $this->app['config']->set('translatable.unescaped_unicode', true);
+
+        $this->testModel->setTranslation('name', 'zh', '空间');
+        $this->testModel->save();
+
+        $this->assertDatabaseHas('test_models', ['name' => '{"zh":"空间"}']);
+        $this->assertDatabaseMissing('test_models', ['name' => '{"zh":"\u7a7a\u95f4"}']);
+    }
+
 }
