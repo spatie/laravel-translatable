@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.1.4 - 2019-08-28
+
+- re-added the `translatable.fallback_local` config which overrule `app.fallback_local` (see https://github.com/spatie/laravel-translatable/issues/170)
+
 ## 4.1.3 - 2019-06-16
 
 - improve dependencies
