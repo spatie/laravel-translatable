@@ -167,6 +167,10 @@ trait HasTranslations
             return $locale;
         }
 
+        if (! is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
+            return $fallbackLocale;
+        }
+
         if (! is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
             return $fallbackLocale;
         }
