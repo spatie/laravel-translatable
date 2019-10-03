@@ -30,9 +30,9 @@ trait HasTranslations
         return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
-    public function translate(string $key, string $locale = ''): string
+    public function translate(string $key, string $locale = '', bool $useFallbackLocale = true): string
     {
-        return $this->getTranslation($key, $locale);
+        return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
