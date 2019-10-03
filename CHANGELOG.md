@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.2.1 - 2019-10-03
+
+- add third param to translate method (#177)
+
 ## 4.2.0 - 2019-09-04
 
 - make compatible with Laravel 6
