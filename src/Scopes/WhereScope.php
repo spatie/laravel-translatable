@@ -2,8 +2,8 @@
 
 namespace Spatie\Translatable\Scopes;
 
-use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
 class WhereScope implements Scope
@@ -11,13 +11,13 @@ class WhereScope implements Scope
     /**
      * Apply the scope to a given Eloquent query builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Builder $builder
+     * @param  \Illuminate\Database\Eloquent\Model $model
      * @return void
      */
     public function apply(Builder $builder, Model $model)
     {
-        $newQuery = $this->changeQuery($builder , $model);
+        $newQuery = $this->changeQuery($builder, $model);
 
         $builder->setQuery($newQuery);
     }
@@ -37,8 +37,8 @@ class WhereScope implements Scope
 
         $newArr = [];
         foreach ($wheres as $key => $where) {
-            if (method_exists($this , "iterateOn" . $where['type'])) {
-                $newArr[] = $this->{"iterateOn" . $where['type']}($where , $translatableColumns , $locale);
+            if (method_exists($this, "iterateOn" . $where['type'])) {
+                $newArr[] = $this->{"iterateOn" . $where['type']}($where, $translatableColumns, $locale);
             } else {
                 $newArr[] = $where;
             }
@@ -57,13 +57,13 @@ class WhereScope implements Scope
      * @param $locale
      * @return mixed
      */
-    private function iterateOnBasic($where , $translatableColumns , $locale)
+    private function iterateOnBasic($where, $translatableColumns, $locale)
     {
         if (
-            array_key_exists('column' , $where) &&
-            in_array($where['column'] , $translatableColumns)
+            array_key_exists('column', $where) &&
+            in_array($where['column'], $translatableColumns)
         ) {
-            $where['column'] = explode('->' , $where['column'])[0] . "->{$locale}";
+            $where['column'] = explode('->', $where['column'])[0] . "->{$locale}";
         }
 
         return $where;
@@ -75,15 +75,15 @@ class WhereScope implements Scope
      * @param $locale
      * @return mixed
      */
-    private function iterateOnNested($where , $translatableColumns , $locale)
+    private function iterateOnNested($where, $translatableColumns, $locale)
     {
         $nestedQuery = $where['query'];
         $nestedWheres = $nestedQuery->wheres;
         $newNestedArr = [];
         foreach ($nestedWheres as $nestedWhere) {
 
-            if (method_exists($this , "iterateOn" . $nestedWhere['type'])) {
-                $newNestedArr [] = $this->{"iterateOn" . $nestedWhere['type']}($nestedWhere , $translatableColumns , $locale);
+            if (method_exists($this, "iterateOn" . $nestedWhere['type'])) {
+                $newNestedArr [] = $this->{"iterateOn" . $nestedWhere['type']}($nestedWhere, $translatableColumns, $locale);
             }
         }
 

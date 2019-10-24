@@ -26,7 +26,7 @@ trait HasTranslations
      */
     public function getAttributeValue($key)
     {
-        if (! $this->isTranslatableAttribute($key)) {
+        if (!$this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 
@@ -41,7 +41,7 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
-        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
+        if (!$this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
         }
 
@@ -106,7 +106,7 @@ trait HasTranslations
      * @param string|null $key
      * @return array
      */
-    public function getTranslations(string $key = null) : array
+    public function getTranslations(string $key = null): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
@@ -138,7 +138,7 @@ trait HasTranslations
         $oldValue = $translations[$locale] ?? '';
 
         if ($this->hasSetMutator($key)) {
-            $method = 'set'.Str::studly($key).'Attribute';
+            $method = 'set' . Str::studly($key) . 'Attribute';
 
             $this->{$method}($value, $locale);
 
@@ -203,7 +203,7 @@ trait HasTranslations
      * @param string $key
      * @return array
      */
-    public function getTranslatedLocales(string $key) : array
+    public function getTranslatedLocales(string $key): array
     {
         return array_keys($this->getTranslations($key));
     }
@@ -212,7 +212,7 @@ trait HasTranslations
      * @param string $key
      * @return bool
      */
-    public function isTranslatableAttribute(string $key) : bool
+    public function isTranslatableAttribute(string $key): bool
     {
         return in_array($key, $this->getTranslatableAttributes());
     }
@@ -234,7 +234,7 @@ trait HasTranslations
      */
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
-        if (! $this->isTranslatableAttribute($key)) {
+        if (!$this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);
         }
     }
@@ -245,21 +245,21 @@ trait HasTranslations
      * @param bool $useFallbackLocale
      * @return string
      */
-    protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale) : string
+    protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale): string
     {
         if (in_array($locale, $this->getTranslatedLocales($key))) {
             return $locale;
         }
 
-        if (! $useFallbackLocale) {
+        if (!$useFallbackLocale) {
             return $locale;
         }
 
-        if (! is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
+        if (!is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
-        if (! is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
+        if (!is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
             return $fallbackLocale;
         }
 
@@ -269,7 +269,7 @@ trait HasTranslations
     /**
      * @return string
      */
-    protected function getLocale() : string
+    protected function getLocale(): string
     {
         return Config::get('app.locale');
     }
@@ -277,7 +277,7 @@ trait HasTranslations
     /**
      * @return array
      */
-    public function getTranslatableAttributes() : array
+    public function getTranslatableAttributes(): array
     {
         return is_array($this->translatable)
             ? $this->translatable
@@ -299,7 +299,7 @@ trait HasTranslations
     /**
      * @return array
      */
-    public function getCasts() : array
+    public function getCasts(): array
     {
         return array_merge(
             parent::getCasts(),
