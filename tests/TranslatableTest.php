@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable\Test;
 
+use Illuminate\Support\Str;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 class TranslatableTest extends TestCase
@@ -474,5 +475,16 @@ class TranslatableTest extends TestCase
         $this->testModel->save();
 
         $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
+    }
+
+    /** @test */
+    public function it_will_add_locale_to_query_automatically()
+    {
+        $locale = 'en';
+        app()->setLocale($locale);
+
+        $modelQuery = TestModel::where('name' , 'LIKE' , "%test%")->toSql();
+
+        $this->assertTrue(Str::contains($modelQuery , "'$.\"{$locale}\"'"));
     }
 }
