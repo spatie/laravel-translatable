@@ -9,6 +9,10 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
+    /**
+     * @param $key
+     * @return string
+     */
     public function getAttributeValue($key)
     {
         if (! $this->isTranslatableAttribute($key)) {
@@ -18,6 +22,11 @@ trait HasTranslations
         return $this->getTranslation($key, $this->getLocale());
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return HasTranslations
+     */
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
@@ -30,11 +39,23 @@ trait HasTranslations
         return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @param bool $useFallbackLocale
+     * @return string
+     */
     public function translate(string $key, string $locale = '', bool $useFallbackLocale = true): string
     {
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @param bool $useFallbackLocale
+     * @return string
+     */
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
     {
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
@@ -50,16 +71,30 @@ trait HasTranslations
         return $translation;
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @return string
+     */
     public function getTranslationWithFallback(string $key, string $locale): string
     {
         return $this->getTranslation($key, $locale, true);
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @return string
+     */
     public function getTranslationWithoutFallback(string $key, string $locale)
     {
         return $this->getTranslation($key, $locale, false);
     }
 
+    /**
+     * @param string|null $key
+     * @return array
+     */
     public function getTranslations(string $key = null) : array
     {
         if ($key !== null) {
@@ -77,6 +112,12 @@ trait HasTranslations
         });
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @param $value
+     * @return HasTranslations
+     */
     public function setTranslation(string $key, string $locale, $value): self
     {
         $this->guardAgainstNonTranslatableAttribute($key);
@@ -102,6 +143,11 @@ trait HasTranslations
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @param array $translations
+     * @return HasTranslations
+     */
     public function setTranslations(string $key, array $translations): self
     {
         $this->guardAgainstNonTranslatableAttribute($key);
@@ -113,6 +159,11 @@ trait HasTranslations
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @return HasTranslations
+     */
     public function forgetTranslation(string $key, string $locale): self
     {
         $translations = $this->getTranslations($key);
@@ -124,6 +175,10 @@ trait HasTranslations
         return $this;
     }
 
+    /**
+     * @param string $locale
+     * @return HasTranslations
+     */
     public function forgetAllTranslations(string $locale): self
     {
         collect($this->getTranslatableAttributes())->each(function (string $attribute) use ($locale) {
@@ -133,16 +188,29 @@ trait HasTranslations
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return array
+     */
     public function getTranslatedLocales(string $key) : array
     {
         return array_keys($this->getTranslations($key));
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     public function isTranslatableAttribute(string $key) : bool
     {
         return in_array($key, $this->getTranslatableAttributes());
     }
 
+    /**
+     * @param string $key
+     * @param string|null $locale
+     * @return bool
+     */
     public function hasTranslation(string $key, string $locale = null): bool
     {
         $locale = $locale ?: $this->getLocale();
@@ -150,6 +218,9 @@ trait HasTranslations
         return isset($this->getTranslations($key)[$locale]);
     }
 
+    /**
+     * @param string $key
+     */
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
         if (! $this->isTranslatableAttribute($key)) {
@@ -157,6 +228,12 @@ trait HasTranslations
         }
     }
 
+    /**
+     * @param string $key
+     * @param string $locale
+     * @param bool $useFallbackLocale
+     * @return string
+     */
     protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale) : string
     {
         if (in_array($locale, $this->getTranslatedLocales($key))) {
@@ -178,11 +255,17 @@ trait HasTranslations
         return $locale;
     }
 
+    /**
+     * @return string
+     */
     protected function getLocale() : string
     {
         return Config::get('app.locale');
     }
 
+    /**
+     * @return array
+     */
     public function getTranslatableAttributes() : array
     {
         return is_array($this->translatable)
@@ -190,6 +273,9 @@ trait HasTranslations
             : [];
     }
 
+    /**
+     * @return array
+     */
     public function getTranslationsAttribute(): array
     {
         return collect($this->getTranslatableAttributes())
@@ -199,6 +285,9 @@ trait HasTranslations
             ->toArray();
     }
 
+    /**
+     * @return array
+     */
     public function getCasts() : array
     {
         return array_merge(
