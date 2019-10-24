@@ -487,4 +487,15 @@ class TranslatableTest extends TestCase
 
         $this->assertTrue(Str::contains($modelQuery , "'$.\"{$locale}\"'"));
     }
+    /** @test */
+    public function it_will_add_locale_to_query_automatically_and_will_returns_result()
+    {
+        TestModel::create([
+            'name' => ['en' => 'testValue_en'],
+        ]);
+
+        $count = TestModel::where('name' , 'LIKE' , "%test%")->count();
+
+        $this->assertEquals(1 , $count);
+    }
 }
