@@ -18,6 +18,14 @@ class TranslationHasBeenSet
     public $oldValue;
     public $newValue;
 
+    /**
+     * TranslationHasBeenSet constructor.
+     * @param Model $model
+     * @param string $key
+     * @param string $locale
+     * @param $oldValue
+     * @param $newValue
+     */
     public function __construct(Model $model, string $key, string $locale, $oldValue, $newValue)
     {
         $this->model = $model;
