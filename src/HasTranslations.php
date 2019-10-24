@@ -4,11 +4,22 @@ namespace Spatie\Translatable;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Spatie\Translatable\Scopes\WhereScope;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function bootHasTranslations()
+    {
+        static::addGlobalScope(new WhereScope);
+    }
+
     /**
      * @param $key
      * @return string
