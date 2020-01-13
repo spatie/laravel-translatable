@@ -3,7 +3,6 @@
 namespace Spatie\Translatable\Exceptions;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 
 class AttributeIsNotTranslatable extends Exception
 {
