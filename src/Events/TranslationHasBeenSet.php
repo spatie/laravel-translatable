@@ -18,7 +18,7 @@ class TranslationHasBeenSet
     public $oldValue;
     public $newValue;
 
-    public function __construct(Model $model, string $key, string $locale, $oldValue, $newValue)
+    public function __construct($model, string $key, string $locale, $oldValue, $newValue)
     {
         $this->model = $model;
 
