@@ -2,8 +2,6 @@
 
 namespace Spatie\Translatable\Events;
 
-use Illuminate\Database\Eloquent\Model;
-
 class TranslationHasBeenSet
 {
     /** @var \Spatie\Translatable\Translatable */
