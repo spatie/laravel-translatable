@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.2.2 - 2019-01-20
+
+- open up for non-model objects (#186)
+
 ## 4.2.1 - 2019-10-03
 
 - add third param to translate method (#177)
