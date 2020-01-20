@@ -2,8 +2,8 @@
 
 namespace Spatie\Translatable;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
@@ -60,7 +60,7 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, false);
     }
 
-    public function getTranslations(string $key = null) : array
+    public function getTranslations(string $key = null): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
@@ -133,12 +133,12 @@ trait HasTranslations
         return $this;
     }
 
-    public function getTranslatedLocales(string $key) : array
+    public function getTranslatedLocales(string $key): array
     {
         return array_keys($this->getTranslations($key));
     }
 
-    public function isTranslatableAttribute(string $key) : bool
+    public function isTranslatableAttribute(string $key): bool
     {
         return in_array($key, $this->getTranslatableAttributes());
     }
@@ -157,7 +157,7 @@ trait HasTranslations
         }
     }
 
-    protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale) : string
+    protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale): string
     {
         if (in_array($locale, $this->getTranslatedLocales($key))) {
             return $locale;
@@ -178,12 +178,12 @@ trait HasTranslations
         return $locale;
     }
 
-    protected function getLocale() : string
+    protected function getLocale(): string
     {
         return Config::get('app.locale');
     }
 
-    public function getTranslatableAttributes() : array
+    public function getTranslatableAttributes(): array
     {
         return is_array($this->translatable)
             ? $this->translatable
@@ -199,7 +199,7 @@ trait HasTranslations
             ->toArray();
     }
 
-    public function getCasts() : array
+    public function getCasts(): array
     {
         return array_merge(
             parent::getCasts(),
