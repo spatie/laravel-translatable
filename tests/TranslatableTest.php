@@ -234,7 +234,7 @@ class TranslatableTest extends TestCase
     public function it_is_compatible_with_accessors_on_non_translatable_attributes()
     {
         $testModel = new class() extends TestModel {
-            public function getOtherFieldAttribute() : string
+            public function getOtherFieldAttribute(): string
             {
                 return 'accessorName';
             }
@@ -247,7 +247,7 @@ class TranslatableTest extends TestCase
     public function it_can_use_accessors_on_translated_attributes()
     {
         $testModel = new class() extends TestModel {
-            public function getNameAttribute($value) : string
+            public function getNameAttribute($value): string
             {
                 return "I just accessed {$value}";
             }
@@ -426,8 +426,8 @@ class TranslatableTest extends TestCase
         $this->testModel->save();
 
         $this->assertEquals([
-           'name' => ['nl' => 'hallo', 'en' => 'hello'],
-           'other_field' => [],
+            'name' => ['nl' => 'hallo', 'en' => 'hello'],
+            'other_field' => [],
         ], $this->testModel->translations);
     }
 
