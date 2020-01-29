@@ -82,7 +82,7 @@ $newsItem->name;
 You can also use this method:
 
 ```php
-public function getTranslation(string $attributeName, string $locale) : string
+public function getTranslation(string $attributeName, string $locale, bool $useFallbackLocale = true) : string
 ```
 
 This function has an alias named `translate`.
