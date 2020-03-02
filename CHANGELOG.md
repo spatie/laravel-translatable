@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
-## 4.2.2 - 2019-01-20
+## 4.3.0 - 2020-03-02
+
+- add support for Laravel 7
+
+## 4.2.2 - 2020-01-20
 
 - open up for non-model objects (#186)
 
