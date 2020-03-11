@@ -167,11 +167,11 @@ trait HasTranslations
             return $locale;
         }
 
-        if (! is_null($fallbackLocale = Config::get('translatable.fallback_locale'))) {
+        if (! is_null($fallbackLocale = config('translatable.fallback_locale'))) {
             return $fallbackLocale;
         }
 
-        if (! is_null($fallbackLocale = Config::get('app.fallback_locale'))) {
+        if (! is_null($fallbackLocale = config('app.fallback_locale'))) {
             return $fallbackLocale;
         }
 
@@ -180,7 +180,7 @@ trait HasTranslations
 
     protected function getLocale(): string
     {
-        return Config::get('app.locale');
+        return config('app.locale');
     }
 
     public function getTranslatableAttributes(): array
