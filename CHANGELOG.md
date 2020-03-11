@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.3.1 - 2020-03-07
+
+- Lumen fix (#201)
+
 ## 4.3.0 - 2020-03-02
 
 - add support for Laravel 7
