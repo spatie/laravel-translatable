@@ -117,9 +117,12 @@ trait HasTranslations
     {
         $translations = $this->getTranslations($key);
 
-        unset($translations[$locale]);
+        unset(
+            $translations[$locale],
+            $this->$key
+        );
 
-        $this->setAttribute($key, $translations);
+        $this->setTranslations($key, $translations);
 
         return $this;
     }
