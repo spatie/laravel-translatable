@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.3.2 - 2020-04-30
+
+- fix `forgetTranslation` & `forgetAllTranslations` on fields with mutator (#205)
+
 ## 4.3.1 - 2020-03-07
 
 - Lumen fix (#201)
