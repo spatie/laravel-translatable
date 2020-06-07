@@ -18,6 +18,19 @@ trait HasTranslations
         return $this->getTranslation($key, $this->getLocale());
     }
 
+    public function getRawOriginal($key)
+    {
+        if (! $this->isTranslatableAttribute($key)) {
+            //laravel 7 changed getOriginal to getRawOriginal
+            if(\method_exists(parent::class, 'getRawOriginal'))
+                return parent::getRawOriginal($key);
+            else
+                return parent::getOriginal($key);
+        }
+
+        return $this->getRawOriginalTranslation($key, $this->getLocale());
+    }
+
     public function setAttribute($key, $value)
     {
         // Pass arrays and untranslatable attributes to the parent method.
@@ -35,13 +48,20 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
-    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
-    {
+    public function getRawOriginalTranslation(string $key, string $locale, bool $useFallbackLocale = true){
+
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
         $translations = $this->getTranslations($key);
 
         $translation = $translations[$locale] ?? '';
+
+        return $translation;
+    }
+
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
+    {
+        $translation = $this->getRawOriginalTranslation($key, $locale, $useFallbackLocale);
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
