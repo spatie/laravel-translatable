@@ -48,8 +48,8 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
-    public function getRawOriginalTranslation(string $key, string $locale, bool $useFallbackLocale = true){
-
+    public function getRawOriginalTranslation(string $key, string $locale, bool $useFallbackLocale = true)
+    {
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
         $translations = $this->getTranslations($key);
