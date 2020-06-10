@@ -24,7 +24,7 @@ trait HasTranslations
             return Arr::get($this->original, $key, $default);
         }
 
-        if (! $this->isTranslatableAttribute($key) ) {
+        if (! $this->isTranslatableAttribute($key)) {
             return Arr::get($this->original, $key, $default);
         }
 
@@ -48,7 +48,8 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
-    public function getRawOriginalTranslation(string $key, string $locale, bool $useFallbackLocale = true){
+    public function getRawOriginalTranslation(string $key, string $locale, bool $useFallbackLocale = true)
+    {
 
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
