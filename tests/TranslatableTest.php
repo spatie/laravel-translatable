@@ -410,6 +410,21 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_set_multiple_translations_on_field_when_a_mutator_is_defined()
+    {
+        $translations = [
+            'nl' => 'hallo',
+            'en' => 'hello',
+        ];
+
+        $testModel = TestModel::make();
+        $testModel->field_with_mutator = $translations;
+        $testModel->save();
+        
+        $this->assertEquals($translations, $testModel->getTranslations('field_with_mutator'));
+    }
+
+    /** @test */
     public function it_can_translate_a_field_based_on_the_translations_of_another_one()
     {
         $testModel = (new class() extends TestModel {

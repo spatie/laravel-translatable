@@ -19,7 +19,11 @@ trait HasTranslations
     }
 
     public function setAttribute($key, $value)
-    {
+    {   
+        if ($this->isTranslatableAttribute($key) && is_array($value)) {
+            return $this->setTranslations($key, $value);
+        }
+
         // Pass arrays and untranslatable attributes to the parent method.
         if (! $this->isTranslatableAttribute($key) || is_array($value)) {
             return parent::setAttribute($key, $value);
