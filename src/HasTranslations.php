@@ -19,7 +19,7 @@ trait HasTranslations
     }
 
     public function setAttribute($key, $value)
-    {   
+    {
         if ($this->isTranslatableAttribute($key) && is_array($value)) {
             return $this->setTranslations($key, $value);
         }

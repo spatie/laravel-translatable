@@ -420,7 +420,7 @@ class TranslatableTest extends TestCase
         $testModel = TestModel::make();
         $testModel->field_with_mutator = $translations;
         $testModel->save();
-        
+
         $this->assertEquals($translations, $testModel->getTranslations('field_with_mutator'));
     }
 
