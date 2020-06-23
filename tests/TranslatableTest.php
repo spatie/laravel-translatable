@@ -417,10 +417,10 @@ class TranslatableTest extends TestCase
             'en' => 'hello',
         ];
 
-        $testModel = TestModel::make();
+        $testModel = $this->testModel;
         $testModel->field_with_mutator = $translations;
         $testModel->save();
-        
+
         $this->assertEquals($translations, $testModel->getTranslations('field_with_mutator'));
     }
 
