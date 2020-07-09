@@ -219,6 +219,12 @@ This will allow you to query these columns like this:
 NewsItem::where('name->en', 'Name in English')->get();
 ```
 
+Or if you're using MariaDB 10.2.3 or above :
+```php
+NewsItem::whereRaw("JSON_EXTRACT(name, '$.en') = 'Name in English'")->get();
+```
+
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
