@@ -119,6 +119,12 @@ For example (given that `name` is a translatable attribute):
 $newsItem->name = 'New translation';
 ```
 
+Also you can set tranlations with
+
+```php
+$newItem->name = ['en' => 'myName', 'nl', 'Naam in het Nederlands'];
+```
+
 To set a translation for a specific locale you can use this method:
 
 ``` php
