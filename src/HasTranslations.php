@@ -17,7 +17,7 @@ trait HasTranslations
 
         return $this->getTranslation($key, $this->getLocale());
     }
-    
+
     public function attributesToArray()
     {
         $translatedAttributes = collect($this->getTranslatableAttributes())
