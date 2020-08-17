@@ -17,6 +17,17 @@ trait HasTranslations
 
         return $this->getTranslation($key, $this->getLocale());
     }
+    
+    public function attributesToArray()
+    {
+        $translatedAttributes = collect($this->getTranslatableAttributes())
+            ->mapWithKeys(function (string $key) {
+                return [$key => $this->getAttributeValue($key)];
+            })
+            ->toArray();
+
+        return array_merge(parent::attributesToArray(), $translatedAttributes);
+    }
 
     public function setAttribute($key, $value)
     {
