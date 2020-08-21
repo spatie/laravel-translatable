@@ -119,7 +119,7 @@ For example (given that `name` is a translatable attribute):
 $newsItem->name = 'New translation';
 ```
 
-Also you can set tranlations with
+Also you can set translations with
 
 ```php
 $newItem->name = ['en' => 'myName', 'nl' => 'Naam in het Nederlands'];
