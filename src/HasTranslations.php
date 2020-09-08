@@ -174,7 +174,7 @@ trait HasTranslations
             return $locale;
         }
 
-        if(! is_null($fallbackLocale = $this->localFallbackLocale)) {
+        if (!is_null($fallbackLocale = $this->localFallbackLocale)) {
             return $fallbackLocale;
         }
 
