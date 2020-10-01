@@ -2,7 +2,6 @@
 
 namespace Spatie\Translatable;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
@@ -14,11 +13,7 @@ trait HasTranslations
 
     public static function withLocale(string $locale): self
     {
-        $m = new self();
-
-        $m->locale = $locale;
-
-        return $m;
+        return (new self())->setLocale($locale);
     }
 
     public function getAttributeValue($key)
@@ -197,9 +192,16 @@ trait HasTranslations
         return $locale;
     }
 
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function getLocale(): string
     {
-        return $this->locale ?: App::getLocale();
+        return $this->locale ?: config('app.locale');
     }
 
     public function getTranslatableAttributes(): array

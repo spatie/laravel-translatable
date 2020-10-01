@@ -178,6 +178,27 @@ $translations = [
 $newsItem->setTranslations('name', $translations);
 ```
 
+### Setting the model locale
+The default locale used to translate models is the application locale,
+however it can sometimes be handy to use a custom locale.  
+
+To do so, you can use `setLocale` on a model instance.
+``` php
+$newsItem = NewsItem::firstOrFail()->setLocale('fr');
+
+// Any properties on this model will automaticly be translated in French
+$newsItem->name; // Will return `fr` translation
+$newsItem->name = 'Actualité'; // Will set the `fr` translation
+```
+
+Alternatively, you can use `withLocale` static method:
+``` php
+// Will automatically set the `fr` translation
+$newsItem = NewsItem::withLocale('fr')->create([
+    'name' => 'Actualité',
+]);
+```
+
 ### Events
 
 #### TranslationHasBeenSet
