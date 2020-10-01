@@ -178,7 +178,7 @@ $translations = [
 $newsItem->setTranslations('name', $translations);
 ```
 
-### Setting the model locale
+#### Setting the model locale
 The default locale used to translate models is the application locale,
 however it can sometimes be handy to use a custom locale.  
 
