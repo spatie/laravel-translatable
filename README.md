@@ -189,10 +189,10 @@ $newsItem->name; // Will return `fr` translation
 $newsItem->name = 'Actualité'; // Will set the `fr` translation
 ```
 
-Alternatively, you can use `withLocale` static method:
+Alternatively, you can use `usingLocale` static method:
 ``` php
 // Will automatically set the `fr` translation
-$newsItem = NewsItem::withLocale('fr')->create([
+$newsItem = NewsItem::usingLocale('fr')->create([
     'name' => 'Actualité',
 ]);
 ```

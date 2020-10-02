@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.4.3 - 2020-10-2
+
+- rename `withLocale` to `usingLocale`
+
 ## 4.4.2 - 2020-10-02
 
 - elegant syntax update (#229)

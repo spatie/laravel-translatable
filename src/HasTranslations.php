@@ -11,7 +11,7 @@ trait HasTranslations
 {
     protected $translationLocale = null;
 
-    public static function withLocale(string $locale): self
+    public static function usingLocale(string $locale): self
     {
         return (new self())->setLocale($locale);
     }

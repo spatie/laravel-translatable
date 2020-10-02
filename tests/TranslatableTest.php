@@ -536,7 +536,7 @@ class TranslatableTest extends TestCase
     {
         $value = 'World';
 
-        $this->testModel = TestModel::withLocale('en')->fill([
+        $this->testModel = TestModel::usingLocale('en')->fill([
             'name' => $value,
         ]);
         $this->testModel->save();
