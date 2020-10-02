@@ -9,7 +9,7 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
-    protected $locale = null;
+    protected $translationLocale = null;
 
     public static function withLocale(string $locale): self
     {
@@ -194,14 +194,14 @@ trait HasTranslations
 
     public function setLocale(string $locale): self
     {
-        $this->locale = $locale;
+        $this->translationLocale = $locale;
 
         return $this;
     }
 
     public function getLocale(): string
     {
-        return $this->locale ?: config('app.locale');
+        return $this->translationLocale ?: config('app.locale');
     }
 
     public function getTranslatableAttributes(): array
