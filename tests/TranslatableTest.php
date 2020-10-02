@@ -530,4 +530,36 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('0', $this->testModel->getTranslation('name', 'nl'));
     }
+
+    /** @test */
+    public function it_can_be_translated_based_on_given_locale()
+    {
+        $value = 'World';
+
+        $this->testModel = TestModel::withLocale('en')->fill([
+            'name' => $value,
+        ]);
+        $this->testModel->save();
+
+        $this->assertSame($value, $this->testModel->getTranslation('name', 'en'));
+    }
+
+    /** @test */
+    public function it_can_set_and_fetch_attributes_based_on_set_locale()
+    {
+        $en = 'World';
+        $fr = 'Monde';
+
+        $this->testModel->setLocale('en');
+        $this->testModel->name = $en;
+        $this->testModel->setLocale('fr');
+        $this->testModel->name = $fr;
+
+        $this->testModel->save();
+
+        $this->testModel->setLocale('en');
+        $this->assertSame($en, $this->testModel->name);
+        $this->testModel->setLocale('fr');
+        $this->assertSame($fr, $this->testModel->name);
+    }
 }
