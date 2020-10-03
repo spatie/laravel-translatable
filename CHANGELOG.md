@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.5.0 2020-10-03
+
+- add replaceTranslations method (#231)
+
 ## 4.4.3 - 2020-10-2
 
 - rename `withLocale` to `usingLocale`
