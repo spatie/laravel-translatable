@@ -562,4 +562,18 @@ class TranslatableTest extends TestCase
         $this->testModel->setLocale('fr');
         $this->assertSame($fr, $this->testModel->name);
     }
+
+    /** @test */
+    public function it_can_replace_translations()
+    {
+        $translations = ['nl' => 'hallo', 'en' => 'hello', 'kh' => 'សួរស្តី'];
+
+        $this->testModel->setTranslations('name', $translations);
+        $this->testModel->save();
+
+        $newTranslations = ['es' => 'hola'];
+        $this->testModel->replaceTranslations('name', $newTranslations);
+
+        $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
+    }
 }

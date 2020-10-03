@@ -164,6 +164,17 @@ trait HasTranslations
         return isset($this->getTranslations($key)[$locale]);
     }
 
+    public function replaceTranslations(string $key, array $translations): self
+    {
+        foreach ($this->getTranslatedLocales($key) as $locale) {
+            $this->forgetTranslation($key, $locale);
+        }
+
+        $this->setTranslations($key, $translations);
+
+        return $this;
+    }
+
     protected function guardAgainstNonTranslatableAttribute(string $key)
     {
         if (! $this->isTranslatableAttribute($key)) {
