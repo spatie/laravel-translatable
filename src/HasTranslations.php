@@ -235,7 +235,7 @@ trait HasTranslations
     {
         return array_merge(
             parent::getCasts(),
-            array_fill_keys($this->getTranslatableAttributes(), 'string')
+            array_fill_keys($this->getTranslatableAttributes(), 'array')
         );
     }
 }
