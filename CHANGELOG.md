@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.5.1 - 2020-10-22
+
+- use string casting for translatable columns (#235)
+
 ## 4.5.0 2020-10-03
 
 - add replaceTranslations method (#231)
