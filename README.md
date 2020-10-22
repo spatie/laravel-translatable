@@ -49,7 +49,28 @@ This is the contents of the published file:
 ```php
 return [
   'fallback_locale' => 'en',
+  'first_if_empty' => false,
 ];
+```
+
+The empty string will be returned if the translation is not available for current or fallback locale. For example:
+
+```php
+$newsItem = new NewsItem; // This is an Eloquent model
+$newsItem
+   ->setTranslation('name', 'en', '')
+   ->setTranslation('name', 'nl', 'Naam in het Nederlands')
+   ->save();
+   
+$newsItem->name; // Returns '' given that the current app locale and fallback locale is 'en'
+```
+
+In this case you may want to get the first available translation in any locale. Just set `first_if_empty` to `true` in your configuration file for use this behavior:
+
+```php
+config('translatable.first_if_empty', true);
+
+$newsItem->name; // Returns ' in het Nederlands'
 ```
 
 ## Making a model translatable

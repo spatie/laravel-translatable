@@ -576,4 +576,19 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_takes_first_translation_if_empty()
+    {
+        $translations = ['en' => '', 'ru' => 'привет'];
+
+        $this->testModel->setTranslations('name', $translations);
+        $this->testModel->save();
+
+        $this->assertEquals('', $this->testModel->name);
+        
+        $this->app['config']->set('translatable.first_if_empty', true);
+
+        $this->assertEquals('привет', $this->testModel->name);
+    }
 }

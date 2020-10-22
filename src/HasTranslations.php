@@ -54,6 +54,10 @@ trait HasTranslations
 
         $translation = $translations[$locale] ?? '';
 
+        if ($translation === '' && config('translatable.first_if_empty', false)) {
+            $translation = head($translations) ?: '';
+        }
+
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
         }
