@@ -263,6 +263,35 @@ Or if you're using MariaDB 10.2.3 or above :
 NewsItem::whereRaw("JSON_EXTRACT(name, '$.en') = 'Name in English'")->get();
 ```
 
+### Automatically display the right translation when displaying model
+
+Many times models using `HasTranslation` trait may be directly returned as response content.
+In this scenario, and similar ones, the `toArray()` method on `Model` class is called under the hood to serialize your model; it accesses directly the $attributes field to perform the serialization, bypassing the translatable feature (which is based on accessors and mutators) and returning the text representation of the stored JSON instead of the translated value.
+
+The best way to make your model automatically return translated fields is to wrap `Spatie\Translatable\HasTranslations` trait into a custom trait which overrides the `toArray()` method to automatically replace all translatable fields content with their translated value, like in the following example, and use it instead of the default one.
+
+``` php
+namespace App\Traits;
+use Spatie\Translatable\HasTranslations as BaseHasTranslations;
+trait HasTranslations
+{
+    use BaseHasTranslations;
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $attributes = parent::toArray();
+        foreach ($this->getTranslatableAttributes() as $field) {
+            $attributes[$field] = $this->getTranslation($field, \App::getLocale());
+        }
+        return $attributes;
+    }
+}
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
