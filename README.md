@@ -51,16 +51,18 @@ return [
   'fallback_locale' => 'en',
 ];
 ```
-Fallback locale might also be an array of fallback locales as such
+Fallback locale might also be an array of fallback locales as such:
 ```php
 return [
   'fallback_locale' => [
-    'defult' => 'en',
+    'default' => 'en',  
     'es' => 'en',
     'ca' => ['es', 'en']
   ],
 ];
 ```
+The array key shall contain the language codes, and values can either be a string of a language code or an array of language codes.
+The special `default` key holds the default fallback locale code that will be used when there is no declared fallback rule for the queried language.
 
 ## Making a model translatable
 
