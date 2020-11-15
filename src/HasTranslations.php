@@ -196,13 +196,16 @@ trait HasTranslations
             if (is_array($fallbackLocale)) {
                 if (array_key_exists($locale, $fallbackLocale)) {
                     if (is_array($fallbackLocale[$locale])) {
-                        return array_intersect($translatedLocales, $fallbackLocale[$locale])[0] ?? $fallbackLocale['default'] ?? config('app.fallback_locale') ?? $locale;
+                        return array_values(array_intersect($fallbackLocale[$locale], $translatedLocales ?? []))[0] ?? $locale;
                     } else {
-                        return $fallbackLocale[$locale];
+                        return $fallbackLocale[$locale] ?? $locale;
                     }
+                } else if(array_key_exists('default', $fallbackLocale)) {
+                    return $fallbackLocale['default'] ?? $locale;
+                } else {
+                    return $locale;
                 }
             }
-
             return $fallbackLocale;
         }
 

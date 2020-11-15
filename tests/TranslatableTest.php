@@ -29,6 +29,49 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_will_return_package_fallback_locale_translation_when_getting_an_unknown_or_empty_locale()
+    {
+        $this->app['config']->set('translatable.fallback_locale', [
+          'default' => 'en',
+          'es' => 'en',
+          'nl' => ['de', 'en', 'es'],
+          'ca' => ['es', 'en'],
+          'pt' => ['es'],
+          'eu' => null,
+        ]);
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'nl', 'testValue_nl');
+        $this->testModel->save();
+
+        // With default fallback
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'en'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'de'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'es'));
+        $this->assertSame('testValue_nl', $this->testModel->getTranslation('name', 'nl'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'ca'));
+        $this->assertSame('', $this->testModel->getTranslation('name', 'pt'));
+        $this->assertSame('', $this->testModel->getTranslation('name', 'eu'));
+
+        // Without default fallback
+        $this->app['config']->set('translatable.fallback_locale', [
+            'es' => 'en',
+            'nl' => ['de', 'en', 'es'],
+            'ca' => ['es', 'en'],
+            'pt' => ['es'],
+            'eu' => null,
+        ]);
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'en'));
+        $this->assertSame('', $this->testModel->getTranslation('name', 'de'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'es'));
+        $this->assertSame('testValue_nl', $this->testModel->getTranslation('name', 'nl'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'ca'));
+        $this->assertSame('', $this->testModel->getTranslation('name', 'pt'));
+        $this->assertSame('', $this->testModel->getTranslation('name', 'eu'));
+    }
+
+    /** @test */
     public function it_will_return_default_fallback_locale_translation_when_getting_an_unknown_locale()
     {
         $this->app['config']->set('app.fallback_locale', 'en');
