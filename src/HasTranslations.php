@@ -193,7 +193,7 @@ trait HasTranslations
         }
 
         if (! is_null($fallbackLocale = config('translatable.fallback_locale'))) {
-            if (is_array($locale)) {
+            if (is_array($fallbackLocale)) {
                 if (array_key_exists($locale, $fallbackLocale)) {
                     if (is_array($fallbackLocale[$locale])) {
                         return array_intersect($translatedLocales, $fallbackLocale[$locale])[0] ?? $fallbackLocale['default'] ?? config('app.fallback_locale') ?? $locale;
