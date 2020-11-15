@@ -51,6 +51,16 @@ return [
   'fallback_locale' => 'en',
 ];
 ```
+Fallback locale might also be an array of fallback locales as such
+```php
+return [
+  'fallback_locale' => [
+    'defult' => 'en',
+    'es' => 'en',
+    'ca' => ['es', 'en']
+  ],
+];
+```
 
 ## Making a model translatable
 
