@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 4.6.0 - 2020-11-19
+
+- add support for PHP 8.0 (#241)
+- drop support for Laravel 5.8 (#241)
+
 ## 4.5.2 - 2020-10-22
 
 - revert #235
