@@ -238,4 +238,16 @@ trait HasTranslations
             array_fill_keys($this->getTranslatableAttributes(), 'array')
         );
     }
+
+    public function cloneTranslated(string $locale = '', bool $useFallbackLocale = true): self
+    {
+        $clone = clone $this;
+        $clone->translatable = [];
+
+        collect($this->getTranslatableAttributes())->each(function (string $attribute) use ($clone, $locale, $useFallbackLocale) {
+            $clone->$attribute = $this->getTranslation($attribute, $locale, $useFallbackLocale);
+        });
+
+        return $clone;
+    }
 }

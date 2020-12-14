@@ -576,4 +576,20 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_can_clone_and_translate()
+    {
+        $model = TestModel::create([
+            'name' => [
+                'en' => 'hello',
+                'fr' => 'coucou'
+            ]
+        ]);
+
+        $clonedModel = $model->cloneTranslated('fr');
+        $this->assertSame('coucou', $clonedModel->name);
+        $this->assertSame('hello', $model->getTranslation('name', 'en'));
+        $this->assertSame('coucou', $model->getTranslation('name', 'fr'));
+    }
 }
