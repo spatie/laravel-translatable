@@ -9,14 +9,14 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
-    protected $translationLocale = null;
+    protected string | null $translationLocale = null;
 
     public static function usingLocale(string $locale): self
     {
         return (new self())->setLocale($locale);
     }
 
-    public function getAttributeValue($key)
+    public function getAttributeValue($key): mixed
     {
         if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
@@ -46,7 +46,7 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
 
-    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true)
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
         $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
@@ -66,7 +66,7 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, true);
     }
 
-    public function getTranslationWithoutFallback(string $key, string $locale)
+    public function getTranslationWithoutFallback(string $key, string $locale): mixed
     {
         return $this->getTranslation($key, $locale, false);
     }
@@ -76,9 +76,10 @@ trait HasTranslations
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
 
-            return array_filter(json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [], function ($value) {
-                return $value !== null && $value !== '';
-            });
+            return array_filter(
+                json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
+                fn ($value) => $value !== null && $value !== ''
+            );
         }
 
         return array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
@@ -175,7 +176,7 @@ trait HasTranslations
         return $this;
     }
 
-    protected function guardAgainstNonTranslatableAttribute(string $key)
+    protected function guardAgainstNonTranslatableAttribute(string $key): void
     {
         if (! $this->isTranslatableAttribute($key)) {
             throw AttributeIsNotTranslatable::make($key, $this);

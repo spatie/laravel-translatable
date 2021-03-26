@@ -2,19 +2,15 @@
 
 namespace Spatie\Translatable;
 
-use Illuminate\Support\ServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class TranslatableServiceProvider extends ServiceProvider
+class TranslatableServiceProvider extends PackageServiceProvider
 {
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        $this->publishes([
-            __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
-        ], 'config');
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/translatable.php', 'translatable');
+        $package
+            ->name('laravel-translatable')
+            ->hasConfigFile();
     }
 }

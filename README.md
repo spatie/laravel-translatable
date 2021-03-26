@@ -36,12 +36,12 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 You can install the package via composer:
 
-``` bash
+```bash
 composer require spatie/laravel-translatable
 ```
 
 If you want to have another fallback_locale than the app fallback locale (see `config/app.php`), you could publish the config file:
-```
+```bash
 php artisan vendor:publish --provider="Spatie\Translatable\TranslatableServiceProvider"
 ```
 
@@ -62,7 +62,7 @@ The required steps to make a model translatable are:
 
 Here's an example of a prepared model:
 
-``` php
+```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
