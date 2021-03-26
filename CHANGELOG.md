@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
-## 5.0.0 - unreleased
+## 5.0.0 - 2021-03-26
 
 - require PHP 8+
 - convert syntax to PHP 8
