@@ -2,8 +2,8 @@
 
 namespace Spatie\Translatable;
 
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class TranslatableServiceProvider extends PackageServiceProvider
 {

@@ -2,15 +2,14 @@
 
 namespace Spatie\Translatable\Events;
 
-use Spatie\Translatable\Translatable;
-
 class TranslationHasBeenSet
 {
-    public function __construct(public mixed $model,
-                                public string $key,
-                                public string $locale,
-                                public mixed $oldValue,
-                                public mixed $newValue,
+    public function __construct(
+        public mixed $model,
+        public string $key,
+        public string $locale,
+        public mixed $oldValue,
+        public mixed $newValue,
     ) {
         //
     }
