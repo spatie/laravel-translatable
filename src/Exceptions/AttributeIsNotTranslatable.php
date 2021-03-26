@@ -6,7 +6,7 @@ use Exception;
 
 class AttributeIsNotTranslatable extends Exception
 {
-    public static function make(string $key, $model)
+    public static function make(string $key, $model): static
     {
         $translatableAttributes = implode(', ', $model->getTranslatableAttributes());
 
