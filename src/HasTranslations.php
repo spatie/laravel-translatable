@@ -41,7 +41,7 @@ trait HasTranslations
         return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
-    public function translate(string $key, string $locale = '', bool $useFallbackLocale = true): string
+    public function translate(string $key, string $locale = '', bool $useFallbackLocale = true): mixed
     {
         return $this->getTranslation($key, $locale, $useFallbackLocale);
     }
@@ -61,7 +61,7 @@ trait HasTranslations
         return $translation;
     }
 
-    public function getTranslationWithFallback(string $key, string $locale): string
+    public function getTranslationWithFallback(string $key, string $locale): mixed
     {
         return $this->getTranslation($key, $locale, true);
     }
