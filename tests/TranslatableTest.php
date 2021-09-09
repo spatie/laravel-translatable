@@ -576,4 +576,22 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_will_save_empty_attributes_as_json_in_the_database_by_default()
+    {
+        app()->setLocale('en');
+        $this->testModel->name=null;
+        $this->testModel->save();
+        $this->assertDatabaseHas('test_models',['name'=>'{"en":null}']);
+    }
+
+    /** @test */
+    public function it_will_save_empty_attributes_as_null_in_the_database_when_it_is_configured_to()
+    {
+        config(['translatable.save_empty_attributes_as_null'=>true]);
+        $this->testModel->name=null;
+        $this->testModel->save();
+        $this->assertDatabaseHas('test_models',['name'=>null]);
+    }
 }

@@ -107,7 +107,12 @@ trait HasTranslations
 
         $translations[$locale] = $value;
 
-        $this->attributes[$key] = $this->asJson($translations);
+        if(!config('translatable.save_empty_attributes_as_null') || count($translations)>1 || $value===0 || $value!=''){
+            $this->attributes[$key] = $this->asJson($translations);
+        }
+        else{
+            $this->attributes[$key] = null;
+        }
 
         event(new TranslationHasBeenSet($this, $key, $locale, $oldValue, $value));
 
