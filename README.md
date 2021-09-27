@@ -15,7 +15,7 @@ $newsItem
    ->setTranslation('name', 'en', 'Name in English')
    ->setTranslation('name', 'nl', 'Naam in het Nederlands')
    ->save();
-   
+
 $newsItem->name; // Returns 'Name in English' given that the current app locale is 'en'
 $newsItem->getTranslation('name', 'nl'); // returns 'Naam in het Nederlands'
 
@@ -69,7 +69,7 @@ use Spatie\Translatable\HasTranslations;
 class NewsItem extends Model
 {
     use HasTranslations;
-    
+
     public $translatable = ['name'];
 }
 ```
@@ -157,6 +157,12 @@ public function forgetAllTranslations(string $locale)
 public function getTranslations(string $attributeName): array
 ```
 
+#### Getting the specified translations in one go
+
+``` php
+public function getTranslations(string $attributeName, array $locales): array
+```
+
 #### Setting translations in one go
 
 ``` php
@@ -198,7 +204,7 @@ $newsItem->getTranslations(); // ['en' => 'hello']
 
 #### Setting the model locale
 The default locale used to translate models is the application locale,
-however it can sometimes be handy to use a custom locale.  
+however it can sometimes be handy to use a custom locale.
 
 To do so, you can use `setLocale` on a model instance.
 ``` php
@@ -296,7 +302,7 @@ trait HasTranslations
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
-## Upgrading 
+## Upgrading
 
 ### From v2 to v3
 
