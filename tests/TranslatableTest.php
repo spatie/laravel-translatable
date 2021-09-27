@@ -141,6 +141,18 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_specified_translations_in_one_go()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'en' => 'testValue_en',
+        ], $this->testModel->getTranslations('name', ['en']));
+    }
+
+    /** @test */
     public function it_can_get_all_translations_for_all_translatable_attributes_in_one_go()
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -167,6 +179,26 @@ class TranslatableTest extends TestCase
                 'fr' => 'testValue_fr',
             ],
         ], $this->testModel->getTranslations());
+    }
+
+    /** @test */
+    public function it_can_get_specified_translations_for_all_translatable_attributes_in_one_go()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('other_field', 'en', 'testValue_en');
+        $this->testModel->setTranslation('other_field', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
+        $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'name' => ['en' => 'testValue_en'],
+            'other_field' => ['en' => 'testValue_en'],
+            'field_with_mutator' => ['en' => 'testValue_en'],
+        ], $this->testModel->getTranslations(null, ['en']));
     }
 
     /** @test */

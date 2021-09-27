@@ -71,19 +71,20 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, false);
     }
 
-    public function getTranslations(string $key = null): array
+    public function getTranslations(string $key = null, array $locales = null): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
 
             return array_filter(
                 json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
-                fn ($value) => $value !== null && $value !== ''
+                fn ($value, $locale) => $value !== null && $value !== '' && ($locales === null || in_array($locale, $locales ?? [])),
+                ARRAY_FILTER_USE_BOTH
             );
         }
 
-        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
-            $result[$item] = $this->getTranslations($item);
+        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) use ($locales) {
+            $result[$item] = $this->getTranslations($item, $locales);
 
             return $result;
         });
