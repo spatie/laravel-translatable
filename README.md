@@ -159,9 +159,24 @@ public function getTranslations(string $attributeName): array
 
 #### Getting the specified translations in one go
 
+You can filter the translations by passing an array of locales:
 ``` php
-public function getTranslations(string $attributeName, array $locales): array
+public function getTranslations(string $attributeName, array $allowedLocales): array
 ```
+
+Here's an example:
+
+```php
+$translations = [
+    'en' => 'Hello',
+    'fr' => 'Bonjour',
+    'de' => 'Hallo',
+];
+
+$newsItem->setTranslations('hello', $translations);
+$newsItem->getTranslations('hello', ['en', 'fr']); // returns ['en' => 'Hello', 'fr' => 'Bonjour']
+```
+
 
 #### Setting translations in one go
 
