@@ -71,19 +71,20 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, false);
     }
 
-    public function getTranslations(string $key = null): array
+    public function getTranslations(string $key = null, array $allowedLocales = null): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
 
             return array_filter(
                 json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
-                fn ($value) => $value !== null && $value !== ''
+                fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales),
+                ARRAY_FILTER_USE_BOTH
             );
         }
 
-        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
-            $result[$item] = $this->getTranslations($item);
+        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) use ($allowedLocales) {
+            $result[$item] = $this->getTranslations($item, $allowedLocales);
 
             return $result;
         });
@@ -202,6 +203,27 @@ trait HasTranslations
         }
 
         return $locale;
+    }
+
+    protected function filterTranslations(string $value = null, string $locale = null, array $allowedLocales = null): bool
+    {
+        if ($value === null) {
+            return false;
+        }
+
+        if ($value === '') {
+            return false;
+        }
+
+        if ($allowedLocales === null) {
+            return true;
+        }
+
+        if (! in_array($locale, $allowedLocales)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function setLocale(string $locale): self
