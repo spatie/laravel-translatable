@@ -205,7 +205,7 @@ trait HasTranslations
         return $locale;
     }
 
-    protected function filterTranslations(string $value = null, string $locale = null, array $allowedLocales = null): bool
+    protected function filterTranslations(mixed $value = null, string $locale = null, array $allowedLocales = null): bool
     {
         if ($value === null) {
             return false;
