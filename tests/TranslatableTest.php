@@ -231,6 +231,52 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_can_forget_all_translations_of_field()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'en' => 'testValue_en',
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('name'));
+
+        $this->testModel->forgetTranslations('name');
+
+        $this->assertSame('[]', $this->testModel->getAttributes()['name']);
+        $this->assertSame([], $this->testModel->getTranslations('name'));
+
+        $this->testModel->save();
+
+        $this->assertSame('[]', $this->testModel->fresh()->getAttributes()['name']);
+        $this->assertSame([], $this->testModel->fresh()->getTranslations('name'));
+    }
+
+    /** @test */
+    public function it_can_forget_all_translations_of_field_and_make_field_null()
+    {
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->save();
+
+        $this->assertSame([
+            'en' => 'testValue_en',
+            'fr' => 'testValue_fr',
+        ], $this->testModel->getTranslations('name'));
+
+        $this->testModel->forgetTranslations('name', true);
+
+        $this->assertNull($this->testModel->getAttributes()['name']);
+        $this->assertSame([], $this->testModel->getTranslations('name'));
+
+        $this->testModel->save();
+
+        $this->assertNull($this->testModel->fresh()->getAttributes()['name']);
+        $this->assertSame([], $this->testModel->fresh()->getTranslations('name'));
+    }
+
+    /** @test */
     public function it_can_forget_a_field_with_mutator_translation()
     {
         $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
