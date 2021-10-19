@@ -608,4 +608,22 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
     }
+
+    /** @test */
+    public function it_can_use_aliases()
+    {
+        $translations = ['de' => 'Welt', 'en' => 'World'];
+
+        $this->testModel->setTranslations('name', $translations);
+        $this->testModel->save();
+
+        $this->app['config']->set('translatable.fallback_locale', 'en');
+
+        // Will use the fallback locale
+        $this->assertEquals('World', $this->testModel->getTranslation('name', 'deutsch'));
+
+        $this->app['config']->set('translatable.aliases.deutsch', 'de');
+
+        $this->assertEquals('Welt', $this->testModel->getTranslation('name', 'deutsch'));
+    }
 }

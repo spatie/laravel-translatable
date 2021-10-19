@@ -186,6 +186,8 @@ trait HasTranslations
 
     protected function normalizeLocale(string $key, string $locale, bool $useFallbackLocale): string
     {
+        $locale = config("translatable.aliases.$locale", $locale);
+
         if (in_array($locale, $this->getTranslatedLocales($key))) {
             return $locale;
         }

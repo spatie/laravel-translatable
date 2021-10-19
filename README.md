@@ -313,6 +313,35 @@ trait HasTranslations
 }
 ```
 
+### Using aliases
+
+Sometimes clients of your app might use locale names that do not match
+the names you use on e.g. the web. An example might be having an iOS client
+and using the OS locale to get translated model attributes from your API.
+
+You can easily add aliases via the configuration:
+
+```php
+// config/translatable.php
+return [
+    // ...
+    'locales' => [
+        'de' => 'German',
+        'en' => 'English'
+    ],
+    
+    'aliases' => [
+        'de-DE' => 'de',
+        'en-US' => 'en',
+        'en-GB' => 'en'
+    ],
+];
+```
+
+After adding the aliases to your configuration when requesting a translation
+for the `de-DE` locale your app will properly return the translations for your
+internal `de` locale.
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
