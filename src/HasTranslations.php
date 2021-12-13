@@ -27,8 +27,18 @@ trait HasTranslations
 
     public function setAttribute($key, $value)
     {
-        if ($this->isTranslatableAttribute($key) && is_array($value)) {
-            return $this->setTranslations($key, $value);
+        if ($this->isTranslatableAttribute($key)) {
+            // Pragmatic approach to check if the passed value is a map of 
+            // translations or just any JSON object. The regular expression
+            // simply checks if all the keys look like locales.
+            // See: https://newbedev.com/regex-to-detect-locales
+            $isTranslationMap = is_array($value) && collect($value)->every(function ($value, $key) {
+              return preg_match('/^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$/', $key);
+            });
+
+            if ($isTranslationMap) {
+              return $this->setTranslations($key, $value);
+            }
         }
 
         // Pass arrays and untranslatable attributes to the parent method.
