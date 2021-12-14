@@ -624,35 +624,35 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_can_translate_json_fields()
     {
-        $en = [ 'text' => 'hello' ];
-        $this->testModel->json_field = $en;
+        $englishTranslation = [ 'text' => 'hello' ];
+        $this->testModel->json_field = $englishTranslation;
         $this->testModel->save();
 
         $this->assertEquals($this->testModel->json_field, $this->testModel->getTranslations('json_field')['en']);
 
-        $de = [ 'text' => 'hallo' ];
+        $germanTranslation = [ 'text' => 'hallo' ];
         $this->testModel->setLocale('de');
-        $this->testModel->json_field = $de;
+        $this->testModel->json_field = $germanTranslation;
         $this->testModel->save();
 
-        $this->assertEquals([ 'en' => $en, 'de' => $de ], $this->testModel->getTranslations('json_field'));
+        $this->assertEquals([ 'en' => $englishTranslation, 'de' => $germanTranslation ], $this->testModel->getTranslations('json_field'));
 
         $translations = ['nl' => [ 'text' => 'hallo' ], 'kh' => [ 'text' => 'សួរស្តី' ]];
         $this->testModel->setTranslations('json_field', $translations);
         $this->testModel->save();
 
-        $this->assertEquals(array_merge($translations, [  'en' => $en, 'de' => $de ]), $this->testModel->getTranslations('json_field'));
+        $this->assertEquals(array_merge($translations, [  'en' => $englishTranslation, 'de' => $germanTranslation ]), $this->testModel->getTranslations('json_field'));
 
         $newTranslations = ['es' => [ 'text' => 'hola' ]];
         $this->testModel->replaceTranslations('json_field', $newTranslations);
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('json_field'));
 
-        $fr = [ 'text' => 'bonjour' ];
-        $it = [ 'text' => 'ciao' ];
-        $this->testModel->json_field = [ 'fr-FR' => $fr, 'it_IT' => $it ];
+        $frenchTranslation = [ 'text' => 'bonjour' ];
+        $italianTranslation = [ 'text' => 'ciao' ];
+        $this->testModel->json_field = [ 'fr-FR' => $frenchTranslation, 'it_IT' => $italianTranslation ];
         $this->testModel->save();
 
-        $this->assertEquals(array_merge([ 'fr-FR' => $fr, 'it_IT' => $it ], $newTranslations), $this->testModel->getTranslations('json_field'));
+        $this->assertEquals(array_merge([ 'fr-FR' => $frenchTranslation, 'it_IT' => $italianTranslation ], $newTranslations), $this->testModel->getTranslations('json_field'));
     }
 }

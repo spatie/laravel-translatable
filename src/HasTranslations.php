@@ -29,13 +29,7 @@ trait HasTranslations
     public function setAttribute($key, $value)
     {
         if ($this->isTranslatableAttribute($key)) {
-            // Pragmatic approach to check if the passed value is a map of 
-            // translations or just any JSON object.
-            $isTranslationMap = is_array($value) && collect($value)->every(function ($value, $key) {
-              return Locale::getDisplayName($key) !== $key;
-            });
-
-            if ($isTranslationMap) {
+            if ($this->isTranslationMap($value)) {
               return $this->setTranslations($key, $value);
             }
         }
@@ -269,5 +263,17 @@ trait HasTranslations
             parent::getCasts(),
             array_fill_keys($this->getTranslatableAttributes(), 'array')
         );
+    }
+
+    public function isTranslationMap(mixed $value): bool {
+        // Pragmatic approach to check if the passed value is a map of 
+        // translations or just any JSON object.
+        if (!is_array($value)) {
+            return false;
+        }
+
+        return collect($value)->every(function ($value, $key) {
+            return Locale::getDisplayName($key) !== $key;
+        });  
     }
 }
