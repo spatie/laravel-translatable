@@ -163,6 +163,9 @@ class TranslatableTest extends TestCase
 
         $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
         $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('json_field', 'en', 'testValue_en');
+        $this->testModel->setTranslation('json_field', 'fr', 'testValue_fr');
         $this->testModel->save();
 
         $this->assertSame([
@@ -175,6 +178,10 @@ class TranslatableTest extends TestCase
                 'fr' => 'testValue_fr',
             ],
             'field_with_mutator' => [
+                'en' => 'testValue_en',
+                'fr' => 'testValue_fr',
+            ],
+            'json_field' => [
                 'en' => 'testValue_en',
                 'fr' => 'testValue_fr',
             ],
@@ -192,12 +199,16 @@ class TranslatableTest extends TestCase
 
         $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
         $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+
+        $this->testModel->setTranslation('json_field', 'en', 'testValue_en');
+        $this->testModel->setTranslation('json_field', 'fr', 'testValue_fr');
         $this->testModel->save();
 
         $this->assertSame([
             'name' => ['en' => 'testValue_en'],
             'other_field' => ['en' => 'testValue_en'],
             'field_with_mutator' => ['en' => 'testValue_en'],
+            'json_field' => ['en' => 'testValue_en'],
         ], $this->testModel->getTranslations(null, ['en']));
     }
 
@@ -515,6 +526,7 @@ class TranslatableTest extends TestCase
             'name' => ['nl' => 'hallo', 'en' => 'hello'],
             'other_field' => [],
             'field_with_mutator' => ['nl' => 'hallo', 'en' => 'hello'],
+            'json_field' => [],
         ], $this->testModel->translations);
     }
 
@@ -607,5 +619,40 @@ class TranslatableTest extends TestCase
         $this->testModel->replaceTranslations('name', $newTranslations);
 
         $this->assertEquals($newTranslations, $this->testModel->getTranslations('name'));
+    }
+
+    /** @test */
+    public function it_can_translate_json_fields()
+    {
+        $en = [ 'text' => 'hello' ];
+        $this->testModel->json_field = $en;
+        $this->testModel->save();
+
+        $this->assertEquals($this->testModel->json_field, $this->testModel->getTranslations('json_field')['en']);
+
+        $de = [ 'text' => 'hallo' ];
+        $this->testModel->setLocale('de');
+        $this->testModel->json_field = $de;
+        $this->testModel->save();
+
+        $this->assertEquals([ 'en' => $en, 'de' => $de ], $this->testModel->getTranslations('json_field'));
+
+        $translations = ['nl' => [ 'text' => 'hallo' ], 'kh' => [ 'text' => 'សួរស្តី' ]];
+        $this->testModel->setTranslations('json_field', $translations);
+        $this->testModel->save();
+
+        $this->assertEquals(array_merge($translations, [  'en' => $en, 'de' => $de ]), $this->testModel->getTranslations('json_field'));
+
+        $newTranslations = ['es' => [ 'text' => 'hola' ]];
+        $this->testModel->replaceTranslations('json_field', $newTranslations);
+
+        $this->assertEquals($newTranslations, $this->testModel->getTranslations('json_field'));
+
+        $fr = [ 'text' => 'bonjour' ];
+        $it = [ 'text' => 'ciao' ];
+        $this->testModel->json_field = [ 'fr-FR' => $fr, 'it_IT' => $it ];
+        $this->testModel->save();
+
+        $this->assertEquals(array_merge([ 'fr-FR' => $fr, 'it_IT' => $it ], $newTranslations), $this->testModel->getTranslations('json_field'));
     }
 }

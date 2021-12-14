@@ -28,6 +28,7 @@ abstract class TestCase extends Orchestra
             $table->text('name')->nullable();
             $table->text('other_field')->nullable();
             $table->text('field_with_mutator')->nullable();
+            $table->json('json_field')->nullable();
         });
     }
 }
