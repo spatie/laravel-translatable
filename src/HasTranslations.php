@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable;
 
+use Locale;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
@@ -29,11 +30,9 @@ trait HasTranslations
     {
         if ($this->isTranslatableAttribute($key)) {
             // Pragmatic approach to check if the passed value is a map of 
-            // translations or just any JSON object. The regular expression
-            // simply checks if all the keys look like locales.
-            // See: https://newbedev.com/regex-to-detect-locales
+            // translations or just any JSON object.
             $isTranslationMap = is_array($value) && collect($value)->every(function ($value, $key) {
-              return preg_match('/^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$/', $key);
+              return Locale::getDisplayName($key) !== $key;
             });
 
             if ($isTranslationMap) {
@@ -42,7 +41,7 @@ trait HasTranslations
         }
 
         // Pass arrays and untranslatable attributes to the parent method.
-        if (! $this->isTranslatableAttribute($key) || is_array($value)) {
+        if (! $this->isTranslatableAttribute($key)) {
             return parent::setAttribute($key, $value);
         }
 
