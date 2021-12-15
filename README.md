@@ -48,9 +48,12 @@ php artisan vendor:publish --provider="Spatie\Translatable\TranslatableServicePr
 This is the contents of the published file:
 ```php
 return [
-  'fallback_locale' => 'en',
+  'fallback_locale' => null,
+  'fallback_any' => false,
 ];
 ```
+
+Sometimes it is favored to return any translation if neigher the translation for the prefered locale nor the fallbacl locale are set. To do so, set fallback_any in the config to true.
 
 ## Making a model translatable
 
