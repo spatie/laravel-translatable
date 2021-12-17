@@ -103,7 +103,8 @@ trait HasTranslations
 
             $this->{$method}($value, $locale);
 
-            $value = $this->attributes[$key];
+            $translated = $this->getTranslations($key);
+            $value = $translated[$locale] ?? '';
         }
 
         $translations[$locale] = $value;
