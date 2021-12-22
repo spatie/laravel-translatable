@@ -639,4 +639,75 @@ class TranslatableTest extends TestCase
 
         $this->assertEquals(array_merge([ 'fr-FR' => $frenchTranslation, 'it_IT' => $italianTranslation ], $newTranslations), $this->testModel->getTranslations('json_field'));
     }
+
+    /** @test */
+    public function it_can_use_any_locale_if_given_locale_not_set()
+    {
+        config()->set('app.fallback_locale', 'en');
+        config()->set('translatable.fallback_any', true);
+
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->setTranslation('name', 'de', 'testValue_de');
+        $this->testModel->save();
+
+        $this->testModel->setLocale('it');
+        $this->assertSame('testValue_fr', $this->testModel->name);
+    }
+
+    /** @test */
+    public function it_will_return_set_translation_when_fallback_any_set()
+    {
+        config()->set('app.fallback_locale', 'en');
+        config()->set('translatable.fallback_any', true);
+
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->setTranslation('name', 'de', 'testValue_de');
+        $this->testModel->save();
+
+        $this->testModel->setLocale('de');
+        $this->assertSame('testValue_de', $this->testModel->name);
+    }
+
+    /** @test */
+    public function it_will_return_fallback_translation_when_fallback_any_set()
+    {
+        config()->set('app.fallback_locale', 'en');
+        config()->set('translatable.fallback_any', true);
+
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->testModel->setLocale('de');
+        $this->assertSame('testValue_en', $this->testModel->name);
+    }
+
+    /** @test */
+    public function it_provides_a_flog_to_not_return_any_translation_when_getting_an_unknown_locale()
+    {
+        config()->set('app.fallback_locale', 'en');
+        config()->set('translatable.fallback_any', true);
+
+        $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+        $this->testModel->setTranslation('name', 'de', 'testValue_de');
+        $this->testModel->save();
+
+        $this->testModel->setLocale('it');
+        $this->assertSame('', $this->testModel->getTranslation('name', 'it', false));
+    }
+
+    /** @test */
+    public function it_will_return_default_fallback_locale_translation_when_getting_an_unknown_locale_with_fallback_any()
+    {
+        config()->set('app.fallback_locale', 'en');
+        config()->set('translatable.fallback_any', true);
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslation('name', 'fr'));
+    }
+
+
+
 }
