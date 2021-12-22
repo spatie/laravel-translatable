@@ -98,7 +98,7 @@ class TranslatableTest extends TestCase
     public function it_can_set_translated_values_when_creating_a_model()
     {
         $model = TestModel::create([
-            'name' => ['en' => 'testValue_en'],
+            'name' => 'testValue_en',
         ]);
 
         $this->assertSame('testValue_en', $model->name);
@@ -358,11 +358,9 @@ class TranslatableTest extends TestCase
     public function it_can_set_translations_for_default_language()
     {
         $model = TestModel::create([
-            'name' => [
-                'en' => 'testValue_en',
-                'fr' => 'testValue_fr',
-            ],
+            'name' => 'testValue_en',
         ]);
+        $model->setTranslation('name', 'fr', 'testValue_fr');
 
         app()->setLocale('en');
 
@@ -450,21 +448,6 @@ class TranslatableTest extends TestCase
         ];
 
         $this->assertEquals($expected, $testModel->getTranslations('name'));
-    }
-
-    /** @test */
-    public function it_can_set_multiple_translations_on_field_when_a_mutator_is_defined()
-    {
-        $translations = [
-            'nl' => 'hallo',
-            'en' => 'hello',
-        ];
-
-        $testModel = $this->testModel;
-        $testModel->field_with_mutator = $translations;
-        $testModel->save();
-
-        $this->assertEquals($translations, $testModel->getTranslations('field_with_mutator'));
     }
 
     /** @test */
@@ -650,7 +633,8 @@ class TranslatableTest extends TestCase
 
         $frenchTranslation = [ 'text' => 'bonjour' ];
         $italianTranslation = [ 'text' => 'ciao' ];
-        $this->testModel->json_field = [ 'fr-FR' => $frenchTranslation, 'it_IT' => $italianTranslation ];
+        $this->testModel->setTranslation('json_field', 'fr-FR', $frenchTranslation);
+        $this->testModel->setTranslation('json_field', 'it_IT', $italianTranslation);
         $this->testModel->save();
 
         $this->assertEquals(array_merge([ 'fr-FR' => $frenchTranslation, 'it_IT' => $italianTranslation ], $newTranslations), $this->testModel->getTranslations('json_field'));
