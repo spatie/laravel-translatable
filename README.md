@@ -53,7 +53,7 @@ return [
 ];
 ```
 
-Sometimes it is favored to return any translation if neigher the translation for the prefered locale nor the fallbacl locale are set. To do so, set fallback_any in the config to true.
+Sometimes it is favored to return any translation if neigher the translation for the prefered locale nor the fallback locale are set. To do so, set fallback_any in the config to true.
 
 ## Making a model translatable
 
