@@ -2,7 +2,6 @@
 
 namespace Spatie\Translatable;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSet;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
