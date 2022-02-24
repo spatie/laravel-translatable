@@ -40,7 +40,7 @@ You can install the package via composer:
 composer require spatie/laravel-translatable
 ```
 
-If you want to have another fallback_locale than the app fallback locale (see `config/app.php`), you could publish the config file:
+If you want to have another `fallback_locale` than the app fallback locale (see `config/app.php`), you could publish the config file (`config/translatable.php`):
 ```bash
 php artisan vendor:publish --provider="Spatie\Translatable\TranslatableServiceProvider"
 ```
@@ -50,10 +50,12 @@ This is the contents of the published file:
 return [
   'fallback_locale' => null,
   'fallback_any' => false,
+  'fallback_callback_enabled' => false,
+  'fallback_callback_class' => '',
 ];
 ```
 
-Sometimes it is favored to return any translation if neigher the translation for the prefered locale nor the fallback locale are set. To do so, set fallback_any in the config to true.
+Sometimes it is favored to return any translation if neither the translation for the preferred locale nor the fallback locale are set. To do so, set `fallback_any` in the config to true.
 
 ## Making a model translatable
 
@@ -315,6 +317,49 @@ trait HasTranslations
     }
 }
 ```
+
+### Fallback callback
+
+You can setup a fallback callback that is called when a translation key is missing/not found.
+Setting such a callback doesn't affect fallback behaviour, but let you execute some custom code like
+logging something or contact a remote service for example.
+
+You need to set it up in `config/translatable.php`:
+
+```
+return [
+    'fallback_callback_enabled' => true,
+    'fallback_callback_class' => App\MyHandler::class,
+];
+```
+
+and add a custom handler that implements `Spatie\Translatable\FallbackCallback`:
+
+```
+<?php
+
+namespace App;
+
+use Illuminate\Support\Facades\Log;
+use Spatie\Translatable\FallbackCallback;
+
+class MyHandler implements FallbackCallback
+{
+    public static function missingKeyHandler($model, string $translationKey, string $locale): void
+    {
+        // do something
+        
+        Log::warning('Some translation key is missing from an eloquent model', [
+           'key' => $translationKey,
+           'locale' => $locale,
+           'model_id' => $model->id,
+           'model_class' => get_class($model), 
+        ]);
+    }
+}
+```
+
+Now everytime you ask for a translation but the key is missing for a given locale, it will call the `missingKeyHandler` function.
 
 ## Changelog
 

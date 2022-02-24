@@ -189,6 +189,18 @@ trait HasTranslations
 
         if (in_array($locale, $translatedLocales)) {
             return $locale;
+        } else {
+            // when key is missing or was not found
+            if(config('translatable.fallback_callback_enabled')) {
+                try {
+                    $handler = app(config('translatable.fallback_callback_class'));
+                    if(is_a($handler, FallbackCallback::class)) {
+                        $handler->missingKeyHandler($this, $key, $locale);
+                    }
+                } catch(\Exception $e) {
+                    //prevent the fallback to crash
+                }
+            }
         }
 
         if (! $useFallbackLocale) {
