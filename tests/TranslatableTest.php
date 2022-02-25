@@ -2,7 +2,9 @@
 
 namespace Spatie\Translatable\Test;
 
+use Mockery;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
+use Spatie\Translatable\Test\TestClasses\DummyHandler;
 
 class TranslatableTest extends TestCase
 {
@@ -53,6 +55,54 @@ class TranslatableTest extends TestCase
     public function it_will_return_fallback_locale_translation_when_getting_an_unknown_locale_and_fallback_is_true()
     {
         config()->set('app.fallback_locale', 'en');
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+    }
+
+    /** @test */
+    public function it_will_execute_callback_fallback_when_getting_an_unknown_locale_and_fallback_callback_is_enabled()
+    {
+        config()->set('translatable.fallback_callback_enabled', true);
+        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+
+        $this->mock(DummyHandler::class, function ($mock) {
+            $mock->shouldReceive('missingKeyHandler')->once();
+        });
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+    }
+
+    /** @test */
+    public function it_wont_execute_callback_fallback_when_getting_an_existing_translation_and_fallback_callback_is_enabled()
+    {
+        config()->set('translatable.fallback_callback_enabled', true);
+        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+
+        $this->mock(DummyHandler::class, function ($mock) {
+            $mock->shouldReceive('missingKeyHandler')->never();
+        });
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'en'));
+    }
+
+    /** @test */
+    public function it_wont_execute_callback_fallback_when_fallback_callback_is_disabled()
+    {
+        config()->set('translatable.fallback_callback_enabled', false);
+        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+
+        $this->mock(DummyHandler::class, function ($mock) {
+            $mock->shouldReceive('missingKeyHandler')->never();
+        });
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
