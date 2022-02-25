@@ -20,7 +20,7 @@ return [
 
     /*
      * Name of the class implementing `Spatie\Translatable\FallbackCallback` that is called
-     * when a translation key is missing
+     * when a translation key is missing and fallback_callback_enabled is set to true
      */
     'fallback_callback_class' => '',
 ];
