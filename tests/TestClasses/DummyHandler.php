@@ -8,6 +8,6 @@ class DummyHandler implements FallbackCallback
 {
     public static function missingKeyHandler($model, string $translationKey, string $locale): void
     {
-        //do something assertable
+        //do nothing club
     }
 }
