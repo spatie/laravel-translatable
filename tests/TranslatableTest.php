@@ -2,9 +2,9 @@
 
 namespace Spatie\Translatable\Test;
 
-use Mockery;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
-use Spatie\Translatable\Test\TestClasses\DummyHandler;
+use Spatie\Translatable\Facades\Translatable;
 
 class TranslatableTest extends TestCase
 {
@@ -65,43 +65,76 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_will_execute_callback_fallback_when_getting_an_unknown_locale_and_fallback_callback_is_enabled()
     {
-        config()->set('translatable.fallback_callback_enabled', true);
-        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+        Storage::fake();
 
-        $this->mock(DummyHandler::class, function ($mock) {
-            $mock->shouldReceive('missingKeyHandler')->once();
+        config()->set('translatable.fallback_callback_enabled', true);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            //something assertable outside the closure
+            Storage::put("test.txt", "test");
         });
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
 
         $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+
+        $this->assertFileExists(
+            Storage::path("test.txt")
+        );
     }
 
     /** @test */
     public function it_wont_execute_callback_fallback_when_getting_an_existing_translation_and_fallback_callback_is_enabled()
     {
-        config()->set('translatable.fallback_callback_enabled', true);
-        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+        Storage::fake();
 
-        $this->mock(DummyHandler::class, function ($mock) {
-            $mock->shouldReceive('missingKeyHandler')->never();
+        config()->set('translatable.fallback_callback_enabled', false);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            //something assertable outside the closure
+            Storage::put("test.txt", "test");
         });
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
 
-        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'en'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+
+        $this->assertFileDoesNotExist(
+            Storage::path("test.txt")
+        );
     }
 
     /** @test */
     public function it_wont_execute_callback_fallback_when_fallback_callback_is_disabled()
     {
-        config()->set('translatable.fallback_callback_enabled', false);
-        config()->set('translatable.fallback_callback_class', DummyHandler::class);
+        Storage::fake();
 
-        $this->mock(DummyHandler::class, function ($mock) {
-            $mock->shouldReceive('missingKeyHandler')->never();
+        config()->set('translatable.fallback_callback_enabled', false);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            //something assertable outside the closure
+            Storage::put("test.txt", "test");
+        });
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+
+        $this->assertFileDoesNotExist(
+            Storage::path("test.txt")
+        );
+    }
+
+    /** @test */
+    public function it_wont_fail_if_callback_fallback_throw_exception()
+    {
+        config()->set('translatable.fallback_callback_enabled', false);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            throw new \Exception();
         });
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');

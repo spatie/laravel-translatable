@@ -324,29 +324,26 @@ You can setup a fallback callback that is called when a translation key is missi
 Setting such a callback doesn't affect fallback behaviour and doesn't need fallback to be enabled.
 It just lets you execute some custom code like logging something or contact a remote service for example.
 
-You need to set it up in `config/translatable.php`:
+First, you need to set it up in `config/translatable.php`:
 
 ```
 return [
     'fallback_callback_enabled' => true,
-    'fallback_callback_class' => App\MyHandler::class,
 ];
 ```
 
-and add a custom handler that implements `Spatie\Translatable\FallbackCallback`:
+Then you have to register some code you want to run, by passing a closure to `Spatie\Translatable\Facades\Translatable::fallback()`.
+
+Here's an example where we're going to register a closure that log a warning with some info about the
+missing translation key. Typically, you would put this in [a service provider of your own](https://laravel.com/docs/8.x/providers#writing-service-providers).
 
 ```
-<?php
-
-namespace App;
-
-use Illuminate\Support\Facades\Log;
-use Spatie\Translatable\FallbackCallback;
-
-class MyHandler implements FallbackCallback
-{
-    public static function missingKeyHandler($model, string $translationKey, string $locale): void
-    {
+    // typically, in a service provider
+    
+    use Spatie\Translatable\Facades\Translatable;
+    
+    Translatable::fallback(function ($model, string $translationKey, string $locale) {
+    
         // do something (ex: logging)
         
         Log::warning('Some translation key is missing from an eloquent model', [
@@ -355,11 +352,10 @@ class MyHandler implements FallbackCallback
            'model_id' => $model->id,
            'model_class' => get_class($model), 
         ]);
-    }
-}
+    });
 ```
 
-Now everytime you ask for a translation but the key is missing for a given locale, it will call the `missingKeyHandler` function.
+Now everytime you ask for a translation but the key is missing for a given locale, it will execute the given closure.
 
 ## Changelog
 

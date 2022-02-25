@@ -13,4 +13,10 @@ class TranslatableServiceProvider extends PackageServiceProvider
             ->name('laravel-translatable')
             ->hasConfigFile();
     }
+
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(Translatable::class, fn () => new Translatable());
+        $this->app->bind('translatable', Translatable::class);
+    }
 }

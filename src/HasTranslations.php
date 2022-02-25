@@ -193,10 +193,7 @@ trait HasTranslations
             // when key is missing or was not found
             if(config('translatable.fallback_callback_enabled')) {
                 try {
-                    $handler = app(config('translatable.fallback_callback_class'));
-                    if(is_a($handler, FallbackCallback::class)) {
-                        $handler->missingKeyHandler($this, $key, $locale);
-                    }
+                    (app(Translatable::class)->missingKeyCallback)($this, $key, $locale);
                 } catch(\Exception $e) {
                     //prevent the fallback to crash
                 }

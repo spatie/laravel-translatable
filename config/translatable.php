@@ -17,10 +17,4 @@ return [
      * If you want to execute a callback when a translation key is missing
      */
     'fallback_callback_enabled' => false,
-
-    /*
-     * Name of the class implementing `Spatie\Translatable\FallbackCallback` that is called
-     * when a translation key is missing and fallback_callback_enabled is set to true
-     */
-    'fallback_callback_class' => '',
 ];
