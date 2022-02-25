@@ -321,8 +321,8 @@ trait HasTranslations
 ### Fallback callback
 
 You can setup a fallback callback that is called when a translation key is missing/not found.
-Setting such a callback doesn't affect fallback behaviour, but let you execute some custom code like
-logging something or contact a remote service for example.
+Setting such a callback doesn't affect fallback behaviour and doesn't need fallback to be enabled.
+It just lets you execute some custom code like logging something or contact a remote service for example.
 
 You need to set it up in `config/translatable.php`:
 
@@ -347,7 +347,7 @@ class MyHandler implements FallbackCallback
 {
     public static function missingKeyHandler($model, string $translationKey, string $locale): void
     {
-        // do something
+        // do something (ex: logging)
         
         Log::warning('Some translation key is missing from an eloquent model', [
            'key' => $translationKey,
