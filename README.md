@@ -368,7 +368,7 @@ If the given callback function returns a string, then it will be used as the tra
     // typically, in a service provider
     
     use Spatie\Translatable\Facades\Translatable;
-    use Illuminate\Support\Facades\Log;
+    use App\Service\MyRemoteTranslationService;
     
     Translatable::fallback(function ($model, string $translationKey, string $locale, string $fallbackTranslation, string $fallbackLocale) {
         
