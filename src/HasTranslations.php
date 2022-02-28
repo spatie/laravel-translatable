@@ -47,11 +47,24 @@ trait HasTranslations
 
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
-        $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
+        $normalizedLocale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
+
+        $isKeyMissingFromLocale = ($locale !== $normalizedLocale);
 
         $translations = $this->getTranslations($key);
 
-        $translation = $translations[$locale] ?? '';
+        $translation = $translations[$normalizedLocale] ?? '';
+
+        if($isKeyMissingFromLocale && config('translatable.fallback_callback_enabled')) {
+            try {
+                $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
+                if (is_string($callbackReturnValue)) {
+                    $translation = $callbackReturnValue;
+                }
+            } catch(\Exception $e) {
+                //prevent the fallback to crash
+            }
+        }
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
@@ -189,15 +202,6 @@ trait HasTranslations
 
         if (in_array($locale, $translatedLocales)) {
             return $locale;
-        } else {
-            // when key is missing or was not found
-            if(config('translatable.fallback_callback_enabled')) {
-                try {
-                    (app(Translatable::class)->missingKeyCallback)($this, $key, $locale);
-                } catch(\Exception $e) {
-                    //prevent the fallback to crash
-                }
-            }
         }
 
         if (! $useFallbackLocale) {

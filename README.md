@@ -341,14 +341,17 @@ missing translation key. Typically, you would put this in [a service provider of
     // typically, in a service provider
     
     use Spatie\Translatable\Facades\Translatable;
+    use Illuminate\Support\Facades\Log;
     
-    Translatable::fallback(function ($model, string $translationKey, string $locale) {
+    Translatable::fallback(function ($model, string $translationKey, string $locale, string $fallbackTranslation, string $fallbackLocale) {
     
-        // do something (ex: logging)
+        // do something (ex: logging, alerting, etc)
         
         Log::warning('Some translation key is missing from an eloquent model', [
            'key' => $translationKey,
            'locale' => $locale,
+           'fallback_locale' => $fallbackLocale,
+           'fallback_translation' => $fallbackTranslation,
            'model_id' => $model->id,
            'model_class' => get_class($model), 
         ]);
@@ -356,6 +359,22 @@ missing translation key. Typically, you would put this in [a service provider of
 ```
 
 Now everytime you ask for a translation but the key is missing for a given locale, it will execute the given closure.
+
+#### Callback return value
+
+If the given callback function returns a string, then it will be used as the translation.
+
+```
+    // typically, in a service provider
+    
+    use Spatie\Translatable\Facades\Translatable;
+    use Illuminate\Support\Facades\Log;
+    
+    Translatable::fallback(function ($model, string $translationKey, string $locale, string $fallbackTranslation, string $fallbackLocale) {
+        
+        return MyRemoteTranslationService::getAutomaticTranslation($fallbackTranslation, $fallbackLocale, $locale);
+    });
+```
 
 ## Changelog
 

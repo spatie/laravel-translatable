@@ -85,6 +85,36 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_will_use_callback_fallback_return_value_as_translation()
+    {
+        config()->set('translatable.fallback_callback_enabled', true);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            return "testValue_fallback_callback";
+        });
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_fallback_callback', $this->testModel->getTranslationWithFallback('name', 'fr'));
+    }
+
+    /** @test */
+    public function it_wont_use_callback_fallback_return_value_as_translation_if_it_is_not_a_string()
+    {
+        config()->set('translatable.fallback_callback_enabled', true);
+
+        Translatable::fallback(function($model, string $translationKey, string $locale) {
+            return 123456;
+        });
+
+        $this->testModel->setTranslation('name', 'en', 'testValue_en');
+        $this->testModel->save();
+
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+    }
+
+    /** @test */
     public function it_wont_execute_callback_fallback_when_getting_an_existing_translation_and_fallback_callback_is_enabled()
     {
         Storage::fake();
