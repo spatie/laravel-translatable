@@ -79,9 +79,7 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
 
-        $this->assertFileExists(
-            Storage::path("test.txt")
-        );
+        Storage::assertExists("test.txt");
     }
 
     /** @test */
@@ -131,9 +129,7 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
 
-        $this->assertFileDoesNotExist(
-            Storage::path("test.txt")
-        );
+        Storage::assertMissing("test.txt");
     }
 
     /** @test */
@@ -153,9 +149,7 @@ class TranslatableTest extends TestCase
 
         $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
 
-        $this->assertFileDoesNotExist(
-            Storage::path("test.txt")
-        );
+        Storage::assertMissing("test.txt");
     }
 
     /** @test */
