@@ -55,7 +55,7 @@ trait HasTranslations
 
         $translation = $translations[$normalizedLocale] ?? '';
 
-        if($isKeyMissingFromLocale && config('translatable.fallback_callback_enabled')) {
+        if($isKeyMissingFromLocale && app(Translatable::class)->missingKeyCallback) {
             try {
                 $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
                 if (is_string($callbackReturnValue)) {
@@ -208,12 +208,12 @@ trait HasTranslations
             return $locale;
         }
 
-        $fallbackLocale = config('translatable.fallback_locale') ?? config('app.fallback_locale');
+        $fallbackLocale = app(Translatable::class)->fallbackLocale ?? config('app.fallback_locale');
         if (! is_null($fallbackLocale) && in_array($fallbackLocale, $translatedLocales)) {
             return $fallbackLocale;
         }
 
-        if (! empty($translatedLocales) && config('translatable.fallback_any')) {
+        if (! empty($translatedLocales) && app(Translatable::class)->fallbackAny) {
             return $translatedLocales[0];
         }
 

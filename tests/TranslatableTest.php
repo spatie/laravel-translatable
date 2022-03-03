@@ -21,7 +21,9 @@ class TranslatableTest extends TestCase
     public function it_will_return_package_fallback_locale_translation_when_getting_an_unknown_locale()
     {
         config()->set('app.fallback_locale', 'nl');
-        config()->set('translatable.fallback_locale', 'en');
+        Translatable::fallback(
+            fallbackLocale: 'en',
+        );
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
@@ -67,9 +69,7 @@ class TranslatableTest extends TestCase
     {
         Storage::fake();
 
-        config()->set('translatable.fallback_callback_enabled', true);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
             //something assertable outside the closure
             Storage::put("test.txt", "test");
         });
@@ -85,9 +85,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_will_use_callback_fallback_return_value_as_translation()
     {
-        config()->set('translatable.fallback_callback_enabled', true);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
             return "testValue_fallback_callback";
         });
 
@@ -100,9 +98,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_wont_use_callback_fallback_return_value_as_translation_if_it_is_not_a_string()
     {
-        config()->set('translatable.fallback_callback_enabled', true);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
             return 123456;
         });
 
@@ -113,13 +109,11 @@ class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_wont_execute_callback_fallback_when_getting_an_existing_translation_and_fallback_callback_is_enabled()
+    public function it_wont_execute_callback_fallback_when_getting_an_existing_translation()
     {
         Storage::fake();
 
-        config()->set('translatable.fallback_callback_enabled', false);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
             //something assertable outside the closure
             Storage::put("test.txt", "test");
         });
@@ -127,27 +121,7 @@ class TranslatableTest extends TestCase
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
 
-        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
-
-        Storage::assertMissing("test.txt");
-    }
-
-    /** @test */
-    public function it_wont_execute_callback_fallback_when_fallback_callback_is_disabled()
-    {
-        Storage::fake();
-
-        config()->set('translatable.fallback_callback_enabled', false);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
-            //something assertable outside the closure
-            Storage::put("test.txt", "test");
-        });
-
-        $this->testModel->setTranslation('name', 'en', 'testValue_en');
-        $this->testModel->save();
-
-        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'fr'));
+        $this->assertSame('testValue_en', $this->testModel->getTranslationWithFallback('name', 'en'));
 
         Storage::assertMissing("test.txt");
     }
@@ -155,9 +129,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_wont_fail_if_callback_fallback_throw_exception()
     {
-        config()->set('translatable.fallback_callback_enabled', false);
-
-        Translatable::fallback(function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
             throw new \Exception();
         });
 
@@ -171,7 +143,10 @@ class TranslatableTest extends TestCase
     public function it_will_return_an_empty_string_when_getting_an_unknown_locale_and_fallback_is_not_set()
     {
         config()->set('app.fallback_locale', '');
-        config()->set('translatable.fallback_locale', '');
+
+        Translatable::fallback(
+            fallbackLocale: '',
+        );
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
@@ -183,7 +158,10 @@ class TranslatableTest extends TestCase
     public function it_will_return_an_empty_string_when_getting_an_unknown_locale_and_fallback_is_empty()
     {
         config()->set('app.fallback_locale', '');
-        config()->set('translatable.fallback_locale', '');
+
+        Translatable::fallback(
+            fallbackLocale: '',
+        );
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();
@@ -719,7 +697,10 @@ class TranslatableTest extends TestCase
     public function it_can_use_any_locale_if_given_locale_not_set()
     {
         config()->set('app.fallback_locale', 'en');
-        config()->set('translatable.fallback_any', true);
+
+        Translatable::fallback(
+            fallbackAny: true,
+        );
 
         $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
         $this->testModel->setTranslation('name', 'de', 'testValue_de');
@@ -733,7 +714,10 @@ class TranslatableTest extends TestCase
     public function it_will_return_set_translation_when_fallback_any_set()
     {
         config()->set('app.fallback_locale', 'en');
-        config()->set('translatable.fallback_any', true);
+
+        Translatable::fallback(
+            fallbackAny: true,
+        );
 
         $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
         $this->testModel->setTranslation('name', 'de', 'testValue_de');
@@ -747,7 +731,10 @@ class TranslatableTest extends TestCase
     public function it_will_return_fallback_translation_when_fallback_any_set()
     {
         config()->set('app.fallback_locale', 'en');
-        config()->set('translatable.fallback_any', true);
+
+        Translatable::fallback(
+            fallbackAny: true,
+        );
 
         $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -761,7 +748,10 @@ class TranslatableTest extends TestCase
     public function it_provides_a_flog_to_not_return_any_translation_when_getting_an_unknown_locale()
     {
         config()->set('app.fallback_locale', 'en');
-        config()->set('translatable.fallback_any', true);
+
+        Translatable::fallback(
+            fallbackAny: true,
+        );
 
         $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
         $this->testModel->setTranslation('name', 'de', 'testValue_de');
@@ -775,7 +765,10 @@ class TranslatableTest extends TestCase
     public function it_will_return_default_fallback_locale_translation_when_getting_an_unknown_locale_with_fallback_any()
     {
         config()->set('app.fallback_locale', 'en');
-        config()->set('translatable.fallback_any', true);
+
+        Translatable::fallback(
+            fallbackAny: true,
+        );
 
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
         $this->testModel->save();

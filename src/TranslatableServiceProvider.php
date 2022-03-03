@@ -10,8 +10,7 @@ class TranslatableServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('laravel-translatable')
-            ->hasConfigFile();
+            ->name('laravel-translatable');
     }
 
     public function packageRegistered(): void
