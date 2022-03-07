@@ -69,7 +69,7 @@ class TranslatableTest extends TestCase
     {
         Storage::fake();
 
-        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
             //something assertable outside the closure
             Storage::put("test.txt", "test");
         });
@@ -85,7 +85,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_will_use_callback_fallback_return_value_as_translation()
     {
-        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
             return "testValue_fallback_callback";
         });
 
@@ -98,7 +98,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_wont_use_callback_fallback_return_value_as_translation_if_it_is_not_a_string()
     {
-        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
             return 123456;
         });
 
@@ -113,7 +113,7 @@ class TranslatableTest extends TestCase
     {
         Storage::fake();
 
-        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
             //something assertable outside the closure
             Storage::put("test.txt", "test");
         });
@@ -129,7 +129,7 @@ class TranslatableTest extends TestCase
     /** @test */
     public function it_wont_fail_if_callback_fallback_throw_exception()
     {
-        Translatable::fallback(missingKeyCallback: function($model, string $translationKey, string $locale) {
+        Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
             throw new \Exception();
         });
 

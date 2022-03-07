@@ -55,13 +55,13 @@ trait HasTranslations
 
         $translation = $translations[$normalizedLocale] ?? '';
 
-        if($isKeyMissingFromLocale && app(Translatable::class)->missingKeyCallback) {
+        if ($isKeyMissingFromLocale && app(Translatable::class)->missingKeyCallback) {
             try {
                 $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
                 if (is_string($callbackReturnValue)) {
                     $translation = $callbackReturnValue;
                 }
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 //prevent the fallback to crash
             }
         }

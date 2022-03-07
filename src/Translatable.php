@@ -4,7 +4,6 @@ namespace Spatie\Translatable;
 
 class Translatable
 {
-
     /**
      * If a translation has not been set for a given locale, use this locale instead.
      */
@@ -14,7 +13,7 @@ class Translatable
      * If a translation has not been set for a given locale and the fallback locale,
      * any other locale will be chosen instead.
      */
-    public bool $fallbackAny= false;
+    public bool $fallbackAny = false;
 
     public $missingKeyCallback;
 
