@@ -3,6 +3,7 @@
 namespace Spatie\Translatable;
 
 use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
@@ -266,20 +267,22 @@ trait HasTranslations
             : [];
     }
 
-    public function getTranslationsAttribute(): array
+    public function translations(): Attribute
     {
-        return collect($this->getTranslatableAttributes())
-            ->mapWithKeys(function (string $key) {
-                return [$key => $this->getTranslations($key)];
-            })
-            ->toArray();
+        return Attribute::get(function() {
+            return collect($this->getTranslatableAttributes())
+                ->mapWithKeys(function (string $key) {
+                    return [$key => $this->getTranslations($key)];
+                })
+                ->toArray();
+        });
     }
 
     public function getCasts(): array
     {
         return array_merge(
             parent::getCasts(),
-            array_fill_keys($this->getTranslatableAttributes(), 'array')
+            array_fill_keys($this->getTranslatableAttributes(), 'array'),
         );
     }
 }
