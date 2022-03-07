@@ -1,5 +1,6 @@
 ---
-title: Handling missing translations weight: 7
+title: Handling missing translations 
+weight: 7
 ---
 
 Sometimes your model doesn't have a requested translation. Using the fallback functionality, you can decide what should
