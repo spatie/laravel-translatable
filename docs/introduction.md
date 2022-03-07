@@ -1,3 +1,8 @@
+---
+title: Introduction
+weight: 1
+---
+
 This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
 
 Once the trait is installed on the model you can do these things:
