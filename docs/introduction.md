@@ -8,7 +8,7 @@ This package contains a trait to make Eloquent models translatable. Translations
 Once the trait is installed on the model you can do these things:
 
 ```php
-$newsItem = new NewsItem; // This is an Eloquent model
+$newsItem = new NewsItem(); // This is an Eloquent model
 $newsItem
    ->setTranslation('name', 'en', 'Name in English')
    ->setTranslation('name', 'nl', 'Naam in het Nederlands')
