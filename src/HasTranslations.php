@@ -136,7 +136,7 @@ trait HasTranslations
     {
         $this->guardAgainstNonTranslatableAttribute($key);
 
-        if (! empty ($translations)) {
+        if (! empty($translations)) {
             foreach ($translations as $locale => $translation) {
                 $this->setTranslation($key, $locale, $translation);
             }
