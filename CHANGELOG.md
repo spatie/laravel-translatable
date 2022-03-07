@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.0.0 - 2022-03-07
+
+- improved fallback customisations
+- modernized code base
+- drop support for Laravel 8
+
 ## 5.2.0 - 2022-01-13
 
 - support Laravel 9
