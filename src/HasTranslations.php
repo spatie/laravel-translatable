@@ -2,13 +2,15 @@
 
 namespace Spatie\Translatable;
 
+use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
-use Spatie\Translatable\Events\TranslationHasBeenSet;
+use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
-    protected string | null $translationLocale = null;
+    protected ?string $translationLocale = null;
 
     public static function usingLocale(string $locale): self
     {
@@ -47,11 +49,26 @@ trait HasTranslations
 
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
-        $locale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
+        $normalizedLocale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
+
+        $isKeyMissingFromLocale = ($locale !== $normalizedLocale);
 
         $translations = $this->getTranslations($key);
 
-        $translation = $translations[$locale] ?? '';
+        $translation = $translations[$normalizedLocale] ?? '';
+
+        $translatableConfig = app(Translatable::class);
+
+        if ($isKeyMissingFromLocale && $translatableConfig->missingKeyCallback) {
+            try {
+                $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
+                if (is_string($callbackReturnValue)) {
+                    $translation = $callbackReturnValue;
+                }
+            } catch (Exception) {
+                //prevent the fallback to crash
+            }
+        }
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
@@ -78,7 +95,7 @@ trait HasTranslations
             return array_filter(
                 json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
                 fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales),
-                ARRAY_FILTER_USE_BOTH
+                ARRAY_FILTER_USE_BOTH,
             );
         }
 
@@ -109,7 +126,7 @@ trait HasTranslations
 
         $this->attributes[$key] = $this->asJson($translations);
 
-        event(new TranslationHasBeenSet($this, $key, $locale, $oldValue, $value));
+        event(new TranslationHasBeenSetEvent($this, $key, $locale, $oldValue, $value));
 
         return $this;
     }
@@ -118,8 +135,12 @@ trait HasTranslations
     {
         $this->guardAgainstNonTranslatableAttribute($key);
 
-        foreach ($translations as $locale => $translation) {
-            $this->setTranslation($key, $locale, $translation);
+        if (! empty($translations)) {
+            foreach ($translations as $locale => $translation) {
+                $this->setTranslation($key, $locale, $translation);
+            }
+        } else {
+            $this->attributes[$key] = $this->asJson([]);
         }
 
         return $this;
@@ -135,6 +156,21 @@ trait HasTranslations
         );
 
         $this->setTranslations($key, $translations);
+
+        return $this;
+    }
+
+    public function forgetTranslations(string $key, bool $asNull = false): self
+    {
+        $this->guardAgainstNonTranslatableAttribute($key);
+
+        collect($this->getTranslatedLocales($key))->each(function (string $locale) use ($key) {
+            $this->forgetTranslation($key, $locale);
+        });
+
+        if ($asNull) {
+            $this->attributes[$key] = null;
+        }
 
         return $this;
     }
@@ -195,12 +231,15 @@ trait HasTranslations
             return $locale;
         }
 
-        $fallbackLocale = config('translatable.fallback_locale') ?? config('app.fallback_locale');
+        $fallbackConfig = app(Translatable::class);
+
+        $fallbackLocale = $fallbackConfig->fallbackLocale ?? config('app.fallback_locale');
+
         if (! is_null($fallbackLocale) && in_array($fallbackLocale, $translatedLocales)) {
             return $fallbackLocale;
         }
 
-        if (! empty($translatedLocales) && config('translatable.fallback_any')) {
+        if (! empty($translatedLocales) && $fallbackConfig->fallbackAny) {
             return $translatedLocales[0];
         }
 
@@ -247,20 +286,22 @@ trait HasTranslations
             : [];
     }
 
-    public function getTranslationsAttribute(): array
+    public function translations(): Attribute
     {
-        return collect($this->getTranslatableAttributes())
-            ->mapWithKeys(function (string $key) {
-                return [$key => $this->getTranslations($key)];
-            })
-            ->toArray();
+        return Attribute::get(function () {
+            return collect($this->getTranslatableAttributes())
+                ->mapWithKeys(function (string $key) {
+                    return [$key => $this->getTranslations($key)];
+                })
+                ->toArray();
+        });
     }
 
     public function getCasts(): array
     {
         return array_merge(
             parent::getCasts(),
-            array_fill_keys($this->getTranslatableAttributes(), 'array')
+            array_fill_keys($this->getTranslatableAttributes(), 'array'),
         );
     }
 }
