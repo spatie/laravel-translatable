@@ -40,21 +40,6 @@ You can install the package via composer:
 composer require spatie/laravel-translatable
 ```
 
-If you want to have another fallback_locale than the app fallback locale (see `config/app.php`), you could publish the config file:
-```bash
-php artisan vendor:publish --provider="Spatie\Translatable\TranslatableServiceProvider"
-```
-
-This is the contents of the published file:
-```php
-return [
-  'fallback_locale' => null,
-  'fallback_any' => false,
-];
-```
-
-Sometimes it is favored to return any translation if neigher the translation for the prefered locale nor the fallback locale are set. To do so, set fallback_any in the config to true.
-
 ## Making a model translatable
 
 The required steps to make a model translatable are:
@@ -126,7 +111,7 @@ $newItem->name = ['en' => 'myName', 'nl' => 'Naam in het Nederlands'];
 
 To set a translation for a specific locale you can use this method:
 
-``` php
+```php
 public function setTranslation(string $attributeName, string $locale, string $value)
 ```
 
@@ -145,25 +130,26 @@ $newsItem->save();
 #### Forgetting a translation
 
 You can forget a translation for a specific field:
-``` php
+```php
 public function forgetTranslation(string $attributeName, string $locale)
 ```
 
 You can forget all translations for a specific locale:
-``` php
+```php
 public function forgetAllTranslations(string $locale)
 ```
 
 #### Getting all translations in one go
 
-``` php
+```php
 public function getTranslations(string $attributeName): array
 ```
 
 #### Getting the specified translations in one go
 
 You can filter the translations by passing an array of locales:
-``` php
+
+```php
 public function getTranslations(string $attributeName, array $allowedLocales): array
 ```
 
@@ -183,13 +169,13 @@ $newsItem->getTranslations('hello', ['en', 'fr']); // returns ['en' => 'Hello', 
 
 #### Setting translations in one go
 
-``` php
+```php
 public function setTranslations(string $attributeName, array $translations)
 ```
 
 Here's an example:
 
-``` php
+```php
 $translations = [
    'en' => 'Name in English',
    'nl' => 'Naam in het Nederlands'
@@ -224,8 +210,9 @@ $newsItem->getTranslations(); // ['en' => 'hello']
 The default locale used to translate models is the application locale,
 however it can sometimes be handy to use a custom locale.
 
-To do so, you can use `setLocale` on a model instance.
-``` php
+To do so, you can use `setLocale` on a model instance:
+
+```php
 $newsItem = NewsItem::firstOrFail()->setLocale('fr');
 
 // Any properties on this model will automaticly be translated in French
@@ -234,7 +221,8 @@ $newsItem->name = 'Actualité'; // Will set the `fr` translation
 ```
 
 Alternatively, you can use `usingLocale` static method:
-``` php
+
+```php
 // Will automatically set the `fr` translation
 $newsItem = NewsItem::usingLocale('fr')->create([
     'name' => 'Actualité',
@@ -294,7 +282,7 @@ In this scenario, and similar ones, the `toArray()` method on `Model` class is c
 
 The best way to make your model automatically return translated fields is to wrap `Spatie\Translatable\HasTranslations` trait into a custom trait which overrides the `toArray()` method to automatically replace all translatable fields content with their translated value, like in the following example, and use it instead of the default one.
 
-``` php
+```php
 namespace App\Traits;
 use Spatie\Translatable\HasTranslations as BaseHasTranslations;
 trait HasTranslations
@@ -314,6 +302,85 @@ trait HasTranslations
         return $attributes;
     }
 }
+```
+
+## Fallback
+
+To setup fallback you need to call static method on the facade `Spatie\Translatable\Facades\Translatable`.
+Typically, you would put this in [a service provider of your own](https://laravel.com/docs/8.x/providers#writing-service-providers):
+
+```php
+    // typically, in a service provider
+        
+    use Spatie\Translatable\Facades\Translatable;
+    
+    Translatable::fallback(
+        ...
+    );
+```
+
+### Fallback options
+
+If you want to have another `fallback_locale` than the app fallback locale (see `config/app.php`), you
+should pass it as `$fallbackLocale` parameter:
+
+```php
+    use Spatie\Translatable\Facades\Translatable;
+
+    Translatable::fallback(
+        fallbackLocale: 'fr',
+    );
+```
+
+Sometimes it is favored to return any translation if neither the translation for the preferred locale nor
+the fallback locale are set. To do so, just pass `$fallbackAny` to true:
+
+```php
+    use Spatie\Translatable\Facades\Translatable;
+
+    Translatable::fallback(
+         fallbackAny: true,
+    );
+```
+
+### Missing translations
+
+You can setup a fallback callback that is called when a translation key is missing/not found.
+It just lets you execute some custom code like logging something or contact a remote service for example.
+
+You have to register some code you want to run, by passing a closure to `$missingKeyCallback`.
+
+Here's an example with a closure that logs a warning with some info about the missing translation key: 
+
+```php
+    use Spatie\Translatable\Facades\Translatable;
+    use Illuminate\Support\Facades\Log;
+    
+    Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale, string $fallbackTranslation, string $fallbackLocale) {
+    
+        // do something (ex: logging, alerting, etc)
+        
+        Log::warning('Some translation key is missing from an eloquent model', [
+           'key' => $translationKey,
+           'locale' => $locale,
+           'fallback_locale' => $fallbackLocale,
+           'fallback_translation' => $fallbackTranslation,
+           'model_id' => $model->id,
+           'model_class' => get_class($model), 
+        ]);
+    });
+```
+
+If the closure returns a string, it will be used as the fallback translation:
+
+```php
+    use Spatie\Translatable\Facades\Translatable;
+    use App\Service\MyRemoteTranslationService;
+    
+    Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale, string $fallbackTranslation, string $fallbackLocale) {
+        
+        return MyRemoteTranslationService::getAutomaticTranslation($fallbackTranslation, $fallbackLocale, $locale);
+    });
 ```
 
 ## Changelog
