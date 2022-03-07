@@ -1,28 +1,18 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 
-class EventTest extends TestCase
-{
-    protected TestModel $testModel;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Event::fake();
 
-        Event::fake();
+    $this->testModel = new TestModel();
+});
 
-        $this->testModel = new TestModel();
-    }
+it('will fire an event when a translation has been set', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
 
-    /** @test */
-    public function it_will_fire_an_event_when_a_translation_has_been_set()
-    {
-        $this->testModel->setTranslation('name', 'en', 'testValue_en');
-
-        Event::assertDispatched(TranslationHasBeenSetEvent::class);
-    }
-}
+    Event::assertDispatched(TranslationHasBeenSetEvent::class);
+});
