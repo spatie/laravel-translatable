@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 use Spatie\Translatable\Facades\Translatable;
-
-uses(TestCase::class);
+use Spatie\Translatable\Test\TestSupport\TestModel;
 
 beforeEach(function () {
     $this->testModel = new TestModel();
