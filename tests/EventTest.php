@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
-
-uses(TestCase::class);
+use Spatie\Translatable\Test\TestSupport\TestModel;
 
 beforeEach(function () {
     Event::fake();
