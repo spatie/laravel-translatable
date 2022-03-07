@@ -136,8 +136,12 @@ trait HasTranslations
     {
         $this->guardAgainstNonTranslatableAttribute($key);
 
-        foreach ($translations as $locale => $translation) {
-            $this->setTranslation($key, $locale, $translation);
+        if (! empty ($translations)) {
+            foreach ($translations as $locale => $translation) {
+                $this->setTranslation($key, $locale, $translation);
+            }
+        } else {
+            $this->attributes[$key] = $this->asJson([]);
         }
 
         return $this;
@@ -153,6 +157,21 @@ trait HasTranslations
         );
 
         $this->setTranslations($key, $translations);
+
+        return $this;
+    }
+
+    public function forgetTranslations(string $key, bool $asNull = false): self
+    {
+        $this->guardAgainstNonTranslatableAttribute($key);
+
+        collect($this->getTranslatedLocales($key))->each(function (string $locale) use ($key) {
+            $this->forgetTranslation($key, $locale);
+        });
+
+        if ($asNull) {
+            $this->attributes[$key] = null;
+        }
 
         return $this;
     }
