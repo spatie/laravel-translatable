@@ -1,5 +1,7 @@
 <?php
 
+uses(\Spatie\Translatable\Test\TestCase::class)->in('tests');
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
