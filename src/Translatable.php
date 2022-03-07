@@ -23,8 +23,7 @@ class Translatable
         ?string $fallbackLocale = null,
         ?bool $fallbackAny = false,
         $missingKeyCallback = null
-    ): self
-    {
+    ): self {
         $this->fallbackLocale = $fallbackLocale;
         $this->fallbackAny = $fallbackAny;
         $this->missingKeyCallback = $missingKeyCallback;

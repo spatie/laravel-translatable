@@ -269,7 +269,7 @@ trait HasTranslations
 
     public function translations(): Attribute
     {
-        return Attribute::get(function() {
+        return Attribute::get(function () {
             return collect($this->getTranslatableAttributes())
                 ->mapWithKeys(function (string $key) {
                     return [$key => $this->getTranslations($key)];
