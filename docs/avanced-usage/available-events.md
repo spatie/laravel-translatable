@@ -3,7 +3,6 @@ title: Available events
 weight: 1
 ---
 
-
 Right after calling `setTranslation` the `Spatie\Translatable\Events\TranslationHasBeenSetEvent`-event will be fired.
 
 This is how that event looks like:
