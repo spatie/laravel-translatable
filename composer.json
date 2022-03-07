@@ -24,11 +24,6 @@
             "email": "sebastian@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
-        },
-        {
-            "name": "Mohamed Said",
-            "email": "theMohamedSaid@gmail.com",
-            "role": "Original idea"
         }
     ],
     "require": {

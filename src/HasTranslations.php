@@ -2,13 +2,14 @@
 
 namespace Spatie\Translatable;
 
+use Exception;
 use Illuminate\Support\Str;
-use Spatie\Translatable\Events\TranslationHasBeenSet;
+use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
-    protected string | null $translationLocale = null;
+    protected ?string $translationLocale = null;
 
     public static function usingLocale(string $locale): self
     {
@@ -55,13 +56,15 @@ trait HasTranslations
 
         $translation = $translations[$normalizedLocale] ?? '';
 
-        if ($isKeyMissingFromLocale && app(Translatable::class)->missingKeyCallback) {
+        $translatableConfig = app(Translatable::class);
+
+        if ($isKeyMissingFromLocale && $translatableConfig->missingKeyCallback) {
             try {
                 $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
                 if (is_string($callbackReturnValue)) {
                     $translation = $callbackReturnValue;
                 }
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 //prevent the fallback to crash
             }
         }
@@ -91,7 +94,7 @@ trait HasTranslations
             return array_filter(
                 json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
                 fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales),
-                ARRAY_FILTER_USE_BOTH
+                ARRAY_FILTER_USE_BOTH,
             );
         }
 
@@ -122,7 +125,7 @@ trait HasTranslations
 
         $this->attributes[$key] = $this->asJson($translations);
 
-        event(new TranslationHasBeenSet($this, $key, $locale, $oldValue, $value));
+        event(new TranslationHasBeenSetEvent($this, $key, $locale, $oldValue, $value));
 
         return $this;
     }
@@ -208,12 +211,15 @@ trait HasTranslations
             return $locale;
         }
 
-        $fallbackLocale = app(Translatable::class)->fallbackLocale ?? config('app.fallback_locale');
+        $fallbackConfig = app(Translatable::class);
+
+        $fallbackLocale = $fallbackConfig->fallbackLocale ?? config('app.fallback_locale');
+
         if (! is_null($fallbackLocale) && in_array($fallbackLocale, $translatedLocales)) {
             return $fallbackLocale;
         }
 
-        if (! empty($translatedLocales) && app(Translatable::class)->fallbackAny) {
+        if (! empty($translatedLocales) && $fallbackConfig->fallbackAny) {
             return $translatedLocales[0];
         }
 

@@ -2,7 +2,7 @@
 
 namespace Spatie\Translatable\Events;
 
-class TranslationHasBeenSet
+class TranslationHasBeenSetEvent
 {
     public function __construct(
         public mixed $model,

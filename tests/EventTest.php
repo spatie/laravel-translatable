@@ -3,7 +3,7 @@
 namespace Spatie\Translatable\Test;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Translatable\Events\TranslationHasBeenSet;
+use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 
 class EventTest extends TestCase
 {
@@ -23,6 +23,6 @@ class EventTest extends TestCase
     {
         $this->testModel->setTranslation('name', 'en', 'testValue_en');
 
-        Event::assertDispatched(TranslationHasBeenSet::class);
+        Event::assertDispatched(TranslationHasBeenSetEvent::class);
     }
 }

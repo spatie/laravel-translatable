@@ -46,7 +46,7 @@ The required steps to make a model translatable are:
 
 - First, you need to add the `Spatie\Translatable\HasTranslations`-trait.
 - Next, you should create a public property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
-- Finally, you should make sure that all translatable attributes are set to the `text`-datatype in your database. If your database supports `json`-columns, use that.
+- Finally, you should make sure that all translatable attributes are set to the `json`-datatype in your database. If your database doesn't support `json`-columns, use `text`.
 
 Here's an example of a prepared model:
 
@@ -96,8 +96,10 @@ $yourModel->translations
 ```
 
 #### Setting a translation
+
 The easiest way to set a translation for the current locale is to just set the property for a translatable attribute.
-For example (given that `name` is a translatable attribute):
+
+Here's an example, given that `name` is a translatable attribute):
 
 ```php
 $newsItem->name = 'New translation';
@@ -207,6 +209,7 @@ $newsItem->getTranslations(); // ['en' => 'hello']
 ```
 
 #### Setting the model locale
+
 The default locale used to translate models is the application locale,
 however it can sometimes be handy to use a custom locale.
 
@@ -231,22 +234,20 @@ $newsItem = NewsItem::usingLocale('fr')->create([
 
 ### Events
 
-#### TranslationHasBeenSet
-Right after calling `setTranslation` the `Spatie\Translatable\Events\TranslationHasBeenSet`-event will be fired.
+#### TranslationHasBeenSetEvent
+
+Right after calling `setTranslation` the `Spatie\Translatable\Events\TranslationHasBeenSetEvent`-event will be fired.
 
 It has these properties:
 ```php
-/** @var \Illuminate\Database\Eloquent\Model */
-public $model;
+public Model $model;
 
-/** @var string  */
-public $attributeName;
+public string $attributeName;
 
-/** @var string  */
-public $locale;
+public string $locale;
 
-public $oldValue;
-public $newValue;
+public string $oldValue;
+public string $newValue;
 ```
 
 ### Creating models
@@ -304,9 +305,11 @@ trait HasTranslations
 }
 ```
 
-## Fallback
+## Using a fallback
 
-To setup fallback you need to call static method on the facade `Spatie\Translatable\Facades\Translatable`.
+Sometimes your model doesn't have a requested translation. Using the fallback functionality, you can decide what should happen.
+
+To set up fallback you need to call static method on the facade `Spatie\Translatable\Facades\Translatable`.
 Typically, you would put this in [a service provider of your own](https://laravel.com/docs/8.x/providers#writing-service-providers):
 
 ```php
@@ -345,7 +348,7 @@ the fallback locale are set. To do so, just pass `$fallbackAny` to true:
 
 ### Missing translations
 
-You can setup a fallback callback that is called when a translation key is missing/not found.
+You can set up a fallback callback that is called when a translation key is missing/not found.
 It just lets you execute some custom code like logging something or contact a remote service for example.
 
 You have to register some code you want to run, by passing a closure to `$missingKeyCallback`.
@@ -388,6 +391,12 @@ If the closure returns a string, it will be used as the fallback translation:
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Upgrading
+
+### From v5 to v6
+
+The config file has been removed. You can now define a fallback locale, set `fallBackAny` and handle custom behaviour for missing translations, via `Translatable::fallback()`. Take a look in the readme to learn how to specify the fallback behaviour you want.
+
+The `TranslationHasBeenSet` event has been renamed to `TranslationHasBeenSetEvent`.
 
 ### From v2 to v3
 
