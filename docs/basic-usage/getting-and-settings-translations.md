@@ -47,7 +47,7 @@ $newItem->name = $translations;
 
 // alternatively, use the `setTranslations` method
 
-$newsItem->setTranslations('hello', $translations);
+$newsItem->setTranslations('name', $translations);
 
 $newItem->save();
 ```
