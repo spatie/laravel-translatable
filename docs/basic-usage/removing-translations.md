@@ -24,5 +24,5 @@ public function forgetAllTranslations(string $locale)
 Here's an example:
 
 ```php
-$newsItem->forgetTranslation('name');
+$newsItem->forgetAllTranslations('nl');
 ```
