@@ -9,15 +9,15 @@ class Translatable
     /*
      * If a translation has not been set for a given locale, use this locale instead.
      */
-    public ?string $fallbackLocale;
+    protected ?string $fallbackLocale;
 
     /*
      * If a translation has not been set for a given locale and the fallback locale,
      * any other locale will be chosen instead.
      */
-    public bool $fallbackAny = false;
+    protected bool $fallbackAny = false;
 
-    public ?Closure $missingKeyCallback = null;
+    protected ?Closure $missingKeyCallback = null;
 
     public function fallback(
         ?string $fallbackLocale = null,
