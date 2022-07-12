@@ -72,6 +72,8 @@ trait HasTranslations
 
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
+        } elseif ($this->hasAttributeGetMutator($key)) {
+            return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
 
         return $translation;
@@ -118,6 +120,27 @@ trait HasTranslations
             $method = 'set'.Str::studly($key).'Attribute';
 
             $this->{$method}($value, $locale);
+
+            $value = $this->attributes[$key];
+        } elseif ($this->hasAttributeSetMutator($key)) {
+            $attribute = $this->{Str::camel($key)}();
+
+            $callback = $attribute->set ?: function ($value) use ($key) {
+                $this->attributes[$key] = $value;
+            };
+
+            $this->attributes = array_merge(
+                $this->attributes,
+                $this->normalizeCastClassResponse(
+                    $key, $callback($value, $this->attributes, $locale)
+                )
+            );
+
+            if ($attribute->withCaching || (is_object($value) && $attribute->withObjectCaching)) {
+                $this->attributeCastCache[$key] = $value;
+            } else {
+                unset($this->attributeCastCache[$key]);
+            }
 
             $value = $this->attributes[$key];
         }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 use Spatie\Translatable\Facades\Translatable;
@@ -203,6 +204,9 @@ it('can get all translations for all translatable attributes in one go', functio
 
     $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
     $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'en', 'testValue_en');
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'fr', 'testValue_fr');
     $this->testModel->save();
 
     $this->assertSame([
@@ -218,6 +222,10 @@ it('can get all translations for all translatable attributes in one go', functio
             'en' => 'testValue_en',
             'fr' => 'testValue_fr',
         ],
+        'field_with_mutator_attribute' => [
+            'en' => 'testValue_en',
+            'fr' => 'testValue_fr',
+        ],
     ], $this->testModel->getTranslations());
 });
 
@@ -230,12 +238,16 @@ it('can get specified translations for all translatable attributes in one go', f
 
     $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
     $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'en', 'testValue_en');
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'fr', 'testValue_fr');
     $this->testModel->save();
 
     $this->assertSame([
         'name' => ['en' => 'testValue_en'],
         'other_field' => ['en' => 'testValue_en'],
         'field_with_mutator' => ['en' => 'testValue_en'],
+        'field_with_mutator_attribute' => ['en' => 'testValue_en'],
     ], $this->testModel->getTranslations(null, ['en']));
 });
 
@@ -323,6 +335,23 @@ it('can forget a field with mutator translation', function () {
     ], $this->testModel->getTranslations('field_with_mutator'));
 });
 
+it('can forget a field with mutator attribute translation', function () {
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'en', 'testValue_en');
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'fr', 'testValue_fr');
+    $this->testModel->save();
+
+    $this->assertSame([
+        'en' => 'testValue_en',
+        'fr' => 'testValue_fr',
+    ], $this->testModel->getTranslations('field_with_mutator_attribute'));
+
+    $this->testModel->forgetTranslation('field_with_mutator_attribute', 'en');
+
+    $this->assertSame([
+        'fr' => 'testValue_fr',
+    ], $this->testModel->getTranslations('field_with_mutator_attribute'));
+});
+
 it('can forget all translations', function () {
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
@@ -332,6 +361,9 @@ it('can forget all translations', function () {
 
     $this->testModel->setTranslation('field_with_mutator', 'en', 'testValue_en');
     $this->testModel->setTranslation('field_with_mutator', 'fr', 'testValue_fr');
+
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'en', 'testValue_en');
+    $this->testModel->setTranslation('field_with_mutator_attribute', 'fr', 'testValue_fr');
     $this->testModel->save();
 
     $this->assertSame([
@@ -349,6 +381,11 @@ it('can forget all translations', function () {
         'fr' => 'testValue_fr',
     ], $this->testModel->getTranslations('field_with_mutator'));
 
+    $this->assertSame([
+        'en' => 'testValue_en',
+        'fr' => 'testValue_fr',
+    ], $this->testModel->getTranslations('field_with_mutator_attribute'));
+
     $this->testModel->forgetAllTranslations('en');
 
     $this->assertSame([
@@ -362,6 +399,10 @@ it('can forget all translations', function () {
     $this->assertSame([
         'fr' => 'testValue_fr',
     ], $this->testModel->getTranslations('field_with_mutator'));
+
+    $this->assertSame([
+        'fr' => 'testValue_fr',
+    ], $this->testModel->getTranslations('field_with_mutator_attribute'));
 });
 
 it('will throw an exception when trying to translate an untranslatable attribute', function () {
@@ -394,11 +435,41 @@ it('can use accessors on translated attributes', function () {
     expect('I just accessed testValue_en')->toEqual($testModel->name);
 });
 
+it('can use accessor attributes on translated attributes', function () {
+    $testModel = new class () extends TestModel {
+        protected function name(): Attribute
+        {
+            return Attribute::make(
+                get: fn ($value) =>  "I just accessed {$value}",
+            );
+        }
+    };
+
+    $testModel->setTranslation('name', 'en', 'testValue_en');
+
+    expect('I just accessed testValue_en')->toEqual($testModel->name);
+});
+
 it('can use mutators on translated attributes', function () {
     $testModel = new class () extends TestModel {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
+        }
+    };
+
+    $testModel->setTranslation('name', 'en', 'testValue_en');
+
+    expect('I just mutated testValue_en')->toEqual($testModel->name);
+});
+
+it('can use mutator attributes on translated attributes', function () {
+    $testModel = new class () extends TestModel {
+        protected function name(): Attribute
+        {
+            return Attribute::make(
+                set: fn ($value) => "I just mutated {$value}",
+            );
         }
     };
 
@@ -466,11 +537,56 @@ it('can correctly set a field when a mutator is defined', function () {
     expect($testModel->getTranslations('name'))->toEqual($expected);
 });
 
+it('can correctly set a field when a mutator attribute is defined', function () {
+    $testModel = (new class () extends TestModel {
+        protected function name(): Attribute
+        {
+            return Attribute::make(
+                set: fn ($value) => "I just mutated {$value}",
+            );
+        }
+    });
+
+    $testModel->name = 'hello';
+
+    $expected = ['en' => 'I just mutated hello'];
+    expect($testModel->getTranslations('name'))->toEqual($expected);
+});
+
 it('can set multiple translations when a mutator is defined', function () {
     $testModel = (new class () extends TestModel {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
+        }
+    });
+
+    $translations = [
+        'nl' => 'hallo',
+        'en' => 'hello',
+        'kh' => 'សួរស្តី',
+    ];
+
+    $testModel->setTranslations('name', $translations);
+
+    $testModel->save();
+
+    $expected = [
+        'nl' => 'I just mutated hallo',
+        'en' => 'I just mutated hello',
+        'kh' => 'I just mutated សួរស្តី',
+    ];
+
+    expect($testModel->getTranslations('name'))->toEqual($expected);
+});
+
+it('can set multiple translations when a mutator attribute is defined', function () {
+    $testModel = (new class () extends TestModel {
+        protected function name(): Attribute
+        {
+            return Attribute::make(
+                set: fn ($value) => "I just mutated {$value}",
+            );
         }
     });
 
@@ -504,6 +620,19 @@ it('can set multiple translations on field when a mutator is defined', function 
     $testModel->save();
 
     expect($testModel->getTranslations('field_with_mutator'))->toEqual($translations);
+});
+
+it('can set multiple translations on field when a mutator attribute is defined', function () {
+    $translations = [
+        'nl' => 'hallo',
+        'en' => 'hello',
+    ];
+
+    $testModel = $this->testModel;
+    $testModel->field_with_mutator_attribute = $translations;
+    $testModel->save();
+
+    expect($testModel->getTranslations('field_with_mutator_attribute'))->toEqual($translations);
 });
 
 it('can translate a field based on the translations of another one', function () {
@@ -553,12 +682,14 @@ it('can get all translations', function () {
 
     $this->testModel->setTranslations('name', $translations);
     $this->testModel->setTranslations('field_with_mutator', $translations);
+    $this->testModel->setTranslations('field_with_mutator_attribute', $translations);
     $this->testModel->save();
 
     $this->assertEquals([
         'name' => ['nl' => 'hallo', 'en' => 'hello'],
         'other_field' => [],
         'field_with_mutator' => ['nl' => 'hallo', 'en' => 'hello'],
+        'field_with_mutator_attribute' => ['nl' => 'hallo', 'en' => 'hello'],
     ], $this->testModel->translations);
 });
 
