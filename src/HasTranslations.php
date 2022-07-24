@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasTranslations
 {
@@ -158,6 +159,15 @@ trait HasTranslations
         $this->setTranslations($key, $translations);
 
         return $this;
+    }
+    
+    public function scopeContaining(Builder $query, string $column, string $value, $locale = null): Builder
+    {
+        $this->guardAgainstNonTranslatableAttribute($column);
+
+        $locale = $locale ?? $this->getLocale();
+
+        return $query->whereRaw('lower(' . $this->getQuery()->getGrammar()->wrap($column . '->' . $locale) . ') like ?', [$value]);
     }
 
     public function forgetTranslations(string $key, bool $asNull = false): self
