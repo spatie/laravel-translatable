@@ -161,7 +161,7 @@ trait HasTranslations
         return $this;
     }
     
-    public function scopeContaining(Builder $query, string $column, string $value, $locale = null): Builder
+    public function scopeWhereTranslationLike(Builder $query, string $column, string $value, $locale = null): Builder
     {
         $this->guardAgainstNonTranslatableAttribute($column);
 
