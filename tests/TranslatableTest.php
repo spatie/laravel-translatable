@@ -371,7 +371,8 @@ it('will throw an exception when trying to translate an untranslatable attribute
 });
 
 it('is compatible with accessors on non translatable attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class() extends TestModel
+    {
         public function getOtherFieldAttribute(): string
         {
             return 'accessorName';
@@ -382,7 +383,8 @@ it('is compatible with accessors on non translatable attributes', function () {
 });
 
 it('can use accessors on translated attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class() extends TestModel
+    {
         public function getNameAttribute($value): string
         {
             return "I just accessed {$value}";
@@ -395,7 +397,8 @@ it('can use accessors on translated attributes', function () {
 });
 
 it('can use mutators on translated attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class() extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -453,7 +456,8 @@ it('can check if an attribute has translation', function () {
 });
 
 it('can correctly set a field when a mutator is defined', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class() extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -467,7 +471,8 @@ it('can correctly set a field when a mutator is defined', function () {
 });
 
 it('can set multiple translations when a mutator is defined', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class() extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -507,7 +512,8 @@ it('can set multiple translations on field when a mutator is defined', function 
 });
 
 it('can translate a field based on the translations of another one', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class() extends TestModel
+    {
         public function setOtherFieldAttribute($value, $locale = 'en')
         {
             $this->attributes['other_field'] = $value . ' ' . $this->getTranslation('name', $locale);
@@ -535,7 +541,8 @@ it('can translate a field based on the translations of another one', function ()
 });
 
 it('handle null value from database', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class() extends TestModel
+    {
         public function setAttributesExternally(array $attributes)
         {
             $this->attributes = $attributes;
