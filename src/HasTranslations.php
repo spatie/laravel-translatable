@@ -304,4 +304,13 @@ trait HasTranslations
             array_fill_keys($this->getTranslatableAttributes(), 'array'),
         );
     }
+
+    public function locales(): array
+    {
+        return array_unique(
+            array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
+                return array_merge($result, $this->getTranslatedLocales($item));
+            }, [])
+        );
+    }
 }
