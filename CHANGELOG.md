@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.1.0 - 2022-10-21
+
+### What's Changed
+
+- PHPUnit to Pest Converter by @freekmurze in https://github.com/spatie/laravel-translatable/pull/335
+- Fix typo in "Getting and setting translations" by @sami-cha in https://github.com/spatie/laravel-translatable/pull/346
+- Fix typo in advanced usage docs directory name by @greatislander in https://github.com/spatie/laravel-translatable/pull/347
+- Fixed example for forgetAllTranslations() method. by @odeland in https://github.com/spatie/laravel-translatable/pull/348
+- added locales method by @ahmetbarut in https://github.com/spatie/laravel-translatable/pull/361
+
+### New Contributors
+
+- @sami-cha made their first contribution in https://github.com/spatie/laravel-translatable/pull/346
+- @greatislander made their first contribution in https://github.com/spatie/laravel-translatable/pull/347
+- @odeland made their first contribution in https://github.com/spatie/laravel-translatable/pull/348
+- @ahmetbarut made their first contribution in https://github.com/spatie/laravel-translatable/pull/361
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.0.0...6.1.0
+
 ## 6.0.0 - 2022-03-07
 
 - improved fallback customisations
