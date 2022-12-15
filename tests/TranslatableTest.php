@@ -724,3 +724,25 @@ it('will return all locales when getting all translations', function () {
         'tr',
     ]);
 });
+
+it('queries the database whether a locale exists', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('name', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect($this->testModel->whereLocale('name', 'en')->get())->toHaveCount(1);
+
+    expect($this->testModel->whereLocale('name', 'de')->get())->toHaveCount(0);
+});
+
+it('queries the database for multiple locales', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('name', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect($this->testModel->whereLocales('name', ['en', 'tr'])->get())->toHaveCount(1);
+
+    expect($this->testModel->whereLocales('name', ['de', 'be'])->get())->toHaveCount(0);
+});
