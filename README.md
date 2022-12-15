@@ -25,6 +25,12 @@ $newsItem->getTranslation('name', 'nl'); // returns 'Naam in het Nederlands'
 app()->setLocale('nl');
 
 $newsItem->name; // Returns 'Naam in het Nederlands'
+
+// If you want to query records based on locales, you can use the `whereLocale` and `whereLocales` methods.
+
+NewsItem::whereLocale('name', 'en')->get(); // Returns all news items with a name in English
+
+NewsItem::whereLocales('name', ['en', 'nl'])->get(); // Returns all news items with a name in English or Dutch
 ```
 
 ## Support us

@@ -109,3 +109,15 @@ $translations = [
 $newsItem->setTranslations('hello', $translations);
 $newsItem->getTranslations('hello', ['en', 'fr']); // returns ['en' => 'Hello', 'fr' => 'Bonjour']
 ```
+
+### Get locales that a model has
+
+You can get all locales that a model has by calling `locales()` without an argument:
+
+```php
+   $translations = ['en' => 'hello', 'es' => 'hola'];
+   $newItem->name = $translations;
+   $newItem->save();
+
+   $newItem->locales(); // returns ['en', 'es']
+```
