@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.2.0 - 2022-12-23
+
+### What's Changed
+
+- Add Dependabot Automation by @patinthehat in https://github.com/spatie/laravel-translatable/pull/366
+- Add PHP 8.2 Support by @patinthehat in https://github.com/spatie/laravel-translatable/pull/367
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/spatie/laravel-translatable/pull/368
+- Added whereLocale and whereLocales methods by @ahmetbarut in https://github.com/spatie/laravel-translatable/pull/370
+
+### New Contributors
+
+- @dependabot made their first contribution in https://github.com/spatie/laravel-translatable/pull/368
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.1.0...6.2.0
+
 ## 6.1.0 - 2022-10-21
 
 ### What's Changed
