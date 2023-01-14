@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.3.0 - 2023-01-14
+
+### What's Changed
+
+- Laravel 10.x support by @erikn69 in https://github.com/spatie/laravel-translatable/pull/374
+
+### New Contributors
+
+- @erikn69 made their first contribution in https://github.com/spatie/laravel-translatable/pull/374
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.2.0...6.3.0
+
 ## 6.2.0 - 2022-12-23
 
 ### What's Changed
