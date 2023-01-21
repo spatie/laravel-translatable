@@ -746,3 +746,16 @@ it('queries the database for multiple locales', function () {
 
     expect($this->testModel->whereLocales('name', ['de', 'be'])->get())->toHaveCount(0);
 });
+
+it('queries the database with hasTranslatedColumn scope', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('name', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect(TestModel::hasTranslatedColumn('name', 'testValue_en', ['en', 'fr', 'tr'])->get())->toHaveCount(1);
+
+    expect($this->testModel->whereLocales('name', 'testValue_en', ['de', 'be'])->get())->toHaveCount(0);
+
+    expect(TestModel::hasTranslatedColumn('name', 'testVal%', ['en', 'fr', 'tr'], 'like')->get())->toHaveCount(1);
+});

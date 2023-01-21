@@ -328,4 +328,13 @@ trait HasTranslations
             }
         });
     }
+
+    public function scopeHasTranslatedColumn(Builder $query, string $column, string $value, array $locales, string $operand = '='): Builder
+	{
+		return $query->where(function (Builder $query) use ($column, $locales, $operand, $value): void {
+			foreach ($locales as $locale) {
+				$query->orWhere("{$column}->{$locale}", $operand, $value);
+			}
+		});
+	}
 }
