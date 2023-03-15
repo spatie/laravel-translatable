@@ -18,13 +18,22 @@ trait HasTranslations
         return (new self())->setLocale($locale);
     }
 
+    public function useFallbackLocale(): bool
+    {
+        if (property_exists($this, 'useFallbackLocale')) {
+            return $this->useFallbackLocale;
+        }
+
+        return true;
+    }
+
     public function getAttributeValue($key): mixed
     {
         if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 
-        return $this->getTranslation($key, $this->getLocale());
+        return $this->getTranslation($key, $this->getLocale(), $this->useFallbackLocale());
     }
 
     public function setAttribute($key, $value)
