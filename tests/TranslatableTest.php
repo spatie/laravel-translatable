@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 use Spatie\Translatable\Facades\Translatable;
 use Spatie\Translatable\Test\TestSupport\TestModel;
+use Spatie\Translatable\Test\TestSupport\TestModelWithoutFallback;
 
 beforeEach(function () {
     $this->testModel = new TestModel();
@@ -745,4 +746,17 @@ it('queries the database for multiple locales', function () {
     expect($this->testModel->whereLocales('name', ['en', 'tr'])->get())->toHaveCount(1);
 
     expect($this->testModel->whereLocales('name', ['de', 'be'])->get())->toHaveCount(0);
+});
+
+it('can disable attribute locale fallback on a per model basis', function () {
+    config()->set('app.fallback_locale', 'en');
+
+    $model = new TestModelWithoutFallback();
+
+    $model->setTranslation('name', 'en', 'testValue_en');
+    $model->save();
+
+    $model->setLocale('fr');
+
+    expect($model->name)->toBe('');
 });
