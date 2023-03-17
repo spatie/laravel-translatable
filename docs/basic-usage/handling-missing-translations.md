@@ -97,3 +97,22 @@ Translatable::fallback(missingKeyCallback: function (
     return MyRemoteTranslationService::getAutomaticTranslation($fallbackTranslation, $fallbackLocale, $locale);
 });
 ```
+
+### Disabling fallbacks on a per model basis
+By default, a fallback will be used when you access a non-existent translation attribute.
+
+You can disable fallbacks on a model with the `$useFallbackLocale` property.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class NewsItem extends Model
+{
+    use HasTranslations;
+
+    public $translatable = ['name'];
+    
+    protected $useFallbackLocale = false;
+}
+```
