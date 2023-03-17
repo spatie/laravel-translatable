@@ -7,10 +7,24 @@
 
 This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
 
-Once the trait is installed on the model you can do these things:
+## Usage
 
 ```php
-$newsItem = new NewsItem; // This is an Eloquent model
+// apply HasTranslations trait to a model
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class NewsItem extends Model
+{
+    use HasTranslations;
+    
+    // ...
+}
+```
+After the trait is applied on the model you can do these things:
+
+```php
+$newsItem = new NewsItem;
 $newsItem
    ->setTranslation('name', 'en', 'Name in English')
    ->setTranslation('name', 'nl', 'Naam in het Nederlands')
