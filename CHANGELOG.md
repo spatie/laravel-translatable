@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.4.0 - 2023-03-19
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/laravel-translatable/pull/376
+- Fix badge with `tests` status in `README.md` by @gomzyakov in https://github.com/spatie/laravel-translatable/pull/377
+- Update README.md by @alirezasalehizadeh in https://github.com/spatie/laravel-translatable/pull/381
+- Enable fallback locale on a per model basis by @yoeriboven in https://github.com/spatie/laravel-translatable/pull/380
+
+### New Contributors
+
+- @gomzyakov made their first contribution in https://github.com/spatie/laravel-translatable/pull/377
+- @alirezasalehizadeh made their first contribution in https://github.com/spatie/laravel-translatable/pull/381
+- @yoeriboven made their first contribution in https://github.com/spatie/laravel-translatable/pull/380
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.3.0...6.4.0
+
 ## 6.3.0 - 2023-01-14
 
 ### What's Changed
