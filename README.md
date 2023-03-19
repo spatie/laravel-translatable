@@ -5,12 +5,9 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-translatable/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
 
-This package contains a trait to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
-
-## Usage
+This package contains a trait `HasTranslations` to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
 
 ```php
-// apply HasTranslations trait to a model
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
@@ -21,6 +18,7 @@ class NewsItem extends Model
     // ...
 }
 ```
+
 After the trait is applied on the model you can do these things:
 
 ```php
