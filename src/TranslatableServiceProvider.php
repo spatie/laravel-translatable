@@ -4,6 +4,7 @@ namespace Spatie\Translatable;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TranslatableServiceProvider extends PackageServiceProvider
 {
@@ -17,5 +18,13 @@ class TranslatableServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(Translatable::class, fn () => new Translatable());
         $this->app->bind('translatable', Translatable::class);
+        
+        Factory::macro('translatable', function (string|array $locales, mixed $value) {
+            return json_encode(
+                is_array($value)
+                    ? array_combine((array)$locale, $value)
+                    : array_fill_keys((array)$locale, $value)
+            );
+        });
     }
 }
