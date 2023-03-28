@@ -22,8 +22,8 @@ class TranslatableServiceProvider extends PackageServiceProvider
         Factory::macro('translatable', function (string|array $locales, mixed $value) {
             return json_encode(
                 is_array($value)
-                    ? array_combine((array)$locale, $value)
-                    : array_fill_keys((array)$locale, $value)
+                    ? array_combine((array)$locales, $value)
+                    : array_fill_keys((array)$locales, $value)
             );
         });
     }
