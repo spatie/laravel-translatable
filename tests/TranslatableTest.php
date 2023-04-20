@@ -762,8 +762,8 @@ it('can disable attribute locale fallback on a per model basis', function () {
     expect($model->name)->toBe('');
 });
 
-it('translatable macro meets expectations', function (mixed $expected, string|array $locales, mixed $value) {
-    expect(Factory::translatable($locales, $value))->toEqual($expected);
+it('translations macro meets expectations', function (mixed $expected, string|array $locales, mixed $value) {
+    expect(Factory::translations($locales, $value))->toEqual($expected);
 })->with([
     [['en' => 'english'], 'en', 'english'],
     [['en' => 'english', 'nl' => 'english'], ['en', 'nl'], 'english'],
