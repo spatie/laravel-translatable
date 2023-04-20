@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.0 - 2023-04-20
+
+### What's Changed
+
+- update customize-the-toarray-method.md by @moham96 in https://github.com/spatie/laravel-translatable/pull/387
+- Add macro for `$this->translations()` in factories by @bram-pkg in https://github.com/spatie/laravel-translatable/pull/382
+
+### New Contributors
+
+- @moham96 made their first contribution in https://github.com/spatie/laravel-translatable/pull/387
+- @bram-pkg made their first contribution in https://github.com/spatie/laravel-translatable/pull/382
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.4.0...6.5.0
+
 ## 6.4.0 - 2023-03-19
 
 ### What's Changed
