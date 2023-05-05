@@ -33,6 +33,29 @@ as `$fallbackLocale` parameter:
     );
 ```
 
+### Fallback locale per model
+
+If the fallback locale differs between models, you can define a `getFallbackLocale()` method on your model.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class NewsItem extends Model
+{
+    use HasTranslations;
+
+    public $fillable = ['name', 'fallback_locale'];
+
+    public $translatable = ['name'];
+
+    public function getFallbackLocale() : string
+    {
+        return $this->fallback_locale;
+    }
+}
+```
+
 ### Falling back to any locale
 
 Sometimes it is favored to return any translation if neither the translation for the preferred locale nor the fallback
