@@ -18,7 +18,7 @@ class TestModelWithFallbackLocale extends Model
 
     public $translatable = ['name', 'other_field', 'field_with_mutator'];
 
-    public function getFallbackLocale() : string
+    public function getFallbackLocale(): string
     {
         return static::$fallbackLocale;
     }
