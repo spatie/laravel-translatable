@@ -241,9 +241,13 @@ trait HasTranslations
             return $locale;
         }
 
+        if (method_exists($this, 'getFallbackLocale')) {
+            $fallbackLocale = $this->getFallbackLocale();
+        }
+
         $fallbackConfig = app(Translatable::class);
 
-        $fallbackLocale = $fallbackConfig->fallbackLocale ?? config('app.fallback_locale');
+        $fallbackLocale ??= $fallbackConfig->fallbackLocale ?? config('app.fallback_locale');
 
         if (! is_null($fallbackLocale) && in_array($fallbackLocale, $translatedLocales)) {
             return $fallbackLocale;
