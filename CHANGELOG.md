@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.1 - 2023-05-06
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/laravel-translatable/pull/389
+- Add getFallbackLocale method by @gdebrauwer in https://github.com/spatie/laravel-translatable/pull/391
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.0...6.5.1
+
 ## 6.5.0 - 2023-04-20
 
 ### What's Changed
