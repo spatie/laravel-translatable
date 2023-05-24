@@ -50,6 +50,34 @@ We invest a lot of resources into creating [best in class open source packages](
 
 We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
+## Installation
+
+You can install the package via composer:
+
+```bash
+composer require spatie/laravel-translatable
+```
+
+The required steps to make a model translatable are:
+
+1. First, you need to add the `Spatie\Translatable\HasTranslations-trait`.
+2. Next, you should create a public property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
+3. Finally, you should make sure that all translatable attributes are set to the `json`-datatype in your database. If your database doesn't support `json`-columns, use `text`.
+
+Here's an example of a prepared model:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class NewsItem extends Model
+{
+    use HasTranslations;
+
+    public $translatable = ['name'];
+}
+```
+
 ## Documentation
 
 All documentation is available [on our documentation site](https://spatie.be/docs/laravel-translatable).
