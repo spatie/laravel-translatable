@@ -328,14 +328,14 @@ trait HasTranslations
         );
     }
 
-    public static function whereLocale(string $column, string $locale): Builder
+    public function scopeWhereLocale(Builder $query, string $column, string $locale): void
     {
-        return static::query()->whereNotNull("{$column}->{$locale}");
+        $query->whereNotNull("{$column}->{$locale}");
     }
 
-    public static function whereLocales(string $column, array $locales): Builder
+    public function scopeWhereLocales(Builder $query, string $column, array $locales): void
     {
-        return static::query()->where(function (Builder $query) use ($column, $locales) {
+        $query->where(function (Builder $query) use ($column, $locales) {
             foreach ($locales as $locale) {
                 $query->orWhereNotNull("{$column}->{$locale}");
             }
