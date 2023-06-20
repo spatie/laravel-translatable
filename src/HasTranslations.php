@@ -341,4 +341,24 @@ trait HasTranslations
             }
         });
     }
+
+    /**
+     * @deprecated
+     */
+    public static function whereLocale(string $column, string $locale): Builder
+    {
+        return static::query()->whereNotNull("{$column}->{$locale}");
+    }
+
+    /**
+     * @deprecated
+     */
+    public static function whereLocales(string $column, array $locales): Builder
+    {
+        return static::query()->where(function (Builder $query) use ($column, $locales) {
+            foreach ($locales as $locale) {
+                $query->orWhereNotNull("{$column}->{$locale}");
+            }
+        });
+    }
 }
