@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.2 - 2023-06-20
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/spatie/laravel-translatable/pull/394
+- Convert static methods to scopes by @gdebrauwer in https://github.com/spatie/laravel-translatable/pull/396
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.1...6.5.2
+
 ## 6.5.1 - 2023-05-06
 
 ### What's Changed
