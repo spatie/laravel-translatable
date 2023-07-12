@@ -131,6 +131,11 @@ trait HasTranslations
 
             $value = $this->attributes[$key];
         }
+        elseif($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
+            $this->setAttributeMarkedMutatedAttributeValue($key, $value);
+
+            $value = $this->attributes[$key];
+        }
 
         $translations[$locale] = $value;
 
