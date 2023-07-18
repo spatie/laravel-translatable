@@ -83,7 +83,8 @@ trait HasTranslations
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
         }
-        else if($this->hasAttributeMutator($key)){
+
+        if($this->hasAttributeMutator($key)){
             return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
 
