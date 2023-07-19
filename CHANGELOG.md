@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.3 - 2023-07-19
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/laravel-translatable/pull/398
+- handle new attribute mutator :boom: by @messi89 in https://github.com/spatie/laravel-translatable/pull/402
+
+### New Contributors
+
+- @messi89 made their first contribution in https://github.com/spatie/laravel-translatable/pull/402
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.2...6.5.3
+
 ## 6.5.2 - 2023-06-20
 
 ### What's Changed
