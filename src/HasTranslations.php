@@ -65,7 +65,7 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $translation = $translations[$normalizedLocale] ?? '';
+        $translation = $translations[$normalizedLocale] ?? null;
 
         $translatableConfig = app(Translatable::class);
 
@@ -101,20 +101,20 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, false);
     }
 
-    public function getTranslations(string $key = null, array $allowedLocales = null): array
+    public function getTranslations(string $key = null, array $allowedLocales = null, bool $keepNullValues = true): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
 
             return array_filter(
                 json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
-                fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales),
+                fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales, $keepNullValues),
                 ARRAY_FILTER_USE_BOTH,
             );
         }
 
-        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) use ($allowedLocales) {
-            $result[$item] = $this->getTranslations($item, $allowedLocales);
+        return array_reduce($this->getTranslatableAttributes(), function ($result, $item) use ($allowedLocales, $keepNullValues) {
+            $result[$item] = $this->getTranslations($item, $allowedLocales, $keepNullValues);
 
             return $result;
         });
@@ -204,7 +204,7 @@ trait HasTranslations
 
     public function getTranslatedLocales(string $key): array
     {
-        return array_keys($this->getTranslations($key));
+        return array_keys($this->getTranslations($key, null, false));
     }
 
     public function isTranslatableAttribute(string $key): bool
@@ -268,14 +268,16 @@ trait HasTranslations
         return $locale;
     }
 
-    protected function filterTranslations(mixed $value = null, string $locale = null, array $allowedLocales = null): bool
+    protected function filterTranslations(mixed $value = null, string $locale = null, array $allowedLocales = null, bool $keepNullValues = true): bool
     {
-        if ($value === null) {
-            return false;
-        }
+        if (! $keepNullValues) {
+            if ($value === null) {
+                return false;
+            }
 
-        if ($value === '') {
-            return false;
+            if ($value === '') {
+                return false;
+            }
         }
 
         if ($allowedLocales === null) {
