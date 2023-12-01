@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.4 - 2023-12-01
+
+### What's Changed
+
+* Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/laravel-translatable/pull/413
+* Keep the number of translations even with null values by @sdebacker in https://github.com/spatie/laravel-translatable/pull/427
+* Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/spatie/laravel-translatable/pull/418
+
+### New Contributors
+
+* @sdebacker made their first contribution in https://github.com/spatie/laravel-translatable/pull/427
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.3...6.5.4
+
 ## 6.5.3 - 2023-07-19
 
 ### What's Changed
