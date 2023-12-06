@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.5.5 - 2023-12-06
+
+### What's Changed
+
+* Revert "Keep null value" by @mabdullahsari in https://github.com/spatie/laravel-translatable/pull/428
+
+### New Contributors
+
+* @mabdullahsari made their first contribution in https://github.com/spatie/laravel-translatable/pull/428
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.4...6.5.5
+
 ## 6.5.4 - 2023-12-01
 
 ### What's Changed
