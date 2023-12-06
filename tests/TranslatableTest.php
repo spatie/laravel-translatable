@@ -39,7 +39,7 @@ it('provides a flog to not return fallback locale translation when getting an un
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->save();
 
-    expect($this->testModel->getTranslation('name', 'fr', false))->toBe(null);
+    expect($this->testModel->getTranslation('name', 'fr', false))->toBe('');
 });
 
 it('will return fallback locale translation when getting an unknown locale and fallback is true', function () {
@@ -126,7 +126,7 @@ it('will return an empty string when getting an unknown locale and fallback is n
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->save();
 
-    expect($this->testModel->getTranslationWithoutFallback('name', 'fr'))->toBe(null);
+    expect($this->testModel->getTranslationWithoutFallback('name', 'fr'))->toBe('');
 });
 
 it('will return an empty string when getting an unknown locale and fallback is empty', function () {
@@ -139,7 +139,7 @@ it('will return an empty string when getting an unknown locale and fallback is e
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->save();
 
-    expect($this->testModel->getTranslation('name', 'fr'))->toBe(null);
+    expect($this->testModel->getTranslation('name', 'fr'))->toBe('');
 });
 
 it('can save a translated attribute', function () {
@@ -147,13 +147,6 @@ it('can save a translated attribute', function () {
     $this->testModel->save();
 
     expect($this->testModel->name)->toBe('testValue_en');
-});
-
-it('can save null value in a translated attribute', function () {
-    $this->testModel->setTranslation('name', 'en', null);
-    $this->testModel->save();
-
-    expect($this->testModel->name)->toBe(null);
 });
 
 it('can set translated values when creating a model', function () {
@@ -455,21 +448,11 @@ it('can check if an attribute is translatable', function () {
 it('can check if an attribute has translation', function () {
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->setTranslation('name', 'nl', null);
-    $this->testModel->setTranslation('name', 'de', null);
     $this->testModel->save();
 
     expect($this->testModel->hasTranslation('name', 'en'))->toBeTrue();
 
     expect($this->testModel->hasTranslation('name', 'pt'))->toBeFalse();
-});
-
-it('will return the same number of translations with the same values as saved', function () {
-    $this->testModel->setTranslation('name', 'en', 'testValue_en');
-    $this->testModel->setTranslation('name', 'nl', null);
-    $this->testModel->setTranslation('name', 'de', '');
-    $this->testModel->save();
-
-    expect($this->testModel->getTranslations('name'))->toEqual(['en' => 'testValue_en', 'nl' => null, 'de' => '']);
 });
 
 it('can correctly set a field when a mutator is defined', function () {
@@ -716,7 +699,7 @@ it('provides a flog to not return any translation when getting an unknown locale
     $this->testModel->save();
 
     $this->testModel->setLocale('it');
-    expect($this->testModel->getTranslation('name', 'it', false))->toBe(null);
+    expect($this->testModel->getTranslation('name', 'it', false))->toBe('');
 });
 
 it('will return default fallback locale translation when getting an unknown locale with fallback any', function () {
@@ -777,7 +760,7 @@ it('can disable attribute locale fallback on a per model basis', function () {
 
     $model->setLocale('fr');
 
-    expect($model->name)->toBe(null);
+    expect($model->name)->toBe('');
 });
 
 it('can set fallback locale on model', function () {
