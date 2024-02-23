@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.6.0 - 2024-02-23
+
+### What's Changed
+
+* Add laravel 11 support by @mokhosh in https://github.com/spatie/laravel-translatable/pull/434
+
+### New Contributors
+
+* @mokhosh made their first contribution in https://github.com/spatie/laravel-translatable/pull/434
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.5.5...6.6.0
+
 ## 6.5.5 - 2023-12-06
 
 ### What's Changed
