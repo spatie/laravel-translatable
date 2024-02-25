@@ -137,7 +137,7 @@ trait HasTranslations
         } elseif($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
             $this->setAttributeMarkedMutatedAttributeValue($key, $value);
 
-            $value = $this->attributes[$key];
+            $this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
         $translations[$locale] = $value;
