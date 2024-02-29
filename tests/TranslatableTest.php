@@ -397,6 +397,25 @@ it('can use accessors on translated attributes', function () {
     expect('I just accessed testValue_en')->toEqual($testModel->name);
 });
 
+it('can be converted to array when using accessors on translated attributes', function () {
+    $testModel = new class () extends TestModel {
+        public function getNameAttribute($value)
+        {
+            return "I just accessed {$value}";
+        }
+    };
+
+    $testModel->setTranslation('name', 'en', 'testValue_en');
+    $testModel->setTranslation('name', 'nl', 'testValue_nl');
+
+    expect($testModel->toArray())
+        ->toHaveKey('name')
+        ->toContain([
+            'en' => 'I just accessed testValue_en',
+            'nl' => 'I just accessed testValue_nl',
+        ]);
+});
+
 it('can use mutators on translated attributes', function () {
     $testModel = new class () extends TestModel {
         public function setNameAttribute($value)

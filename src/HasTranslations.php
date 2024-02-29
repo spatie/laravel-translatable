@@ -36,6 +36,17 @@ trait HasTranslations
         return $this->getTranslation($key, $this->getLocale(), $this->useFallbackLocale());
     }
 
+    protected function mutateAttributeForArray($key, $value): mixed
+    {
+        if (! $this->isTranslatableAttribute($key)) {
+            return parent::mutateAttributeForArray($key, $value);
+        }
+
+        $translations = $this->getTranslations($key);
+
+        return array_map(fn ($value) => parent::mutateAttributeForArray($key, $value), $translations);
+    }
+
     public function setAttribute($key, $value)
     {
         if ($this->isTranslatableAttribute($key) && is_array($value)) {
