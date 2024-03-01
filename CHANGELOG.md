@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.6.2 - 2024-03-01
+
+### What's Changed
+
+* Fix toArray when using accessors on translatable attributes by @vencelkatai in https://github.com/spatie/laravel-translatable/pull/437
+
+### New Contributors
+
+* @vencelkatai made their first contribution in https://github.com/spatie/laravel-translatable/pull/437
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.6.1...6.6.2
+
 ## 6.6.1 - 2024-02-26
 
 ### What's Changed
