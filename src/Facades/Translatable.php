@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Spatie\Translatable\Translatable
+ *
+ * @method static fallback(?string $fallbackLocale = null, ?bool $fallbackAny = false, $missingKeyCallback = null)
  */
 class Translatable extends Facade
 {
