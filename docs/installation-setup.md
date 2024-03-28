@@ -27,5 +27,5 @@ class NewsItem extends Model
 {
     use HasTranslations;
 
-    public $translatable = ['name'];
+    public array $translatable = ['name'];
 }
