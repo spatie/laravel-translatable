@@ -361,6 +361,20 @@ trait HasTranslations
         });
     }
 
+    public function scopeWhereJsonContainsLocale(Builder $query, string $column, string $locale, mixed $value): void
+    {
+        $query->whereJsonContains("{$column}->{$locale}", $value);
+    }
+
+    public function scopeWhereJsonContainsLocales(Builder $query, string $column, array $locales, mixed $value): void
+    {
+        $query->where(function (Builder $query) use ($column, $locales, $value) {
+            foreach($locales as $locale) {
+                $query->orWhereJsonContains("{$column}->{$locale}", $value);
+            }
+        });
+    }
+
     /**
      * @deprecated
      */
