@@ -40,6 +40,14 @@ $newsItem->name; // Returns 'Naam in het Nederlands'
 NewsItem::whereLocale('name', 'en')->get(); // Returns all news items with a name in English
 
 NewsItem::whereLocales('name', ['en', 'nl'])->get(); // Returns all news items with a name in English or Dutch
+
+// Returns all news items that has name in English with value `Name in English` 
+NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in English')->get(); 
+
+// Returns all news items that has name in English or Dutch with value `Name in English` 
+NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in English')->get(); 
+
+
 ```
 
 ## Support us

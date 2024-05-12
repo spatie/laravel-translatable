@@ -769,6 +769,28 @@ it('queries the database for multiple locales', function () {
     expect($this->testModel->whereLocales('name', ['de', 'be'])->get())->toHaveCount(0);
 });
 
+it('queries the database whether a value exists in a locale', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('name', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect($this->testModel->whereJsonContainsLocale('name', 'en', 'testValue_en')->get())->toHaveCount(1);
+
+    expect($this->testModel->whereJsonContainsLocale('name', 'en', 'testValue_fr')->get())->toHaveCount(0);
+});
+
+it('queries the database whether a value exists in a multiple locales', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('name', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect($this->testModel->whereJsonContainsLocales('name', ['en', 'fr'], 'testValue_en')->get())->toHaveCount(1);
+
+    expect($this->testModel->whereJsonContainsLocales('name', ['en', 'fr'], 'testValue_tr')->get())->toHaveCount(0);
+});
+
 it('can disable attribute locale fallback on a per model basis', function () {
     config()->set('app.fallback_locale', 'en');
 
