@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.7.1 - 2024-05-14
+
+### What's Changed
+
+* fix: PHPDoc block in Translatable facade by @kyryl-bogach in https://github.com/spatie/laravel-translatable/pull/448
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.1.0 by @dependabot in https://github.com/spatie/laravel-translatable/pull/446
+
+### New Contributors
+
+* @kyryl-bogach made their first contribution in https://github.com/spatie/laravel-translatable/pull/448
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.7.0...6.7.1
+
 ## 6.7.0 - 2024-05-13
 
 ### What's Changed
