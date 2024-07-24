@@ -777,6 +777,8 @@ it('queries the database whether a value exists in a locale', function () {
 
     expect($this->testModel->whereJsonContainsLocale('name', 'en', 'testValue_en')->get())->toHaveCount(1);
 
+    expect($this->testModel->whereJsonContainsLocale('name', 'en', 'test%en', 'like')->get())->toHaveCount(1);
+
     expect($this->testModel->whereJsonContainsLocale('name', 'en', 'testValue_fr')->get())->toHaveCount(0);
 });
 
@@ -787,6 +789,8 @@ it('queries the database whether a value exists in a multiple locales', function
     $this->testModel->save();
 
     expect($this->testModel->whereJsonContainsLocales('name', ['en', 'fr'], 'testValue_en')->get())->toHaveCount(1);
+
+    expect($this->testModel->whereJsonContainsLocales('name', ['en', 'fr'], 'test%en', 'like')->get())->toHaveCount(1);
 
     expect($this->testModel->whereJsonContainsLocales('name', ['en', 'fr'], 'testValue_tr')->get())->toHaveCount(0);
 });
