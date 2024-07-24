@@ -44,11 +44,13 @@ NewsItem::whereLocales('name', ['en', 'nl'])->get(); // Returns all news items w
 // Returns all news items that has name in English with value `Name in English` 
 NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in English')->get();
 
-// Returns all news items that has name in English with value like `Name in...` 
-NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in%', 'like')->get();
-
 // Returns all news items that has name in English or Dutch with value `Name in English` 
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in English')->get();
+
+// The last argument is the "operand" which you can tweak to achieve something like this:
+
+// Returns all news items that has name in English with value like `Name in...` 
+NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in%', 'like')->get();
 
 // Returns all news items that has name in English or Dutch with value like `Name in...` 
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in%', 'like')->get();
