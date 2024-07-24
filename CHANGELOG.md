@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.8.0 - 2024-07-24
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/spatie/laravel-translatable/pull/453
+* Added operand for json scopes by @rcerljenko in https://github.com/spatie/laravel-translatable/pull/454
+
+### New Contributors
+
+* @rcerljenko made their first contribution in https://github.com/spatie/laravel-translatable/pull/454
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.7.1...6.8.0
+
 ## 6.7.1 - 2024-05-14
 
 ### What's Changed
