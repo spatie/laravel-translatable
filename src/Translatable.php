@@ -22,7 +22,7 @@ class Translatable
     public function fallback(
         ?string $fallbackLocale = null,
         ?bool $fallbackAny = false,
-        $missingKeyCallback = null
+        ?Closure $missingKeyCallback = null
     ): self {
         $this->fallbackLocale = $fallbackLocale;
         $this->fallbackAny = $fallbackAny;
