@@ -112,7 +112,7 @@ trait HasTranslations
         return $this->getTranslation($key, $locale, false);
     }
 
-    public function getTranslations(string $key = null, array $allowedLocales = null): array
+    public function getTranslations(?string $key = null, ?array $allowedLocales = null): array
     {
         if ($key !== null) {
             $this->guardAgainstNonTranslatableAttribute($key);
@@ -223,7 +223,7 @@ trait HasTranslations
         return in_array($key, $this->getTranslatableAttributes());
     }
 
-    public function hasTranslation(string $key, string $locale = null): bool
+    public function hasTranslation(string $key, ?string $locale = null): bool
     {
         $locale = $locale ?: $this->getLocale();
 
@@ -279,7 +279,7 @@ trait HasTranslations
         return $locale;
     }
 
-    protected function filterTranslations(mixed $value = null, string $locale = null, array $allowedLocales = null): bool
+    protected function filterTranslations(mixed $value = null, ?string $locale = null, ?array $allowedLocales = null): bool
     {
         if ($value === null) {
             return false;
