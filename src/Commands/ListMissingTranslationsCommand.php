@@ -55,8 +55,6 @@ class ListMissingTranslationsCommand extends Command
 
         $bar = $this->output->createProgressBar($total);
 
-        $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%');
-
         $missingTranslations = collect();
 
         $query->chunk(100, function ($models) use ($locales, $attributes, &$missingTranslations, $bar) {
