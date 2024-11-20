@@ -19,6 +19,10 @@ class Translatable
 
     public ?Closure $missingKeyCallback = null;
 
+    public bool $allowNullForTranslation = false;
+
+    public bool $allowEmptyStringForTranslation = false;
+
     public function fallback(
         ?string $fallbackLocale = null,
         ?bool $fallbackAny = false,
