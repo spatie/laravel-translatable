@@ -836,7 +836,7 @@ it('should return null when the underlying attribute in database is null', funct
     // we need to remove the name attribute from the translatable array
     // and add it back to make sure the name
     // attribute is holding `null` raw value
-    $this->testModel->translatable = array_filter($this->testModel->translatable, fn($attribute) => $attribute !== 'name');
+    $this->testModel->translatable = array_filter($this->testModel->translatable, fn ($attribute) => $attribute !== 'name');
     $this->testModel->name = null;
     $this->testModel->translatable = array_merge($this->testModel->translatable, ['name']);
 
