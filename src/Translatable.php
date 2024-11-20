@@ -34,4 +34,18 @@ class Translatable
 
         return $this;
     }
+
+    public function allowNullForTranslation(bool $allowNullForTranslation = true): self
+    {
+        $this->allowNullForTranslation = $allowNullForTranslation;
+
+        return $this;
+    }
+
+    public function allowEmptyStringForTranslation(bool $allowEmptyStringForTranslation = true): self
+    {
+        $this->allowEmptyStringForTranslation = $allowEmptyStringForTranslation;
+
+        return $this;
+    }
 }
