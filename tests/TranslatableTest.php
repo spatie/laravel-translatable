@@ -831,3 +831,56 @@ it('translations macro meets expectations', function (mixed $expected, string|ar
     [['en' => 'english', 'nl' => 'english'], ['en', 'nl'], 'english'],
     [['en' => 'english', 'nl' => 'dutch'], ['en', 'nl'], ['english', 'dutch']],
 ]);
+
+it('should return null when the underlying attribute in database is null', function () {
+    // we need to remove the name attribute from the translatable array
+    // and add it back to make sure the name
+    // attribute is holding `null` raw value
+    $this->testModel->translatable = array_filter($this->testModel->translatable, fn($attribute) => $attribute !== 'name');
+    $this->testModel->name = null;
+    $this->testModel->translatable = array_merge($this->testModel->translatable, ['name']);
+
+    $translation = $this->testModel->getTranslation('name', 'en');
+
+    expect($translation)->toBeNull();
+});
+
+it('should return locales with empty string translations when allowEmptyStringForTranslation is true', function () {
+    Translatable::allowEmptyStringForTranslation();
+
+    $this->testModel->setTranslation('name', 'en', '');
+
+    $translations = $this->testModel->getTranslations('name');
+
+    expect($translations)->toEqual(['en' => '']);
+});
+
+it('should not return locales with empty string translations when allowEmptyStringForTranslation is false', function () {
+    Translatable::allowEmptyStringForTranslation(false);
+
+    $this->testModel->setTranslation('name', 'en', '');
+
+    $translations = $this->testModel->getTranslations('name');
+
+    expect($translations)->toEqual([]);
+});
+
+it('should return locales with null translations when allowNullForTranslation is true', function () {
+    Translatable::allowNullForTranslation();
+
+    $this->testModel->setTranslation('name', 'en', null);
+
+    $translations = $this->testModel->getTranslations('name');
+
+    expect($translations)->toEqual(['en' => null]);
+});
+
+it('should not return locales with null translations when allowNullForTranslation is false', function () {
+    Translatable::allowNullForTranslation(false);
+
+    $this->testModel->setTranslation('name', 'en', null);
+
+    $translations = $this->testModel->getTranslations('name');
+
+    expect($translations)->toEqual([]);
+});
