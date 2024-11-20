@@ -100,7 +100,7 @@ trait HasTranslations
             return $this->mutateAttribute($key, $translation);
         }
 
-        if($this->hasAttributeMutator($key)) {
+        if ($this->hasAttributeMutator($key)) {
             return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
 
@@ -151,7 +151,7 @@ trait HasTranslations
             $this->{$method}($value, $locale);
 
             $value = $this->attributes[$key];
-        } elseif($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
+        } elseif ($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
             $this->setAttributeMarkedMutatedAttributeValue($key, $value);
 
             $value = $this->attributes[$key];
@@ -287,11 +287,11 @@ trait HasTranslations
 
     protected function filterTranslations(mixed $value = null, ?string $locale = null, ?array $allowedLocales = null, bool $allowNull = false, bool $allowEmptyString = false): bool
     {
-        if ($value === null && !$allowNull) {
+        if ($value === null && ! $allowNull) {
             return false;
         }
 
-        if ($value === '' && !$allowEmptyString) {
+        if ($value === '' && ! $allowEmptyString) {
             return false;
         }
 
@@ -375,7 +375,7 @@ trait HasTranslations
     public function scopeWhereJsonContainsLocales(Builder $query, string $column, array $locales, mixed $value, string $operand = '='): void
     {
         $query->where(function (Builder $query) use ($column, $locales, $value, $operand) {
-            foreach($locales as $locale) {
+            foreach ($locales as $locale) {
                 $query->orWhere("{$column}->{$locale}", $operand, $value);
             }
         });
