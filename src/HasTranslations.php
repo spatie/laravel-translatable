@@ -49,14 +49,15 @@ trait HasTranslations
 
     public function setAttribute($key, $value)
     {
-        if ($this->isTranslatableAttribute($key)) {
-            if (is_array($value) && ! array_is_list($value)) {
-                return $this->setTranslations($key, $value);
-            }
-            return $this->setTranslation($key, $this->getLocale(), $value);
+        if (!$this->isTranslatableAttribute($key)) {
+            return parent::setAttribute($key, $value);
         }
 
-        return parent::setAttribute($key, $value);
+        if (is_array($value) && ! array_is_list($value)) {
+            return $this->setTranslations($key, $value);
+        }
+
+        return $this->setTranslation($key, $this->getLocale(), $value);
     }
 
     public function translate(string $key, string $locale = '', bool $useFallbackLocale = true): mixed
