@@ -49,7 +49,7 @@ trait HasTranslations
 
     public function setAttribute($key, $value)
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             return parent::setAttribute($key, $value);
         }
 
