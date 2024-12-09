@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.9.0 - 2024-12-09
+
+### What's Changed
+
+* PHP 8.4 deprecates implicitly nullable parameter types. by @selfsimilar in https://github.com/spatie/laravel-translatable/pull/458
+* Add .idea to .gitignore, PHP CS Fixer to dev dependencies, and rename PHP CS Fixer config by @alipadron in https://github.com/spatie/laravel-translatable/pull/466
+* Allow configuration for handling null and empty strings in translations (Fixes #456) by @alipadron in https://github.com/spatie/laravel-translatable/pull/465
+
+### New Contributors
+
+* @selfsimilar made their first contribution in https://github.com/spatie/laravel-translatable/pull/458
+* @alipadron made their first contribution in https://github.com/spatie/laravel-translatable/pull/466
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.8.0...6.9.0
+
 ## 6.8.0 - 2024-07-24
 
 ### What's Changed
