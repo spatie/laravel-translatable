@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Casts\Attribute as Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
@@ -526,6 +527,27 @@ it('can set multiple translations on field when a mutator is defined', function 
     $testModel->save();
 
     expect($testModel->getTranslations('field_with_mutator'))->toEqual($translations);
+});
+
+it('uses the attribute to mutate the translated value', function () {
+    $testModel = (new class () extends TestModel {
+        public $mutatedValues = [];
+
+        protected function name(): Attribute
+        {
+            return Attribute::get(function ($value) {
+                $this->mutatedValues[] = $value;
+
+                return 'mutated';
+            });
+        }
+    });
+
+    $testModel->name = 'hello';
+    $testModel->save();
+
+    expect($testModel->name)->toEqual('mutated');
+    expect($testModel->mutatedValues)->toBe(['hello']);
 });
 
 it('can translate a field based on the translations of another one', function () {
