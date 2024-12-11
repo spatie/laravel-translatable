@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.9.1 - 2024-12-11
+
+### What's Changed
+
+* Fix attribute mutators by @vencelkatai in https://github.com/spatie/laravel-translatable/pull/470
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.9.0...6.9.1
+
 ## 6.9.0 - 2024-12-09
 
 ### What's Changed
