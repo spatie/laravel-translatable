@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.9.2 - 2024-12-11
+
+### What's Changed
+
+* Improve `setAttribute` to handle array list as value for translation by @alipadron in https://github.com/spatie/laravel-translatable/pull/469
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.9.1...6.9.2
+
 ## 6.9.1 - 2024-12-11
 
 ### What's Changed
