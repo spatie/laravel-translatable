@@ -854,7 +854,7 @@ it('translations macro meets expectations', function (mixed $expected, string|ar
     [['en' => 'english', 'nl' => 'dutch'], ['en', 'nl'], ['english', 'dutch']],
 ]);
 
-it('should return null when the underlying attribute in database is null', function () {
+it('should return empty string when the underlying attribute in database is null', function () {
     // we need to remove the name attribute from the translatable array
     // and add it back to make sure the name
     // attribute is holding `null` raw value
@@ -864,7 +864,7 @@ it('should return null when the underlying attribute in database is null', funct
 
     $translation = $this->testModel->getTranslation('name', 'en');
 
-    expect($translation)->toBeNull();
+    expect($translation)->toBe('');
 });
 
 it('should return locales with empty string translations when allowEmptyStringForTranslation is true', function () {
