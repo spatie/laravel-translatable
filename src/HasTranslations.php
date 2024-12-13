@@ -67,11 +67,6 @@ trait HasTranslations
 
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
-        // if column value is `null` then we have nothing to do, return `null`
-        if (is_null(parent::getAttributeFromArray($key))) {
-            return null;
-        }
-
         $normalizedLocale = $this->normalizeLocale($key, $locale, $useFallbackLocale);
 
         $isKeyMissingFromLocale = ($locale !== $normalizedLocale);
