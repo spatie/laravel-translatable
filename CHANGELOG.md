@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.9.3 - 2024-12-16
+
+### What's Changed
+
+* Revert return value change when column value is `null` by @vencelkatai in https://github.com/spatie/laravel-translatable/pull/474
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.9.2...6.9.3
+
 ## 6.9.2 - 2024-12-11
 
 ### What's Changed
