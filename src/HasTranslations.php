@@ -53,7 +53,7 @@ trait HasTranslations
             return parent::setAttribute($key, $value);
         }
 
-        if (is_array($value) && ! array_is_list($value)) {
+        if (is_array($value) && (! array_is_list($value) || count($value) === 0)) {
             return $this->setTranslations($key, $value);
         }
 

@@ -920,3 +920,10 @@ it('can set an array list as value for translation using default local', functio
 
     expect($this->testModel->getTranslation('name', 'en'))->toEqual(['testValue_en']);
 });
+
+it('can treat an empty array as value for clearing translations', function () {
+    $this->testModel->name = [];
+    $this->testModel->save();
+
+    expect($this->testModel->getTranslations('name'))->toEqual([]);
+});
