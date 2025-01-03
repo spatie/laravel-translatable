@@ -82,7 +82,7 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $translation = $translations[$normalizedLocale] ?? '';
+        $translation = is_null(self::getAttributeFromArray($key)) ? null : $translations[$normalizedLocale] ?? '';
 
         $translatableConfig = app(Translatable::class);
 
