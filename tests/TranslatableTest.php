@@ -927,3 +927,56 @@ it('can treat an empty array as value for clearing translations', function () {
 
     expect($this->testModel->getTranslations('name'))->toEqual([]);
 });
+
+it('can set and retrieve translations for nested fields', function () {
+    $testModel = new class () extends TestModel {
+        public $translatable = ['nested->field', 'nested->deep->field'];
+    };
+
+    $nestedFieldKey = 'nested->field';
+    $nestedDeepFieldKey = 'nested->deep->field';
+    
+    $testModel = $testModel::create([
+        $nestedFieldKey => ['ar' => 'nestedFieldKey_ar'],
+    ]);
+
+    app()->setLocale('nl');
+    $testModel->$nestedFieldKey = 'nestedFieldKey_nl';
+    
+    $testModel->setTranslation($nestedFieldKey ,'en', 'nestedFieldKey_en');
+
+    $testModel->setTranslations($nestedDeepFieldKey, [
+        'ar'=> 'nestedDeepFieldKey_ar',
+        'en'=> 'nestedDeepFieldKey_en',
+    ]);
+    
+    $testModel->save();
+    
+    expect($testModel->getTranslations())
+        ->toEqual([
+            $nestedFieldKey => [
+                'ar' => 'nestedFieldKey_ar',
+                'nl' => 'nestedFieldKey_nl',
+                'en' => 'nestedFieldKey_en',
+            ],
+            $nestedDeepFieldKey => [
+                'ar'=> 'nestedDeepFieldKey_ar',
+                'en'=> 'nestedDeepFieldKey_en',
+            ],
+        ]);
+
+
+    expect($testModel->getTranslations($nestedDeepFieldKey))
+        ->toEqual([
+            'ar'=> 'nestedDeepFieldKey_ar',
+            'en'=> 'nestedDeepFieldKey_en',
+    ]);
+
+    // fallback en used here while no nl lang in this field
+    expect($testModel->$nestedDeepFieldKey)
+        ->toEqual('nestedDeepFieldKey_en');
+    
+    app()->setLocale('ar');
+    expect($testModel->$nestedFieldKey)->toBe('nestedFieldKey_ar');
+    expect($testModel->getTranslation($nestedDeepFieldKey, 'en'))->toBe('nestedDeepFieldKey_en');
+});
