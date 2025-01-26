@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Eloquent\Casts\Attribute as Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
@@ -979,4 +979,42 @@ it('can set and retrieve translations for nested fields', function () {
     app()->setLocale('ar');
     expect($testModel->$nestedFieldKey)->toBe('nestedFieldKey_ar');
     expect($testModel->getTranslation($nestedDeepFieldKey, 'en'))->toBe('nestedDeepFieldKey_en');
+});
+
+it('uses mutators for setting and getting translated values of nested fields', function () {
+    $testModel = new class () extends TestModel {
+        public $translatable = ['nested->field', 'nested->deep->field'];
+    
+        public function setNestedFieldAttribute($value)
+        {
+            $this->attributes['nested->field'] = strtolower($value);
+        }
+
+        public function getNestedFieldAttribute($value)
+        {
+            return ucfirst($value);
+        }
+
+        protected function nestedDeepField(): Attribute
+        {
+            return Attribute::make(
+                get: fn (string $value) => ucfirst($value),
+                set: fn (string $value) => strtolower($value),
+            );
+        }
+    };
+
+    $nestedFieldKey = 'nested->field';
+    $nestedDeepFieldKey = 'nested->deep->field';
+    
+    app()->setLocale('ar');
+    $testModel->$nestedFieldKey = 'NESTED FIELD AR';    
+    $testModel->$nestedDeepFieldKey = 'NESTED DEEP FIELD AR';
+    $testModel->save();
+    
+    expect($testModel->$nestedFieldKey)
+        ->toEqual('Nested field ar');
+
+    expect($testModel->$nestedDeepFieldKey)
+        ->toEqual('Nested deep field ar');
 });

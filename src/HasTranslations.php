@@ -97,14 +97,14 @@ trait HasTranslations
             }
         }
 
-        if (! $this->isNestedKey($key)) {
-            if ($this->hasGetMutator($key)) {
-                return $this->mutateAttribute($key, $translation);
-            }
+        $key = str_replace('->', '-', $key);
 
-            if ($this->hasAttributeMutator($key)) {
-                return $this->mutateAttributeMarkedAttribute($key, $translation);
-            }
+        if ($this->hasGetMutator($key)) {
+            return $this->mutateAttribute($key, $translation);
+        }
+        
+        if ($this->hasAttributeMutator($key)) {
+            return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
 
         return $translation;
@@ -152,23 +152,25 @@ trait HasTranslations
 
         $oldValue = $translations[$locale] ?? '';
 
-        if (! $this->isNestedKey($key)) {
-            if ($this->hasSetMutator($key)) {
-                $method = 'set'.Str::studly($key).'Attribute';
+        $mutatorKey = str_replace('->', '-', $key);
 
-                $this->{$method}($value, $locale);
+        if ($this->hasSetMutator($mutatorKey)) {
+            $method = 'set'.Str::studly($mutatorKey).'Attribute';
 
-                $value = $this->attributes[$key];
-            } elseif ($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
-                $this->setAttributeMarkedMutatedAttributeValue($key, $value);
+            $this->{$method}($value, $locale);
 
-                $value = $this->attributes[$key];
-            }
+            $value = $this->attributes[$key];
+        } elseif ($this->hasAttributeSetMutator($mutatorKey)) { // handle new attribute mutator
+            $this->setAttributeMarkedMutatedAttributeValue($mutatorKey, $value);
+            
+            $value = $this->attributes[$mutatorKey];
         }
-
+                
         $translations[$locale] = $value;
-
+                
         if ($this->isNestedKey($key)) {
+            unset($this->attributes[$key], $this->attributes[$mutatorKey]);
+
             $this->fillJsonAttribute($key, $translations);
         } else {
             $this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
