@@ -997,7 +997,7 @@ it('uses mutators for setting and getting translated values of nested fields', f
 
         protected function nestedDeepField(): Attribute
         {
-            return Attribute::make(
+            return new Attribute(
                 get: fn (string $value) => ucfirst($value),
                 set: fn (string $value) => strtolower($value),
             );
