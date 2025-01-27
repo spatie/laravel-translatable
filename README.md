@@ -15,6 +15,8 @@ class NewsItem extends Model
 {
     use HasTranslations;
     
+    public $translatable = ['name']; // translatable attributes
+
     // ...
 }
 ```
@@ -32,14 +34,30 @@ $newsItem->name; // Returns 'Name in English' given that the current app locale 
 $newsItem->getTranslation('name', 'nl'); // returns 'Naam in het Nederlands'
 
 app()->setLocale('nl');
-
 $newsItem->name; // Returns 'Naam in het Nederlands'
 
-// If you want to query records based on locales, you can use the `whereLocale` and `whereLocales` methods.
+$newsItem->getTranslations('name'); // returns an array of all name translations
 
-NewsItem::whereLocale('name', 'en')->get(); // Returns all news items with a name in English
+// You can translate nested keys of a JSON column using the -> notation
+// First, add the path to the $translatable array, e.g., 'meta->description'
+$newsItem
+   ->setTranslation('meta->description', 'en', 'Description in English')
+   ->setTranslation('meta->description', 'nl', 'Beschrijving in het Nederlands')
+   ->save();
 
-NewsItem::whereLocales('name', ['en', 'nl'])->get(); // Returns all news items with a name in English or Dutch
+$attributeKey = 'meta->description';
+$newsItem->$attributeKey; // Returns 'Description in English'
+$newsItem->getTranslation('meta->description', 'nl'); // Returns 'Beschrijving in het Nederlands'
+```
+
+Also providing scoped queries for retrieving records based on locales
+
+```php
+// Returns all news items with a name in English
+NewsItem::whereLocale('name', 'en')->get();
+
+// Returns all news items with a name in English or Dutch
+NewsItem::whereLocales('name', ['en', 'nl'])->get();
 
 // Returns all news items that has name in English with value `Name in English` 
 NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in English')->get();
@@ -54,8 +72,6 @@ NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in%', 'like')->ge
 
 // Returns all news items that has name in English or Dutch with value like `Name in...` 
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in%', 'like')->get();
-
-
 ```
 
 ## Support us
