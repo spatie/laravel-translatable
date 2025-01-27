@@ -5,6 +5,7 @@ namespace Spatie\Translatable;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
@@ -12,6 +13,14 @@ use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 trait HasTranslations
 {
     protected ?string $translationLocale = null;
+
+    public function initializeHasTranslations(): void
+    {
+        $this->mergeCasts(array_merge(
+            $this->getCasts(),
+            array_fill_keys($this->getTranslatableAttributes(), 'array'),
+        ));
+    }
 
     public static function usingLocale(string $locale): self
     {
@@ -88,10 +97,12 @@ trait HasTranslations
             }
         }
 
+        $key = str_replace('->', '-', $key);
+
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
         }
-
+        
         if ($this->hasAttributeMutator($key)) {
             return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
@@ -115,8 +126,12 @@ trait HasTranslations
             $this->guardAgainstNonTranslatableAttribute($key);
             $translatableConfig = app(Translatable::class);
 
+            if ($this->isNestedKey($key)) {
+                [$key, $nestedKey] = explode('.',str_replace('->', '.', $key), 2);
+            }
+        
             return array_filter(
-                json_decode($this->getAttributes()[$key] ?? '' ?: '{}', true) ?: [],
+                Arr::get($this->fromJson($this->getAttributeFromArray($key)), $nestedKey ?? null, []),
                 fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales, $translatableConfig->allowNullForTranslation, $translatableConfig->allowEmptyStringForTranslation),
                 ARRAY_FILTER_USE_BOTH,
             );
@@ -137,21 +152,29 @@ trait HasTranslations
 
         $oldValue = $translations[$locale] ?? '';
 
-        if ($this->hasSetMutator($key)) {
-            $method = 'set'.Str::studly($key).'Attribute';
+        $mutatorKey = str_replace('->', '-', $key);
+
+        if ($this->hasSetMutator($mutatorKey)) {
+            $method = 'set'.Str::studly($mutatorKey).'Attribute';
 
             $this->{$method}($value, $locale);
 
             $value = $this->attributes[$key];
-        } elseif ($this->hasAttributeSetMutator($key)) { // handle new attribute mutator
-            $this->setAttributeMarkedMutatedAttributeValue($key, $value);
-
-            $value = $this->attributes[$key];
+        } elseif ($this->hasAttributeSetMutator($mutatorKey)) { // handle new attribute mutator
+            $this->setAttributeMarkedMutatedAttributeValue($mutatorKey, $value);
+            
+            $value = $this->attributes[$mutatorKey];
         }
-
+                
         $translations[$locale] = $value;
+                
+        if ($this->isNestedKey($key)) {
+            unset($this->attributes[$key], $this->attributes[$mutatorKey]);
 
-        $this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $this->fillJsonAttribute($key, $translations);
+        } else {
+            $this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
 
         event(new TranslationHasBeenSetEvent($this, $key, $locale, $oldValue, $value));
 
@@ -214,6 +237,11 @@ trait HasTranslations
     public function getTranslatedLocales(string $key): array
     {
         return array_keys($this->getTranslations($key));
+    }
+
+    public function isNestedKey(string $key): bool
+    {
+        return str_contains($key, '->');
     }
 
     public function isTranslatableAttribute(string $key): bool
@@ -326,14 +354,6 @@ trait HasTranslations
                 })
                 ->toArray();
         });
-    }
-
-    public function getCasts(): array
-    {
-        return array_merge(
-            parent::getCasts(),
-            array_fill_keys($this->getTranslatableAttributes(), 'array'),
-        );
     }
 
     public function locales(): array
