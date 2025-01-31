@@ -16,10 +16,9 @@ trait HasTranslations
 
     public function initializeHasTranslations(): void
     {
-        $this->mergeCasts(array_merge(
-            $this->casts,
+        $this->mergeCasts(
             array_fill_keys($this->getTranslatableAttributes(), 'array'),
-        ));
+        );
     }
 
     public static function usingLocale(string $locale): self
