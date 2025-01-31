@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.10.1 - 2025-01-31
+
+### What's Changed
+
+* Handle null database values as null in translations by @alipadron in https://github.com/spatie/laravel-translatable/pull/479
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.10.0...6.10.1
+
 ## 6.10.0 - 2025-01-31
 
 ### What's Changed
