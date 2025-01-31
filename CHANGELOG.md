@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.10.0 - 2025-01-31
+
+### What's Changed
+
+* Support clearing translations using an empty array by @alipadron in https://github.com/spatie/laravel-translatable/pull/478
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-translatable/pull/484
+* Add support for nested key translations by @thaqebon in https://github.com/spatie/laravel-translatable/pull/483
+
+### New Contributors
+
+* @thaqebon made their first contribution in https://github.com/spatie/laravel-translatable/pull/483
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.9.3...6.10.0
+
 ## 6.9.3 - 2024-12-16
 
 ### What's Changed
