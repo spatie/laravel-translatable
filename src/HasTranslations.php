@@ -17,7 +17,7 @@ trait HasTranslations
     public function initializeHasTranslations(): void
     {
         $this->mergeCasts(array_merge(
-            $this->getCasts(),
+            $this->casts,
             array_fill_keys($this->getTranslatableAttributes(), 'array'),
         ));
     }
