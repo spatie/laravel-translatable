@@ -82,7 +82,9 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $translation = is_null(self::getAttributeFromArray($key)) ? null : $translations[$normalizedLocale] ?? '';
+        $baseKey = Str::before($key, '->'); // get base key in case it is JSON nested key
+
+        $translation = is_null(self::getAttributeFromArray($baseKey)) ? null : $translations[$normalizedLocale] ?? '';
 
         $translatableConfig = app(Translatable::class);
 
