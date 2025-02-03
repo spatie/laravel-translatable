@@ -16,10 +16,9 @@ trait HasTranslations
 
     public function initializeHasTranslations(): void
     {
-        $this->mergeCasts(array_merge(
-            $this->getCasts(),
+        $this->mergeCasts(
             array_fill_keys($this->getTranslatableAttributes(), 'array'),
-        ));
+        );
     }
 
     public static function usingLocale(string $locale): self
@@ -82,7 +81,9 @@ trait HasTranslations
 
         $translations = $this->getTranslations($key);
 
-        $translation = is_null(self::getAttributeFromArray($key)) ? null : $translations[$normalizedLocale] ?? '';
+        $baseKey = Str::before($key, '->'); // get base key in case it is JSON nested key
+
+        $translation = is_null(self::getAttributeFromArray($baseKey)) ? null : $translations[$normalizedLocale] ?? '';
 
         $translatableConfig = app(Translatable::class);
 
