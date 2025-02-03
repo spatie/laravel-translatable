@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.10.2 - 2025-02-03
+
+### What's Changed
+
+* Fix casts on initialization of HasTranslation by @thaqebon in https://github.com/spatie/laravel-translatable/pull/486
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.10.1...6.10.2
+
 ## 6.10.1 - 2025-01-31
 
 ### What's Changed
