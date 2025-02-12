@@ -1028,3 +1028,13 @@ it('should return null when translation is null and allowNullForTranslation is t
 
     expect($translation)->toBeNull();
 });
+
+it('should return empty string when translation is null and allowNullForTranslation is false', function () {
+    Translatable::allowNullForTranslation(false);
+
+    $this->testModel->setTranslation('name', 'en', null);
+
+    $translation = $this->testModel->getTranslation('name', 'en');
+
+    expect($translation)->toBe('');
+});
