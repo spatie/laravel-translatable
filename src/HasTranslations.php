@@ -94,7 +94,7 @@ trait HasTranslations
 
         if ($isKeyMissingFromLocale && $translatableConfig->missingKeyCallback) {
             try {
-                $callbackReturnValue = (app(Translatable::class)->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
+                $callbackReturnValue = ($translatableConfig->missingKeyCallback)($this, $key, $locale, $translation, $normalizedLocale);
                 if (is_string($callbackReturnValue)) {
                     $translation = $callbackReturnValue;
                 }
