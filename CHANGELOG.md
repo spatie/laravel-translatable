@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.11.3 - 2025-02-14
+
+### What's Changed
+
+* Allow null value in translations if allowNullForTranslation is true by @dont-know-php in https://github.com/spatie/laravel-translatable/pull/488
+
+### New Contributors
+
+* @dont-know-php made their first contribution in https://github.com/spatie/laravel-translatable/pull/488
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.10.2...6.11.3
+
 ## 6.10.2 - 2025-02-03
 
 ### What's Changed
