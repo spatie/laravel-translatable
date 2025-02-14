@@ -1018,3 +1018,23 @@ it('uses mutators for setting and getting translated values of nested fields', f
     expect($testModel->$nestedDeepFieldKey)
         ->toEqual('Nested deep field ar');
 });
+
+it('should return null when translation is null and allowNullForTranslation is true', function () {
+    Translatable::allowNullForTranslation(true);
+
+    $this->testModel->setTranslation('name', 'en', null);
+
+    $translation = $this->testModel->getTranslation('name', 'en');
+
+    expect($translation)->toBeNull();
+});
+
+it('should return empty string when translation is null and allowNullForTranslation is false', function () {
+    Translatable::allowNullForTranslation(false);
+
+    $this->testModel->setTranslation('name', 'en', null);
+
+    $translation = $this->testModel->getTranslation('name', 'en');
+
+    expect($translation)->toBe('');
+});
