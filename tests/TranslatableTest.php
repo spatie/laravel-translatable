@@ -10,7 +10,7 @@ use Spatie\Translatable\Test\TestSupport\TestModelWithFallbackLocale;
 use Spatie\Translatable\Test\TestSupport\TestModelWithoutFallback;
 
 beforeEach(function () {
-    $this->testModel = new TestModel();
+    $this->testModel = new TestModel;
 });
 
 it('will return package fallback locale translation when getting an unknown locale', function () {
@@ -56,8 +56,8 @@ it('will execute callback fallback when getting an unknown locale and fallback c
     Storage::fake();
 
     Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
-        //something assertable outside the closure
-        Storage::put("test.txt", "test");
+        // something assertable outside the closure
+        Storage::put('test.txt', 'test');
     });
 
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -65,12 +65,12 @@ it('will execute callback fallback when getting an unknown locale and fallback c
 
     expect($this->testModel->getTranslationWithFallback('name', 'fr'))->toBe('testValue_en');
 
-    Storage::assertExists("test.txt");
+    Storage::assertExists('test.txt');
 });
 
 it('will use callback fallback return value as translation', function () {
     Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
-        return "testValue_fallback_callback";
+        return 'testValue_fallback_callback';
     });
 
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -94,8 +94,8 @@ it('wont execute callback fallback when getting an existing translation', functi
     Storage::fake();
 
     Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
-        //something assertable outside the closure
-        Storage::put("test.txt", "test");
+        // something assertable outside the closure
+        Storage::put('test.txt', 'test');
     });
 
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -103,12 +103,12 @@ it('wont execute callback fallback when getting an existing translation', functi
 
     expect($this->testModel->getTranslationWithFallback('name', 'en'))->toBe('testValue_en');
 
-    Storage::assertMissing("test.txt");
+    Storage::assertMissing('test.txt');
 });
 
 it('wont fail if callback fallback throw exception', function () {
     Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
-        throw new \Exception();
+        throw new \Exception;
     });
 
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
@@ -375,18 +375,20 @@ it('will throw an exception when trying to translate an untranslatable attribute
 });
 
 it('is compatible with accessors on non translatable attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public function getOtherFieldAttribute(): string
         {
             return 'accessorName';
         }
     };
 
-    expect('accessorName')->toEqual((new $testModel())->otherField);
+    expect('accessorName')->toEqual((new $testModel)->otherField);
 });
 
 it('can use accessors on translated attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public function getNameAttribute($value): string
         {
             return "I just accessed {$value}";
@@ -399,7 +401,8 @@ it('can use accessors on translated attributes', function () {
 });
 
 it('can be converted to array when using accessors on translated attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public function getNameAttribute($value)
         {
             return "I just accessed {$value}";
@@ -418,7 +421,8 @@ it('can be converted to array when using accessors on translated attributes', fu
 });
 
 it('can use mutators on translated attributes', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -476,7 +480,8 @@ it('can check if an attribute has translation', function () {
 });
 
 it('can correctly set a field when a mutator is defined', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -490,7 +495,8 @@ it('can correctly set a field when a mutator is defined', function () {
 });
 
 it('can set multiple translations when a mutator is defined', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class extends TestModel
+    {
         public function setNameAttribute($value)
         {
             $this->attributes['name'] = "I just mutated {$value}";
@@ -530,7 +536,8 @@ it('can set multiple translations on field when a mutator is defined', function 
 });
 
 it('uses the attribute to mutate the translated value', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class extends TestModel
+    {
         public $mutatedValues = [];
 
         protected function name(): Attribute
@@ -551,10 +558,11 @@ it('uses the attribute to mutate the translated value', function () {
 });
 
 it('can translate a field based on the translations of another one', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class extends TestModel
+    {
         public function setOtherFieldAttribute($value, $locale = 'en')
         {
-            $this->attributes['other_field'] = $value . ' ' . $this->getTranslation('name', $locale);
+            $this->attributes['other_field'] = $value.' '.$this->getTranslation('name', $locale);
         }
     });
 
@@ -579,7 +587,8 @@ it('can translate a field based on the translations of another one', function ()
 });
 
 it('handle null value from database', function () {
-    $testModel = (new class () extends TestModel {
+    $testModel = (new class extends TestModel
+    {
         public function setAttributesExternally(array $attributes)
         {
             $this->attributes = $attributes;
@@ -820,7 +829,7 @@ it('queries the database whether a value exists in a multiple locales', function
 it('can disable attribute locale fallback on a per model basis', function () {
     config()->set('app.fallback_locale', 'en');
 
-    $model = new TestModelWithoutFallback();
+    $model = new TestModelWithoutFallback;
 
     $model->setTranslation('name', 'en', 'testValue_en');
     $model->save();
@@ -833,7 +842,7 @@ it('can disable attribute locale fallback on a per model basis', function () {
 it('can set fallback locale on model', function () {
     config()->set('app.fallback_locale', 'en');
 
-    $model = new TestModelWithFallbackLocale();
+    $model = new TestModelWithFallbackLocale;
 
     TestModelWithFallbackLocale::$fallbackLocale = 'fr';
 
@@ -929,29 +938,30 @@ it('can treat an empty array as value for clearing translations', function () {
 });
 
 it('can set and retrieve translations for nested fields', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public $translatable = ['nested->field', 'nested->deep->field'];
     };
 
     $nestedFieldKey = 'nested->field';
     $nestedDeepFieldKey = 'nested->deep->field';
-    
+
     $testModel = $testModel::create([
         $nestedFieldKey => ['ar' => 'nestedFieldKey_ar'],
     ]);
 
     app()->setLocale('nl');
     $testModel->$nestedFieldKey = 'nestedFieldKey_nl';
-    
-    $testModel->setTranslation($nestedFieldKey ,'en', 'nestedFieldKey_en');
+
+    $testModel->setTranslation($nestedFieldKey, 'en', 'nestedFieldKey_en');
 
     $testModel->setTranslations($nestedDeepFieldKey, [
-        'ar'=> 'nestedDeepFieldKey_ar',
-        'en'=> 'nestedDeepFieldKey_en',
+        'ar' => 'nestedDeepFieldKey_ar',
+        'en' => 'nestedDeepFieldKey_en',
     ]);
-    
+
     $testModel->save();
-    
+
     expect($testModel->getTranslations())
         ->toEqual([
             $nestedFieldKey => [
@@ -960,31 +970,31 @@ it('can set and retrieve translations for nested fields', function () {
                 'en' => 'nestedFieldKey_en',
             ],
             $nestedDeepFieldKey => [
-                'ar'=> 'nestedDeepFieldKey_ar',
-                'en'=> 'nestedDeepFieldKey_en',
+                'ar' => 'nestedDeepFieldKey_ar',
+                'en' => 'nestedDeepFieldKey_en',
             ],
         ]);
 
-
     expect($testModel->getTranslations($nestedDeepFieldKey))
         ->toEqual([
-            'ar'=> 'nestedDeepFieldKey_ar',
-            'en'=> 'nestedDeepFieldKey_en',
-    ]);
+            'ar' => 'nestedDeepFieldKey_ar',
+            'en' => 'nestedDeepFieldKey_en',
+        ]);
 
     // fallback en used here while no nl lang in this field
     expect($testModel->$nestedDeepFieldKey)
         ->toEqual('nestedDeepFieldKey_en');
-    
+
     app()->setLocale('ar');
     expect($testModel->$nestedFieldKey)->toBe('nestedFieldKey_ar');
     expect($testModel->getTranslation($nestedDeepFieldKey, 'en'))->toBe('nestedDeepFieldKey_en');
 });
 
 it('uses mutators for setting and getting translated values of nested fields', function () {
-    $testModel = new class () extends TestModel {
+    $testModel = new class extends TestModel
+    {
         public $translatable = ['nested->field', 'nested->deep->field'];
-    
+
         public function setNestedFieldAttribute($value)
         {
             $this->attributes['nested->field'] = strtolower($value);
@@ -1006,12 +1016,12 @@ it('uses mutators for setting and getting translated values of nested fields', f
 
     $nestedFieldKey = 'nested->field';
     $nestedDeepFieldKey = 'nested->deep->field';
-    
+
     app()->setLocale('ar');
-    $testModel->$nestedFieldKey = 'NESTED FIELD AR';    
+    $testModel->$nestedFieldKey = 'NESTED FIELD AR';
     $testModel->$nestedDeepFieldKey = 'NESTED DEEP FIELD AR';
     $testModel->save();
-    
+
     expect($testModel->$nestedFieldKey)
         ->toEqual('Nested field ar');
 

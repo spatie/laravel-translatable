@@ -23,7 +23,7 @@ trait HasTranslations
 
     public static function usingLocale(string $locale): self
     {
-        return (new self())->setLocale($locale);
+        return (new self)->setLocale($locale);
     }
 
     public function useFallbackLocale(): bool
@@ -99,7 +99,7 @@ trait HasTranslations
                     $translation = $callbackReturnValue;
                 }
             } catch (Exception) {
-                //prevent the fallback to crash
+                // prevent the fallback to crash
             }
         }
 
@@ -108,7 +108,7 @@ trait HasTranslations
         if ($this->hasGetMutator($key)) {
             return $this->mutateAttribute($key, $translation);
         }
-        
+
         if ($this->hasAttributeMutator($key)) {
             return $this->mutateAttributeMarkedAttribute($key, $translation);
         }
@@ -133,9 +133,9 @@ trait HasTranslations
             $translatableConfig = app(Translatable::class);
 
             if ($this->isNestedKey($key)) {
-                [$key, $nestedKey] = explode('.',str_replace('->', '.', $key), 2);
+                [$key, $nestedKey] = explode('.', str_replace('->', '.', $key), 2);
             }
-        
+
             return array_filter(
                 Arr::get($this->fromJson($this->getAttributeFromArray($key)), $nestedKey ?? null, []),
                 fn ($value, $locale) => $this->filterTranslations($value, $locale, $allowedLocales, $translatableConfig->allowNullForTranslation, $translatableConfig->allowEmptyStringForTranslation),
@@ -168,12 +168,12 @@ trait HasTranslations
             $value = $this->attributes[$key];
         } elseif ($this->hasAttributeSetMutator($mutatorKey)) { // handle new attribute mutator
             $this->setAttributeMarkedMutatedAttributeValue($mutatorKey, $value);
-            
+
             $value = $this->attributes[$mutatorKey];
         }
-                
+
         $translations[$locale] = $value;
-                
+
         if ($this->isNestedKey($key)) {
             unset($this->attributes[$key], $this->attributes[$mutatorKey]);
 
