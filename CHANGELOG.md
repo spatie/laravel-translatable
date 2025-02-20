@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.11.4 - 2025-02-20
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.11.3...6.11.4
+
 ## 6.11.3 - 2025-02-14
 
 ### What's Changed
