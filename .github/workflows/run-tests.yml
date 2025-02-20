@@ -10,7 +10,7 @@ jobs:
             matrix:
                 os: [ubuntu-latest]
                 php: [8.4, 8.3, 8.2, 8.1, 8.0]
-                laravel: [12.*, 11.*, 10.*, 9.*]
+                laravel: [12.*, 11.*, 10.*]
                 stability: [prefer-lowest, prefer-stable]
                 include:
                     -   laravel: 12.*
