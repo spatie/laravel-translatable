@@ -125,7 +125,8 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 - [All Contributors](../../contributors)
 
 We got the idea to store translations as json in a column from [Mohamed Said](https://github.com/themsaid). Parts of the readme of [his multilingual package](https://github.com/themsaid/laravel-multilingual) were used in this readme.
-
+And the new Ideas is to manage and store translation with morhpto many method for each model. Parts of the readme of [DB-Fields-Translations](https://github.com/Afzaal565/DB-Fields-Translations)
+## For more detail please visit (https://github.com/Afzaal565/DB-Fields-Translations)
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
