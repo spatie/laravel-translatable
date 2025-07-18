@@ -398,6 +398,47 @@ trait HasTranslations
             }
         });
     }
+    /**
+     * Scope: Order query results by a JSON translated attribute for a given locale.
+     *
+     * @param Builder $query     The Eloquent query builder instance.
+     * @param string  $column    The JSON column name (e.g. "name").
+     * @param string  $direction Sort direction ("asc" or "desc").
+     * @param string|null $locale The locale key (e.g. "en", "ar"). Defaults to current locale.
+     * @return Builder
+     */
+    public function scopeOrderByLocale(
+        Builder $query,
+        string $column,
+        string $direction = 'asc',
+        ?string $locale = null
+    ): Builder {
+        $locale = $locale ? $locale : $this->getLocale();
+
+        $this->guardAgainstNonTranslatableAttribute($column);
+
+        // Detect database driver to use the correct syntax
+        $driver = $query->getConnection()->getDriverName();
+
+        if ($driver === 'pgsql') {
+            // PostgreSQL uses ->> operator to extract JSON values as text
+            return $query->orderBy("{$column}->{$locale}", $direction);
+        }
+
+        if ($driver === 'mysql') {
+            // MySQL uses JSON_EXTRACT and JSON_UNQUOTE
+            $jsonPath = '$."' . addslashes($locale) . '"';
+
+            return $query->orderByRaw(
+                "JSON_UNQUOTE(JSON_EXTRACT(`$column`, ?)) $direction",
+                [$jsonPath]
+            );
+        }
+
+        // Fallback for SQLite or others (assume JSON stored as text)
+        return $query->orderBy("{$column}->{$locale}", $direction);
+    }
+
 
     /**
      * @deprecated
