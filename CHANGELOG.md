@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.13.0 - 2026-02-21
+
+### What's Changed
+
+- Add Laravel 13 support
+
 ## 6.12.0 - 2025-11-24
 
 ### What's Changed
