@@ -28,14 +28,14 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/database": "^11.0|^12.0",
-        "illuminate/support": "^11.0|^12.0",
-        "spatie/laravel-package-tools": "^1.92.7"
+        "illuminate/database": "^11.0|^12.0|^13.0",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "spatie/laravel-package-tools": "^1.93.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.90",
         "mockery/mockery": "^1.6.12",
-        "orchestra/testbench": "^9.0|^10.0",
+        "orchestra/testbench": "^9.0|^10.0|^11.0",
         "pestphp/pest": "^4.0.0"
     },
     "autoload": {
