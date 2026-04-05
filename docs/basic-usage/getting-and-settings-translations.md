@@ -47,7 +47,7 @@ $newItem->name = $translations;
 
 // alternatively, use the `setTranslations` method
 
-$newsItem->setTranslations('name', $translations);
+$newItem->setTranslations('name', $translations);
 
 $newItem->save();
 ```
@@ -106,7 +106,7 @@ $translations = [
     'de' => 'Hallo',
 ];
 
-$newsItem->setTranslations('hello', $translations);
+$newItem->setTranslations('hello', $translations);
 $newsItem->getTranslations('hello', ['en', 'fr']); // returns ['en' => 'Hello', 'fr' => 'Bonjour']
 ```
 
