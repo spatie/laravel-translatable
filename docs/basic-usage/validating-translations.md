@@ -1,5 +1,5 @@
 ---
-title: Validation translations
+title: Validating translations
 weight: 6
 ---
 
