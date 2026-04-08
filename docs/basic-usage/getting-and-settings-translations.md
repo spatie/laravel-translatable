@@ -43,13 +43,13 @@ You can set translations for multiple languages with
 
 ```php
 $translations = ['en' => 'hello', 'es' => 'hola'];
-$newItem->name = $translations;
+$newsItem->name = $translations;
 
 // alternatively, use the `setTranslations` method
 
-$newItem->setTranslations('name', $translations);
+$newsItem->setTranslations('name', $translations);
 
-$newItem->save();
+$newsItem->save();
 ```
 
 ## Getting a translation
@@ -106,7 +106,7 @@ $translations = [
     'de' => 'Hallo',
 ];
 
-$newItem->setTranslations('hello', $translations);
+$newsItem->setTranslations('hello', $translations);
 $newsItem->getTranslations('hello', ['en', 'fr']); // returns ['en' => 'Hello', 'fr' => 'Bonjour']
 ```
 
@@ -116,8 +116,8 @@ You can get all locales that a model has by calling `locales()` without an argum
 
 ```php
    $translations = ['en' => 'hello', 'es' => 'hola'];
-   $newItem->name = $translations;
-   $newItem->save();
+   $newsItem->name = $translations;
+   $newsItem->save();
 
-   $newItem->locales(); // returns ['en', 'es']
+   $newsItem->locales(); // returns ['en', 'es']
 ```
