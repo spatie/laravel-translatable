@@ -108,7 +108,7 @@ it('wont execute callback fallback when getting an existing translation', functi
 
 it('wont fail if callback fallback throw exception', function () {
     Translatable::fallback(missingKeyCallback: function ($model, string $translationKey, string $locale) {
-        throw new \Exception;
+        throw new Exception;
     });
 
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
