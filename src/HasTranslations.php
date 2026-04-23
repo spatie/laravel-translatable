@@ -361,10 +361,11 @@ trait HasTranslations
 
     protected function getTranslatableColumnsFromAttribute(): array
     {
-        if (array_key_exists(static::class, static::$translatableAttributesCache)) {
-            return static::$translatableAttributesCache[static::class];
-        }
+        return static::$translatableAttributesCache[static::class] ??= $this->resolveTranslatableColumnsFromAttribute();
+    }
 
+    protected function resolveTranslatableColumnsFromAttribute(): array
+    {
         try {
             $reflection = new ReflectionClass($this);
 
@@ -372,14 +373,14 @@ trait HasTranslations
                 $attributes = $reflection->getAttributes(TranslatableAttribute::class);
 
                 if (count($attributes) > 0) {
-                    return static::$translatableAttributesCache[static::class] = $attributes[0]->newInstance()->columns;
+                    return $attributes[0]->newInstance()->columns;
                 }
             } while ($reflection = $reflection->getParentClass());
         } catch (Exception) {
             //
         }
 
-        return static::$translatableAttributesCache[static::class] = [];
+        return [];
     }
 
     public function translations(): Attribute
