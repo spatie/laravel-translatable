@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.14.0 - 2026-04-23
+
+### What's Changed
+
+* Fix docs title: 'Validation translations' -> 'Validating translations' by @tareq-halaby in https://github.com/spatie/laravel-translatable/pull/516
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/spatie/laravel-translatable/pull/514
+* Fix code bug: inconsistent variable name $newsItem -> $newItem in set… by @tareq-halaby in https://github.com/spatie/laravel-translatable/pull/517
+* Add PHP attribute support for defining translatable columns by @MehediDracula in https://github.com/spatie/laravel-translatable/pull/515
+
+### New Contributors
+
+* @tareq-halaby made their first contribution in https://github.com/spatie/laravel-translatable/pull/516
+* @MehediDracula made their first contribution in https://github.com/spatie/laravel-translatable/pull/515
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.13.0...6.14.0
+
 ## 6.13.0 - 2026-02-21
 
 ### What's Changed
