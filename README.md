@@ -47,7 +47,7 @@ class NewsItem extends Model
 }
 ```
 
-The attribute accepts either a variadic list of column names (`#[Translatable('name', 'description')]`) or a single array (`#[Translatable(['name', 'description'])]`). When both the property and the attribute are present, their values are merged and deduplicated.
+The attribute accepts a variadic list of column names. When both the property and the attribute are present, their values are merged and deduplicated.
 
 After the trait is applied on the model you can do these things:
 
