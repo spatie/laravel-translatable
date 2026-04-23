@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use Spatie\Translatable\Attributes\Translatable as TranslatableAttribute;
 use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
 {
     protected ?string $translationLocale = null;
+
+    protected static array $translatableAttributesCache = [];
 
     public function initializeHasTranslations(): void
     {
@@ -346,9 +350,37 @@ trait HasTranslations
 
     public function getTranslatableAttributes(): array
     {
-        return is_array($this->translatable)
+        $attributes = is_array($this->translatable ?? null)
             ? $this->translatable
             : [];
+
+        return array_values(array_unique(
+            array_merge($attributes, $this->getTranslatableColumnsFromAttribute()),
+        ));
+    }
+
+    protected function getTranslatableColumnsFromAttribute(): array
+    {
+        return static::$translatableAttributesCache[static::class] ??= $this->resolveTranslatableColumnsFromAttribute();
+    }
+
+    protected function resolveTranslatableColumnsFromAttribute(): array
+    {
+        try {
+            $reflection = new ReflectionClass($this);
+
+            do {
+                $attributes = $reflection->getAttributes(TranslatableAttribute::class);
+
+                if (count($attributes) > 0) {
+                    return $attributes[0]->newInstance()->columns;
+                }
+            } while ($reflection = $reflection->getParentClass());
+        } catch (Exception) {
+            //
+        }
+
+        return [];
     }
 
     public function translations(): Attribute

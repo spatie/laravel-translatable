@@ -14,7 +14,7 @@ composer require spatie/laravel-translatable
 The required steps to make a model translatable are:
 
 - First, you need to add the `Spatie\Translatable\HasTranslations`-trait.
-- Next, you should create a public property `$translatable` which holds an array with all the names of attributes you wish to make translatable.
+- Next, you should declare which attributes are translatable, either through a public `$translatable` property or the `#[Translatable]` PHP attribute.
 - Finally, you should make sure that all translatable attributes are set to the `json`-datatype in your database. If your database doesn't support `json`-columns, use `text`.
 
 Here's an example of a prepared model:
@@ -29,3 +29,20 @@ class NewsItem extends Model
 
     public array $translatable = ['name'];
 }
+```
+
+Alternatively, you can use the `#[Translatable]` PHP attribute instead of the `$translatable` property:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\Attributes\Translatable;
+use Spatie\Translatable\HasTranslations;
+
+#[Translatable('name')]
+class NewsItem extends Model
+{
+    use HasTranslations;
+}
+```
+
+The attribute accepts either a variadic list of column names (`#[Translatable('name', 'description')]`) or a single array (`#[Translatable(['name', 'description'])]`). When both the property and the attribute are present, their values are merged and deduplicated.

@@ -31,6 +31,24 @@ class NewsItem extends Model
 }
 ```
 
+Alternatively, you can use the `#[Translatable]` PHP attribute instead of the `$translatable` property:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\Attributes\Translatable;
+use Spatie\Translatable\HasTranslations;
+
+#[Translatable('name')]
+class NewsItem extends Model
+{
+    use HasTranslations;
+
+    // ...
+}
+```
+
+The attribute accepts either a variadic list of column names (`#[Translatable('name', 'description')]`) or a single array (`#[Translatable(['name', 'description'])]`). When both the property and the attribute are present, their values are merged and deduplicated.
+
 After the trait is applied on the model you can do these things:
 
 ```php
