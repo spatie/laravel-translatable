@@ -16,6 +16,8 @@ trait HasTranslations
 {
     protected ?string $translationLocale = null;
 
+    protected static array $translatableAttributesCache = [];
+
     public function initializeHasTranslations(): void
     {
         $this->mergeCasts(
@@ -359,6 +361,10 @@ trait HasTranslations
 
     protected function getTranslatableColumnsFromAttribute(): array
     {
+        if (array_key_exists(static::class, static::$translatableAttributesCache)) {
+            return static::$translatableAttributesCache[static::class];
+        }
+
         try {
             $reflection = new ReflectionClass($this);
 
@@ -366,14 +372,14 @@ trait HasTranslations
                 $attributes = $reflection->getAttributes(TranslatableAttribute::class);
 
                 if (count($attributes) > 0) {
-                    return $attributes[0]->newInstance()->columns;
+                    return static::$translatableAttributesCache[static::class] = $attributes[0]->newInstance()->columns;
                 }
             } while ($reflection = $reflection->getParentClass());
         } catch (Exception) {
             //
         }
 
-        return [];
+        return static::$translatableAttributesCache[static::class] = [];
     }
 
     public function translations(): Attribute
