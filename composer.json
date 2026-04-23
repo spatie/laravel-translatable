@@ -34,6 +34,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.90",
+        "larastan/larastan": "^3.0",
         "mockery/mockery": "^1.6.12",
         "orchestra/testbench": "^9.0|^10.0|^11.0",
         "pestphp/pest": "^4.0.0"
@@ -49,6 +50,7 @@
         }
     },
     "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/pest"
     },

@@ -1,0 +1,11 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests/TestSupport
+    excludePaths:
+        - tests/TestSupport/TestModelWithFallbackLocale.php
+        - tests/TestSupport/TestModelWithoutFallback.php

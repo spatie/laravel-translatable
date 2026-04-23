@@ -6,10 +6,11 @@ use Exception;
 
 class AttributeIsNotTranslatable extends Exception
 {
-    public static function make(string $key, $model): static
+    public static function make(string $key, object $model): self
     {
-        $translatableAttributes = implode(', ', $model->getTranslatableAttributes());
+        /** @var array<int, string> $translatableAttributes */
+        $translatableAttributes = $model->getTranslatableAttributes();
 
-        return new static("Cannot translate attribute `{$key}` as it's not one of the translatable attributes: `$translatableAttributes`");
+        return new self("Cannot translate attribute `{$key}` as it's not one of the translatable attributes: `".implode(', ', $translatableAttributes).'`');
     }
 }
