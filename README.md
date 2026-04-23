@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
-#[Translatable('name')]
+#[Translatable('name', 'description')]
 class NewsItem extends Model
 {
     use HasTranslations;
@@ -31,7 +31,7 @@ class NewsItem extends Model
 }
 ```
 
-The attribute accepts a variadic list of column names.
+The attribute accepts a variadic list of column names, so you can pass as many as you need.
 
 Alternatively, you can declare the translatable attributes via a public `$translatable` property:
 
