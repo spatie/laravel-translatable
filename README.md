@@ -19,22 +19,6 @@ This package contains a trait `HasTranslations` to make Eloquent models translat
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
-
-class NewsItem extends Model
-{
-    use HasTranslations;
-    
-    public $translatable = ['name']; // translatable attributes
-
-    // ...
-}
-```
-
-Alternatively, you can use the `#[Translatable]` PHP attribute instead of the `$translatable` property:
-
-```php
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
@@ -47,7 +31,23 @@ class NewsItem extends Model
 }
 ```
 
-The attribute accepts a variadic list of column names. When both the property and the attribute are present, their values are merged and deduplicated.
+The attribute accepts a variadic list of column names.
+
+Alternatively, you can declare the translatable attributes via a public `$translatable` property:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
+class NewsItem extends Model
+{
+    use HasTranslations;
+
+    public $translatable = ['name'];
+}
+```
+
+When both the property and the attribute are present, their values are merged and deduplicated.
 
 After the trait is applied on the model you can do these things:
 
