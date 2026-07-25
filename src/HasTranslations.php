@@ -488,5 +488,4 @@ trait HasTranslations
             }
         });
     }
-
 }
