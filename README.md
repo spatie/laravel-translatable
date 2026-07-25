@@ -10,9 +10,9 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-![GitHub Workflow Status](https://github.com/spatie/laravel-translatable/actions/workflows/run-tests.yml/badge.svg)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-translatable/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-translatable)
-    
+
 </div>
 
 This package contains a trait `HasTranslations` to make Eloquent models translatable. Translations are stored as json. There is no extra table needed to hold them.
@@ -87,19 +87,34 @@ NewsItem::whereLocale('name', 'en')->get();
 // Returns all news items with a name in English or Dutch
 NewsItem::whereLocales('name', ['en', 'nl'])->get();
 
-// Returns all news items that has name in English with value `Name in English` 
+// Returns all news items missing a French translation
+NewsItem::whereMissingLocale('name', 'fr')->get();
+
+// Returns all news items that has name in English with value `Name in English`
 NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in English')->get();
 
-// Returns all news items that has name in English or Dutch with value `Name in English` 
+// Returns all news items that has name in English or Dutch with value `Name in English`
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in English')->get();
 
 // The last argument is the "operand" which you can tweak to achieve something like this:
 
-// Returns all news items that has name in English with value like `Name in...` 
+// Returns all news items that has name in English with value like `Name in...`
 NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in%', 'like')->get();
 
-// Returns all news items that has name in English or Dutch with value like `Name in...` 
+// Returns all news items that has name in English or Dutch with value like `Name in...`
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in%', 'like')->get();
+
+// Merges the given translations with the existing translations
+NewsItem::query()->mergeTranslations('name', [
+    'en' => 'Updated English name',
+    'fr' => 'Nom en français',
+]);
+
+// Copies the English translation to German
+NewsItem::query()->copyTranslation('name', 'en', 'de');
+
+// Removes empty translations for the name attribute
+NewsItem::query()->pruneEmptyTranslations('name');
 ```
 
 ## Support us
