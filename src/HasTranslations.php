@@ -431,6 +431,44 @@ trait HasTranslations
         });
     }
 
+    public function mergeTranslations(string $key, array $translations): self
+    {
+        return $this->setTranslations(
+            $key,
+            array_merge(
+                $this->getTranslations($key),
+                $translations
+            )
+        );
+    }
+
+    public function copyTranslation(string $key, string $from, string $to): self
+    {
+        if ($this->hasTranslation($key, $from)) {
+            $this->setTranslation(
+                $key,
+                $to,
+                $this->getTranslation($key, $from, false)
+            );
+        }
+
+        return $this;
+    }
+
+    public function pruneEmptyTranslations(string $key): self
+    {
+        $translations = array_filter(
+            $this->getTranslations($key),
+            fn ($value) => filled($value)
+        );
+
+        return $this->replaceTranslations($key, $translations);
+    }
+
+    public function scopeWhereMissingLocale(Builder $query, string $column, string $locale): void 
+    {
+        $query->whereNull("{$column}->{$locale}");
+    }
     /**
      * @deprecated
      */
@@ -450,4 +488,5 @@ trait HasTranslations
             }
         });
     }
+
 }
