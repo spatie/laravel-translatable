@@ -396,11 +396,11 @@ trait HasTranslations
 
     public function locales(): array
     {
-        return array_unique(
+        return array_values(array_unique(
             array_reduce($this->getTranslatableAttributes(), function ($result, $item) {
                 return array_merge($result, $this->getTranslatedLocales($item));
             }, [])
-        );
+        ));
     }
 
     public function scopeWhereLocale(Builder $query, string $column, string $locale): void
