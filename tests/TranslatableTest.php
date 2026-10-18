@@ -1048,3 +1048,28 @@ it('should return empty string when translation is null and allowNullForTranslat
 
     expect($translation)->toBe('');
 });
+
+it('can search translations case-insensitively across columns and locales', function () {
+    $this->testModel->setTranslation('name', 'en', 'Blue Book');
+    $this->testModel->setTranslation('name', 'ar', 'كتاب أزرق');
+    $this->testModel->setTranslation('other_field', 'en', 'Something else');
+    $this->testModel->save();
+
+    expect(TestModel::whereTranslationLike('name', 'blue', ['en', 'ar'])->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', 'كتاب', ['en', 'ar'])->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', 'كتاب', ['en'])->get())->toHaveCount(0);
+    expect(TestModel::whereTranslationLike(['name', 'other_field'], 'ELSE', ['en'])->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', 'en', ['en', 'ar'])->get())->toHaveCount(0);
+});
+
+it('searches the configured locales when none are passed', function () {
+    $this->testModel->setTranslation('name', 'en', 'Blue Book');
+    $this->testModel->setTranslation('name', 'ar', 'كتاب أزرق');
+    $this->testModel->save();
+
+    app()->setLocale('en');
+    expect(TestModel::whereTranslationLike('name', 'كتاب')->get())->toHaveCount(0);
+
+    Translatable::locales(['en', 'ar']);
+    expect(TestModel::whereTranslationLike('name', 'كتاب')->get())->toHaveCount(1);
+});
