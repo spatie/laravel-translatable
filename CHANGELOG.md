@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.14.2 - 2026-10-18
+
+### Fixed
+
+- Ensure `locales()` always returns a sequential list when translatable attributes share locales, so JSON serialization produces an array rather than an object (#525, fixes #524). Thanks @MohannadElemary.
+
+### Maintenance
+
+- Require PHP 8.4+ and Laravel 12 or 13; drop PHP 8.3 and end-of-life Laravel 11 support.
+- Test PHP 8.4 and 8.5 with the latest compatible Pest releases: Pest 5 for Laravel 13, Pest 4 for Laravel 12.
+- Update the PHPUnit schema and PHPStan runtime, and avoid duplicate CI dependency installation.
+
+Validation: all four test matrix jobs and PHPStan pass; the test suite contains 82 tests and 123 assertions.
+
 ## 6.14.1 - 2026-04-23
 
 **Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.14.0...6.14.1
