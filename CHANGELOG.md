@@ -2,6 +2,29 @@
 
 All notable changes to `laravel-translatable` will be documented in this file
 
+## 6.15.0 - 2026-10-19
+
+### Added
+
+- Add `whereTranslationLike()` to search partial translated values across one or more columns and locales, with grouped query constraints and bound search patterns. Configure default search locales with `Translatable::locales()`. Thanks @OthmanHaba for [#526](https://github.com/spatie/laravel-translatable/pull/526).
+
+### Correctness and documentation
+
+- Empty columns or locales arrays match no records instead of dropping the search filter.
+- Lowercase both operands in the database to avoid PHP/database Unicode case-folding disagreements.
+- Exclude JSON null translations from matches on MySQL and MariaDB.
+- Document SQL wildcard semantics, locale precedence, trusted JSON selectors, and database-specific Unicode limitations. SQLite's built-in case conversion is ASCII-only.
+
+### Tooling
+
+- Add MySQL 8.4 and PostgreSQL 18 CI coverage alongside SQLite.
+- Use Laravel Pint for local formatting, matching CI.
+- Retain PHP 8.4/8.5 and Laravel 12/13 coverage, with Pest 5.3 on Laravel 13 and Pest 4.7 on Laravel 12 due to Testbench's Symfony 7 requirement.
+
+Validation: all six test matrix jobs and PHPStan pass. The suite contains 89 tests and 140 assertions. Local SQLite, MariaDB, PostgreSQL, Pint, Composer validation, and actionlint checks also pass.
+
+**Full Changelog**: https://github.com/spatie/laravel-translatable/compare/6.14.2...6.15.0
+
 ## 6.14.2 - 2026-10-18
 
 ### Fixed
