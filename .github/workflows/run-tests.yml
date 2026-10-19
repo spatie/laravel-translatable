@@ -12,6 +12,7 @@ jobs:
                 php: [8.5, 8.4]
                 laravel: [13.*, 12.*]
                 stability: [prefer-stable]
+                database: [testing]
                 include:
                     -   laravel: 13.*
                         testbench: 11.*
@@ -19,8 +20,48 @@ jobs:
                     -   laravel: 12.*
                         testbench: 10.*
                         pest: ^4.7
+                    -   os: ubuntu-latest
+                        php: 8.5
+                        laravel: 13.*
+                        testbench: 11.*
+                        pest: ^5.3
+                        stability: prefer-stable
+                        database: mysql
+                    -   os: ubuntu-latest
+                        php: 8.5
+                        laravel: 13.*
+                        testbench: 11.*
+                        pest: ^5.3
+                        stability: prefer-stable
+                        database: pgsql
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+        name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - Pest ${{ matrix.pest }} - ${{ matrix.database }}
+
+        services:
+            mysql:
+                image: ${{ matrix.database == 'mysql' && 'mysql:8.4' || '' }}
+                env:
+                    MYSQL_DATABASE: translatable
+                    MYSQL_ROOT_PASSWORD: password
+                ports:
+                    - 3306:3306
+                options: --health-cmd="mysqladmin ping -ppassword" --health-interval=10s --health-timeout=5s --health-retries=10
+            postgres:
+                image: ${{ matrix.database == 'pgsql' && 'postgres:18' || '' }}
+                env:
+                    POSTGRES_DB: translatable
+                    POSTGRES_USER: root
+                    POSTGRES_PASSWORD: password
+                ports:
+                    - 5432:5432
+                options: --health-cmd="pg_isready -U root -d translatable" --health-interval=10s --health-timeout=5s --health-retries=10
+
+        env:
+            DB_CONNECTION: ${{ matrix.database }}
+            DB_HOST: 127.0.0.1
+            DB_DATABASE: translatable
+            DB_USERNAME: root
+            DB_PASSWORD: password
 
         steps:
             -   name: Checkout code
@@ -30,7 +71,7 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
-                    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+                    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo_sqlite, pdo_mysql, pdo_pgsql, bcmath, soap, intl, gd, exif, iconv
                     coverage: none
 
             -   name: Install dependencies

@@ -102,6 +102,24 @@ NewsItem::query()->whereJsonContainsLocale('name', 'en', 'Name in%', 'like')->ge
 NewsItem::query()->whereJsonContainsLocales('name', ['en', 'nl'], 'Name in%', 'like')->get();
 ```
 
+To search translated values case-insensitively, use `whereTranslationLike`. It matches a partial value in one or more columns across the given locales:
+
+```php
+// Returns all news items with `news` in the English or Dutch name or body
+NewsItem::query()->whereTranslationLike(['name', 'body'], 'news', ['en', 'nl'])->get();
+```
+
+When no locales are passed, the locales set via `Translatable::locales()` are used, falling back to the current locale:
+
+```php
+// in a service provider
+Translatable::locales(['en', 'nl']);
+
+NewsItem::query()->whereTranslationLike('name', 'news')->get();
+```
+
+Explicit empty columns or locales arrays match no records. Unicode case conversion depends on the database; SQLite's built-in case conversion is ASCII-only. `%` and `_` in the search value remain SQL wildcards. See the [querying translations documentation](https://spatie.be/docs/laravel-translatable/v6/basic-usage/querying-translations) for details.
+
 ## Support us
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-translatable.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-translatable)

@@ -431,6 +431,33 @@ trait HasTranslations
         });
     }
 
+    public function scopeWhereTranslationLike(Builder $query, string|array $columns, string $search, ?array $locales = null): void
+    {
+        $locales ??= app(Translatable::class)->locales ?: [$this->getLocale()];
+
+        if ($columns === [] || $locales === []) {
+            $query->whereRaw('1 = 0');
+
+            return;
+        }
+
+        $search = '%'.$search.'%';
+
+        $query->where(function (Builder $query) use ($columns, $locales, $search) {
+            foreach ((array) $columns as $column) {
+                foreach ($locales as $locale) {
+                    $query->orWhere(function (Builder $query) use ($column, $locale, $search) {
+                        $selector = "{$column}->{$locale}";
+                        $path = $query->getGrammar()->wrap($selector);
+
+                        $query->whereNotNull($selector)
+                            ->whereRaw("lower({$path}) like lower(?)", [$search]);
+                    });
+                }
+            }
+        });
+    }
+
     /**
      * @deprecated
      */

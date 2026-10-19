@@ -23,11 +23,13 @@ abstract class TestCase extends Orchestra
 
     protected function setUpDatabase()
     {
+        Schema::dropIfExists('test_models');
+
         Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name')->nullable();
-            $table->text('other_field')->nullable();
-            $table->text('field_with_mutator')->nullable();
+            $table->json('name')->nullable();
+            $table->json('other_field')->nullable();
+            $table->json('field_with_mutator')->nullable();
             $table->json('nested')->nullable();
         });
     }

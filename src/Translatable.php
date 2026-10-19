@@ -23,6 +23,11 @@ class Translatable
 
     public bool $allowEmptyStringForTranslation = false;
 
+    /*
+     * The locales searched by the whereTranslationLike scope when none are passed.
+     */
+    public array $locales = [];
+
     public function fallback(
         ?string $fallbackLocale = null,
         ?bool $fallbackAny = false,
@@ -45,6 +50,13 @@ class Translatable
     public function allowEmptyStringForTranslation(bool $allowEmptyStringForTranslation = true): self
     {
         $this->allowEmptyStringForTranslation = $allowEmptyStringForTranslation;
+
+        return $this;
+    }
+
+    public function locales(array $locales): self
+    {
+        $this->locales = $locales;
 
         return $this;
     }
