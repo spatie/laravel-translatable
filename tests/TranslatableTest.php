@@ -778,6 +778,16 @@ it('will return all locales when getting all translations', function () {
     ]);
 });
 
+it('returns the locales of all translatable attributes as a list', function () {
+    $this->testModel->setTranslation('name', 'en', 'testValue_en');
+    $this->testModel->setTranslation('name', 'fr', 'testValue_fr');
+    $this->testModel->setTranslation('other_field', 'en', 'testValue_en');
+    $this->testModel->setTranslation('other_field', 'tr', 'testValue_tr');
+    $this->testModel->save();
+
+    expect($this->testModel->locales())->toBe(['en', 'fr', 'tr']);
+});
+
 it('queries the database whether a locale exists', function () {
     $this->testModel->setTranslation('name', 'en', 'testValue_en');
     $this->testModel->setTranslation('name', 'fr', 'testValue_fr');

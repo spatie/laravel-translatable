@@ -9,35 +9,29 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ubuntu-latest]
-                php: [8.5, 8.4, 8.3]
+                php: [8.5, 8.4]
                 laravel: [13.*, 12.*]
                 stability: [prefer-stable]
                 database: [testing]
                 include:
                     -   laravel: 13.*
                         testbench: 11.*
-                        pest: 4.*
+                        pest: ^5.3
                     -   laravel: 12.*
                         testbench: 10.*
-                        pest: 4.*
-                    -   php: 8.4
-                        laravel: 13.*
-                        pest: 5.*
-                    -   php: 8.5
-                        laravel: 13.*
-                        pest: 5.*
+                        pest: ^4.7
                     -   os: ubuntu-latest
                         php: 8.5
                         laravel: 13.*
                         testbench: 11.*
-                        pest: 5.*
+                        pest: ^5.3
                         stability: prefer-stable
                         database: mysql
                     -   os: ubuntu-latest
                         php: 8.5
                         laravel: 13.*
                         testbench: 11.*
-                        pest: 5.*
+                        pest: ^5.3
                         stability: prefer-stable
                         database: pgsql
 
@@ -82,8 +76,7 @@ jobs:
 
             -   name: Install dependencies
                 run: |
-                    composer require --dev "orchestra/testbench:${{ matrix.testbench }}" "pestphp/pest:${{ matrix.pest }}" --no-update --no-interaction
-                    composer require "laravel/framework:${{ matrix.laravel }}" --no-update --no-interaction
+                    composer require --dev "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "pestphp/pest:${{ matrix.pest }}" --no-update --no-interaction
                     composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
             -   name: Execute tests
