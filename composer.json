@@ -28,16 +28,16 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/database": "^11.0|^12.0|^13.0",
-        "illuminate/support": "^11.0|^12.0|^13.0",
+        "illuminate/database": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
         "spatie/laravel-package-tools": "^1.93.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.90",
         "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.32",
         "mockery/mockery": "^1.6.12",
-        "orchestra/testbench": "^9.0|^10.0|^11.0",
-        "pestphp/pest": "^4.0.0"
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^4.7|^5.3"
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +51,7 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "format": "vendor/bin/pint",
         "test": "vendor/bin/pest"
     },
     "config": {
