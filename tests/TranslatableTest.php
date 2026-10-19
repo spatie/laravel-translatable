@@ -1112,3 +1112,13 @@ it('binds the translation search pattern and quotes locale selectors', function 
     expect(TestModel::whereTranslationLike('name', "reader's", ["en'GB"])->get())->toHaveCount(1);
     expect(TestModel::whereTranslationLike('name', "' OR 1=1 --", ["en'GB"])->get())->toHaveCount(0);
 });
+
+it('searches non-null translations while preserving LIKE wildcards', function () {
+    $included = TestModel::create(['name' => ['en' => 'Null Island']]);
+    TestModel::create(['name' => ['en' => null]]);
+    TestModel::create(['name' => ['nl' => 'Null Island']]);
+
+    expect(TestModel::whereTranslationLike('name', 'null', ['en'])->pluck('id')->all())->toBe([$included->id]);
+    expect(TestModel::whereTranslationLike('name', 'nu_l%land', ['en'])->pluck('id')->all())->toBe([$included->id]);
+    expect(TestModel::whereTranslationLike('name', '', ['en'])->pluck('id')->all())->toBe([$included->id]);
+});

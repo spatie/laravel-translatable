@@ -446,9 +446,13 @@ trait HasTranslations
         $query->where(function (Builder $query) use ($columns, $locales, $search) {
             foreach ((array) $columns as $column) {
                 foreach ($locales as $locale) {
-                    $path = $query->getGrammar()->wrap("{$column}->{$locale}");
+                    $query->orWhere(function (Builder $query) use ($column, $locale, $search) {
+                        $selector = "{$column}->{$locale}";
+                        $path = $query->getGrammar()->wrap($selector);
 
-                    $query->orWhereRaw("lower({$path}) like lower(?)", [$search]);
+                        $query->whereNotNull($selector)
+                            ->whereRaw("lower({$path}) like lower(?)", [$search]);
+                    });
                 }
             }
         });
