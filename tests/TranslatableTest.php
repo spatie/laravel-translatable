@@ -1052,11 +1052,13 @@ it('should return empty string when translation is null and allowNullForTranslat
 it('can search translations case-insensitively across columns and locales', function () {
     $this->testModel->setTranslation('name', 'en', 'Blue Book');
     $this->testModel->setTranslation('name', 'ar', 'كتاب أزرق');
+    $this->testModel->setTranslation('name', 'fr', 'ÉCOLE');
     $this->testModel->setTranslation('other_field', 'en', 'Something else');
     $this->testModel->save();
 
     expect(TestModel::whereTranslationLike('name', 'blue', ['en', 'ar'])->get())->toHaveCount(1);
     expect(TestModel::whereTranslationLike('name', 'كتاب', ['en', 'ar'])->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', 'ÉCO', ['fr'])->get())->toHaveCount(1);
     expect(TestModel::whereTranslationLike('name', 'كتاب', ['en'])->get())->toHaveCount(0);
     expect(TestModel::whereTranslationLike(['name', 'other_field'], 'ELSE', ['en'])->get())->toHaveCount(1);
     expect(TestModel::whereTranslationLike('name', 'en', ['en', 'ar'])->get())->toHaveCount(0);
@@ -1072,4 +1074,31 @@ it('searches the configured locales when none are passed', function () {
 
     Translatable::locales(['en', 'ar']);
     expect(TestModel::whereTranslationLike('name', 'كتاب')->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', 'كتاب', ['en'])->get())->toHaveCount(0);
+});
+
+it('does not match translations when no columns or locales are searched', function (array $columns, array $locales) {
+    $this->testModel->setTranslation('name', 'en', 'Blue Book')->save();
+
+    expect(TestModel::whereTranslationLike($columns, 'blue', $locales)->get())->toHaveCount(0);
+})->with([
+    'no columns' => [[], ['en']],
+    'no locales' => [['name'], []],
+]);
+
+it('groups translation matches with other query constraints', function () {
+    $included = TestModel::create(['name' => ['en' => 'Blue Book']]);
+    TestModel::create(['other_field' => ['nl' => 'Blue Sky']]);
+    TestModel::create(['name' => ['en' => 'Red Book']]);
+
+    expect(TestModel::whereKey($included->id)
+        ->whereTranslationLike(['name', 'other_field'], 'blue', ['en', 'nl'])
+        ->pluck('id')->all())->toBe([$included->id]);
+});
+
+it('binds the translation search pattern and quotes locale selectors', function () {
+    $this->testModel->setTranslation('name', "en'GB", "Reader's Book")->save();
+
+    expect(TestModel::whereTranslationLike('name', "reader's", ["en'GB"])->get())->toHaveCount(1);
+    expect(TestModel::whereTranslationLike('name', "' OR 1=1 --", ["en'GB"])->get())->toHaveCount(0);
 });
